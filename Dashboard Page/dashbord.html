@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Dashboard - Menu & Orders</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --secondary: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #ef233c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            padding: 1.5rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-brand img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+
+        .sidebar-brand h2 {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+
+        .menu-header {
+            padding: 0.5rem 1.5rem;
+            color: var(--gray);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .menu-item.active {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .menu-item span {
+            flex: 1;
+        }
+
+        .menu-badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            transition: all 0.3s;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-title h1 {
+            font-size: 1.5rem;
+            color: var(--dark);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid var(--light);
+        }
+
+        .user-info h4 {
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .user-info p {
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .notification-bell:hover {
+            color: var(--primary);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Content Area Styles */
+        .content-area {
+            padding: 2rem;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: none;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray);
+            color: var(--gray);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .card-stat {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Table Styles */
+        .table-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .table-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .search-box {
+            position: relative;
+            width: 250px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.8rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        td {
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: var(--dark);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: rgba(67, 97, 238, 0.03);
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .status-processing {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+
+        .status-completed {
+            background-color: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .status-cancelled {
+            background-color: rgba(239, 35, 60, 0.1);
+            color: var(--danger);
+        }
+
+        .menu-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            color: var(--gray);
+        }
+
+        .action-btn:hover {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .modal-close {
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .modal-close:hover {
+            color: var(--danger);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .form-file {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .file-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            object-fit: cover;
+            border: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .file-input-container {
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+            table {
+                width: 100%;
+                min-width: 600px;
+            }
+        }
+
+        /* Hamburger Menu */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--dark);
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <img src="https://placehold.co/40x40" alt="Restaurant logo with fork and knife in blue color" />
+            <h2>RestoDash</h2>
+        </div>
+
+        <div class="sidebar-menu">
+            <div class="menu-header">Main</div>
+            <a href="#" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-utensils"></i>
+                <span>Menus</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-receipt"></i>
+                <span>Orders</span>
+                <span class="menu-badge">15</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+
+            <div class="menu-header">Reports</div>
+            <a href="#" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Sales</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Analytics</span>
+            </a>
+
+            <div class="menu-header">Settings</div>
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#" class="menu-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header-title">
+                <h1>Dashboard</h1>
+            </div>
+            <div class="header-actions">
+                <div class="notification-bell">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </div>
+                <div class="user-profile">
+                    <img src="https://placehold.co/40x40" alt="Professional headshot of restaurant manager with blue shirt and smile" />
+                    <div class="user-info">
+                        <h4>John Doe</h4>
+                        <p>Admin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Stats Cards -->
+            <div class="cards-container">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Total Orders</div>
+                        <i class="fas fa-shopping-bag" style="color: var(--primary);"></i>
+                    </div>
+                    <div class="card-stat">1,245</div>
+                    <div class="card-description">+12% from last month</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Total Revenue</div>
+                        <i class="fas fa-dollar-sign" style="color: var(--success);"></i>
+                    </div>
+                    <div class="card-stat">$32,580</div>
+                    <div class="card-description">+18% from last month</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Active Menus</div>
+                        <i class="fas fa-utensils" style="color: var(--warning);"></i>
+                    </div>
+                    <div class="card-stat">58</div>
+                    <div class="card-description">+5 new this week</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="menus">Menus</div>
+                <div class="tab" data-tab="orders">Orders</div>
+            </div>
+
+            <!-- Menus Tab Content -->
+            <div class="tab-content active" id="menus">
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">Menu Items</div>
+                        <div class="header-actions">
+                            <div class="search-box">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="search-input" placeholder="Search menu...">
+                            </div>
+                            <button class="btn btn-primary" id="add-menu-btn">
+                                <i class="fas fa-plus"></i> Add Menu
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="https://placehold.co/50x50" alt="Delicious hamburger with cheese, lettuce and tomato on wooden board" class="menu-img">
+                                    </td>
+                                    <td>Classic Burger</td>
+                                    <td>Main Course</td>
+                                    <td>$10.99</td>
+                                    <td><span class="status status-processing">Available</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn edit-menu-btn">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-menu-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://placehold.co/50x50" alt="Fresh green salad with cherry tomatoes, cucumber and feta cheese" class="menu-img">
+                                    </td>
+                                    <td>Caesar Salad</td>
+                                    <td>Appetizer</td>
+                                    <td>$8.50</td>
+                                    <td><span class="status status-processing">Available</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn edit-menu-btn">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-menu-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://placehold.co/50x50" alt="Chocolate lava cake with vanilla ice cream and strawberry garnish" class="menu-img">
+                                    </td>
+                                    <td>Chocolate Lava Cake</td>
+                                    <td>Dessert</td>
+                                    <td>$6.99</td>
+                                    <td><span class="status status-pending">Low Stock</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn edit-menu-btn">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-menu-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://placehold.co/50x50" alt="Refreshing mojito cocktail with lime and mint leaves" class="menu-img">
+                                    </td>
+                                    <td>Mojito</td>
+                                    <td>Drinks</td>
+                                    <td>$7.50</td>
+                                    <td><span class="status status-cancelled">Out of Stock</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn edit-menu-btn">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-menu-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="https://placehold.co/50x50" alt="Spaghetti bolognese with parmesan cheese and basil leaves" class="menu-img">
+                                    </td>
+                                    <td>Spaghetti Bolognese</td>
+                                    <td>Main Course</td>
+                                    <td>$12.99</td>
+                                    <td><span class="status status-processing">Available</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn edit-menu-btn">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="action-btn delete-menu-btn">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Tab Content -->
+            <div class="tab-content" id="orders">
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">Recent Orders</div>
+                        <div class="header-actions">
+                            <div class="search-box">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="search-input" placeholder="Search orders...">
+                            </div>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD-00123</td>
+                                    <td>John Smith</td>
+                                    <td>3</td>
+                                    <td>$34.49</td>
+                                    <td>Today, 12:45 PM</td>
+                                    <td><span class="status status-pending">Pending</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view-order-btn">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-00122</td>
+                                    <td>Sarah Johnson</td>
+                                    <td>2</td>
+                                    <td>$22.99</td>
+                                    <td>Today, 11:30 AM</td>
+                                    <td><span class="status status-processing">Processing</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view-order-btn">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="action-btn">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-00121</td>
+                                    <td>Michael Brown</td>
+                                    <td>5</td>
+                                    <td>$58.75</td>
+                                    <td>Today, 10:15 AM</td>
+                                    <td><span class="status status-completed">Completed</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view-order-btn">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-00120</td>
+                                    <td>Emily Davis</td>
+                                    <td>1</td>
+                                    <td>$10.99</td>
+                                    <td>Yesterday, 8:30 PM</td>
+                                    <td><span class="status status-cancelled">Cancelled</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view-order-btn">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD-00119</td>
+                                    <td>Robert Wilson</td>
+                                    <td>4</td>
+                                    <td>$42.50</td>
+                                    <td>Yesterday, 7:15 PM</td>
+                                    <td><span class="status status-completed">Completed</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="action-btn view-order-btn">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Menu Modal -->
+    <div class="modal" id="menu-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Menu</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="menu-form">
+                    <div class="form-group">
+                        <label class="form-label">Menu Image</label>
+                        <div class="form-file">
+                            <img src="https://placehold.co/100x100" alt="Preview of new menu item image" id="menu-image-preview" class="file-preview">
+                            <div class="file-input-container">
+                                <input type="file" id="menu-image" class="form-control" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="menu-name" class="form-label">Menu Name</label>
+                        <input type="text" id="menu-name" class="form-control" placeholder="Enter menu name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="menu-category" class="form-label">Category</label>
+                        <select id="menu-category" class="form-control" required>
+                            <option value="">Select category</option>
+                            <option value="Appetizer">Appetizer</option>
+                            <option value="Main Course">Main Course</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Drinks">Drinks</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="menu-price" class="form-label">Price ($)</label>
+                        <input type="number" id="menu-price" class="form-control" step="0.01" placeholder="Enter price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="menu-status" class="form-label">Status</label>
+                        <select id="menu-status" class="form-control" required>
+                            <option value="Available">Available</option>
+                            <option value="Low Stock">Low Stock</option>
+                            <option value="Out of Stock">Out of Stock</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="menu-description" class="form-label">Description</label>
+                        <textarea id="menu-description" class="form-control" rows="3" placeholder="Enter menu description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close-btn">Cancel</button>
+                <button class="btn btn-primary" id="save-menu-btn">Save Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Order Modal -->
+    <div class="modal" id="order-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Order Details <small>#ORD-00123</small></h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="order-summary">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Customer Information</div>
+                        </div>
+                        <div class="customer-info">
+                            <p><strong>Name:</strong> John Smith</p>
+                            <p><strong>Email:</strong> john.smith@example.com</p>
+                            <p><strong>Phone:</strong> (123) 456-7890</p>
+                            <p><strong>Address:</strong> 123 Main St, City, Country</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Order Summary</div>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Classic Burger</td>
+                                    <td>1</td>
+                                    <td>$10.99</td>
+                                    <td>$10.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Caesar Salad</td>
+                                    <td>2</td>
+                                    <td>$8.50</td>
+                                    <td>$17.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Soft Drink</td>
+                                    <td>1</td>
+                                    <td>$2.50</td>
+                                    <td>$2.50</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="order-totals" style="margin-top: 1rem; text-align: right;">
+                            <p><strong>Subtotal:</strong> $30.49</p>
+                            <p><strong>Tax (10%):</strong> $3.05</p>
+                            <p><strong>Delivery Fee:</strong> $1.00</p>
+                            <p><strong>Total:</strong> $34.54</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Order Status</div>
+                            <div>
+                                <select class="form-control">
+                                    <option>Pending</option>
+                                    <option>Processing</option>
+                                    <option>Completed</option>
+                                    <option>Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="order-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <p><strong>Order Placed</strong> <small>Today, 12:45 PM</small></p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <p><strong>Payment Received</strong> <small>Today, 12:47 PM</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close-btn">Close</button>
+                <button class="btn btn-primary" id="update-order-btn">Update Status</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle sidebar on mobile
+            const menuToggle = document.querySelector('.menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show content for clicked tab
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Menu modal functionality
+            const addMenuBtn = document.getElementById('add-menu-btn');
+            const menuModal = document.getElementById('menu-modal');
+            const menuModalClose = menuModal.querySelector('.modal-close');
+            const menuModalCloseBtns = menuModal.querySelectorAll('.modal-close-btn');
+            
+            // Open menu modal
+            addMenuBtn.addEventListener('click', function() {
+                menuModal.classList.add('active');
+            });
+            
+            // Close menu modal
+            menuModalClose.addEventListener('click', function() {
+                menuModal.classList.remove('active');
+            });
+            
+            menuModalCloseBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    menuModal.classList.remove('active');
+                });
+            });
+
+            // Edit menu button functionality
+            const editMenuBtns = document.querySelectorAll('.edit-menu-btn');
+            editMenuBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Get menu data from table row
+                    const row = this.closest('tr');
+                    const menuName = row.cells[1].textContent;
+                    const menuCategory = row.cells[2].textContent;
+                    const menuPrice = row.cells[3].textContent.substring(1);
+                    const menuStatus = row.cells[4].querySelector('span').textContent;
+                    
+                    // Set modal title
+                    menuModal.querySelector('.modal-title').textContent = 'Edit Menu';
+                    
+                    // Populate form fields
+                    document.getElementById('menu-name').value = menuName;
+                    document.getElementById('menu-category').value = menuCategory;
+                    document.getElementById('menu-price').value = menuPrice;
+                    document.getElementById('menu-status').value = menuStatus;
+                    
+                    // Open modal
+                    menuModal.classList.add('active');
+                });
+            });
+
+            // Delete menu button functionality
+            const deleteMenuBtns = document.querySelectorAll('.delete-menu-btn');
+            deleteMenuBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (confirm('Are you sure you want to delete this menu item?')) {
+                        // In a real application, you would send a request to delete the item
+                        this.closest('tr').remove();
+                        alert('Menu item deleted successfully!');
+                    }
+                });
+            });
+
+            // Save menu button functionality
+            const saveMenuBtn = document.getElementById('save-menu-btn');
+            saveMenuBtn.addEventListener('click', function() {
+                // Validate form
+                const form = document.getElementById('menu-form');
+                const inputs = form.querySelectorAll('input[required], select[required]');
+                let isValid = true;
+                
+                inputs.forEach(input => {
+                    if (!input.value) {
+                        input.style.borderColor = 'var(--danger)';
+                        isValid = false;
+                    } else {
+                        input.style.borderColor = '';
+                    }
+                });
+                
+                if (!isValid) {
+                    alert('Please fill in all required fields!');
+                    return;
+                }
+                
+                // In a real application, you would send the form data to the server here
+                alert('Menu saved successfully!');
+                menuModal.classList.remove('active');
+            });
+
+            // Order modal functionality
+            const viewOrderBtns = document.querySelectorAll('.view-order-btn');
+            const orderModal = document.getElementById('order-modal');
+            const orderModalClose = orderModal.querySelector('.modal-close');
+            const orderModalCloseBtns = orderModal.querySelectorAll('.modal-close-btn');
+            
+            // Open order modal
+            viewOrderBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // In a real application, you would fetch order details from the server
+                    // based on the order ID from the table row
+                    orderModal.classList.add('active');
+                });
+            });
+            
+            // Close order modal
+            orderModalClose.addEventListener('click', function() {
+                orderModal.classList.remove('active');
+            });
+            
+            orderModalCloseBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    orderModal.classList.remove('active');
+                });
+            });
+
+            // Update order button functionality
+            const updateOrderBtn = document.getElementById('update-order-btn');
+            updateOrderBtn.addEventListener('click', function() {
+                // In a real application, you would send the updated status to the server
+                alert('Order status updated successfully!');
+                orderModal.classList.remove('active');
+            });
+
+            // Image preview functionality
+            const menuImageInput = document.getElementById('menu-image');
+            const menuImagePreview = document.getElementById('menu-image-preview');
+            
+            menuImageInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        menuImagePreview.src = e.target.result;
+                    };
+                    reader.re... (2 KB left)

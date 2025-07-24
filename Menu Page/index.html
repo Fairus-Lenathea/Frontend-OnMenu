@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sadita - Solusi Sehat Ternak Anda</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Halaman Katalog Produk -->
+      <div id="catalog-page" class="page active">
+        <header class="header">
+          <div class="back-arrow">
+            <i class="fas fa-arrow-left"></i>
+          </div>
+          <img src="#" alt="Sadita Logo" class="header-logo" />
+        </header>
+
+        <div class="welcome-card">
+          <h2>Selamat Datang di Toko Sadita.id</h2>
+          <p>Solusi Sehat Ternak Anda Cabang - Makassar</p>
+        </div>
+
+        <div class="search-bar">
+          <input type="text" placeholder="Cari Produk..." id="search-input" />
+        </div>
+
+        <nav class="product-categories">
+          <button class="category-button active" data-category="semua">Semua</button>
+          <button class="category-button" data-category="antibiotik">Antibiotik</button>
+          <button class="category-button" data-category="vitamin">Vitamin & Mineral</button>
+          <button class="category-button" data-category="anti-coccidia">Anti Coccidia</button>
+          <button class="category-button" data-category="antiparasi">Antiparasi</button>
+        </nav>
+
+        <section class="product-grid" id="product-grid">
+          <div class="product-card" data-category="antibiotik">
+            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="CYPROTIL 250 g" />
+            <h3>CYPROTIL 250 g</h3>
+            <p class="product-desc">Obat CRD Kompleks</p>
+            <p class="price" data-price="52500">Rp52.500</p>
+            <p class="stock">Stok: 35</p>
+            <button class="add-to-cart" data-product="CYPROTIL 250 g" data-price="52500">Tambahkan</button>
+          </div>
+          <div class="product-card" data-category="antibiotik">
+            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="DITA FLOXA LIQ 1 L" />
+            <h3>DITA FLOXA LIQ 1 L</h3>
+            <p class="product-desc">Obat CRD Kompleks</p>
+            <p class="price" data-price="199650">Rp199.650</p>
+            <p class="stock">Stok: 43</p>
+            <button class="add-to-cart" data-product="DITA FLOXA LIQ 1 L" data-price="199650">Tambahkan</button>
+          </div>
+          <div class="product-card" data-category="antibiotik">
+            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="DITA FLOXA POWDER 500 g" />
+            <h3>DITA FLOXA POWDER 500 g</h3>
+            <p class="product-desc">Obat CRD Kompleks</p>
+            <p class="price" data-price="145200">Rp145.200</p>
+            <p class="stock">Stok: 28</p>
+            <button class="add-to-cart" data-product="DITA FLOXA POWDER 500 g" data-price="145200">Tambahkan</button>
+          </div>
+          <div class="product-card" data-category="anti-coccidia">
+            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="DITA THERAPIX 250 g" />
+            <h3>DITA THERAPIX 250 g</h3>
+            <p class="product-desc">Obat Kolera dan Coccidiosis</p>
+            <p class="price" data-price="89500">Rp89.500</p>
+            <p class="stock">Stok: 67</p>
+            <button class="add-to-cart" data-product="DITA THERAPIX 250 g" data-price="89500">Tambahkan</button>
+          </div>
+          <div class="product-card" data-category="vitamin">
+            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="PRIMAVIT PLUS 1 L" />
+            <h3>PRIMAVIT PLUS 1 L</h3>
+            <p class="product-desc">Energizer & Stimulan Metabolisme</p>
+            <p class="price" data-price="145200">Rp145.200</p>
+            <p class="stock">Stok: 22</p>
+            <button class="add-to-cart" data-product="PRIMAVIT PLUS 1 L" data-price="145200">Tambahkan</button>
+          </div>
+          <div class="product-card" data-category="antiparasi">
+            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="WORMECTIN 100 ml" />
+            <h3>WORMECTIN 100 ml</h3>
+            <p class="product-desc">Obat Cacing Ternak</p>
+            <p class="price" data-price="75000">Rp75.000</p>
+            <p class="stock">Stok: 45</p>
+            <button class="add-to-cart" data-product="WORMECTIN 100 ml" data-price="75000">Tambahkan</button>
+          </div>
+        </section>
+
+        <footer class="cart-summary">
+          <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="item-count">0</span>
+          </div>
+          <div class="total-price">
+            <p>Total</p>
+            <p class="total-amount">Rp0</p>
+          </div>
+          <button class="checkout-button" id="checkout-btn">Bayar</button>
+        </footer>
+      </div>
+
+      <!-- Halaman Pesanan -->
+      <div id="order-page" class="page">
+        <header>
+          <div class="back-button" id="back-to-catalog">&larr;</div>
+          <h1>Pesanan</h1>
+        </header>
+
+        <main>
+          <section class="order-info card">
+            <h2>Informasi Pesanan</h2>
+            <div class="info-row">
+              <span>ID Pesanan:</span>
+              <span id="order-id">Menunggu...</span>
+            </div>
+            <div class="info-row">
+              <span>Tanggal Pesanan:</span>
+              <span id="order-date">23 Juli 2025, 21:38 WITA</span>
+            </div>
+          </section>
+
+          <section class="ordered-items card">
+            <h2>Item yang dipesan (<span id="total-items">0</span>)</h2>
+            <div id="order-items-list">
+              <!-- Items akan ditambahkan secara dinamis -->
+            </div>
+            <button class="add-item-btn" id="add-more-items">+ Tambah Item</button>
+          </section>
+
+          <!-- <section class="warehouse-purchase card">
+                    <h2>Pembelian di Gudang: Makassar</h2>
+                    <div class="select-wrapper">
+                        <select id="sales-select">
+                            <option>-- Pilih Sales --</option>
+                            <option value="ahmad">Ahmad Rizki</option>
+                            <option value="siti">Siti Nurhaliza</option>
+                            <option value="budi">Budi Santoso</option>
+                        </select>
+                    </div>
+                </section> -->
+
+          <section class="notes card">
+            <div class="add-note">
+              <span class="icon">&#9998;</span>
+              <textarea placeholder="Tambah catatan lainnya" id="order-notes"></textarea>
+            </div>
+          </section>
+
+          <section class="customer-data card">
+            <h2>Data Pemesan</h2>
+            <div class="form-group">
+              <label for="nama-lengkap">Nama Lengkap</label>
+              <input type="text" id="nama-lengkap" placeholder="Masukkan nama lengkap" />
+            </div>
+            <div class="form-group">
+              <label for="whatsapp">No. WhatsApp Pemesan</label>
+              <input type="text" id="whatsapp" placeholder="08XXXXXXXXXX" />
+            </div>
+          </section>
+
+          <section class="shipping-address card">
+            <h2>Alamat Pengiriman</h2>
+            <div class="form-group">
+              <textarea placeholder="Masukkan alamat lengkap pengiriman" id="shipping-address"></textarea>
+            </div>
+          </section>
+
+          <section class="payment-details card">
+            <h2>Rincian Pembayaran</h2>
+            <div class="detail-row">
+              <span>Subtotal (<span id="subtotal-items">0</span> item)</span>
+              <span id="subtotal-amount">Rp0</span>
+            </div>
+            <div class="detail-row total">
+              <span>Total Pembayaran</span>
+              <span id="total-payment">Rp0</span>
+            </div>
+          </section>
+        </main>
+
+        <footer>
+          <div class="total-payment-footer">
+            <span>Total Pembayaran</span>
+            <span class="price" id="footer-total">Rp0</span>
+          </div>
+          <button class="send-btn" id="send-order">Kirim</button>
+        </footer>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
