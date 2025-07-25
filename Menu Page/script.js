@@ -16,6 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCartDisplay();
     generateOrderId();
     setOrderDate();
+
+    // Navigation logic for SPA
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+    document.getElementById('nav-dashboard').onclick = () => showPage('dashboard-page');
+    document.getElementById('nav-signup').onclick = () => showPage('signup-page');
+    document.getElementById('nav-menu').onclick = () => showPage('menu-wrapper');
 });
 
 // ===== CATALOG PAGE FUNCTIONS =====
