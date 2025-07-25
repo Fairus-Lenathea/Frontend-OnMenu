@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dashboard Mobile-First</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -11,12 +11,12 @@
     <!-- Mobile Header -->
     <header class="mobile-header">
         <div class="header-content">
-            <button class="menu-toggle" id="menuToggle">
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
                 <i class="fas fa-bars"></i>
             </button>
             <h1 class="logo">Dashboard</h1>
             <div class="header-actions">
-                <button class="notification-btn">
+                <button class="notification-btn" aria-label="Notifications">
                     <i class="fas fa-bell"></i>
                     <span class="notification-badge">3</span>
                 </button>
@@ -31,7 +31,7 @@
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2>Menu</h2>
-            <button class="close-sidebar" id="closeSidebar">
+            <button class="close-sidebar" id="closeSidebar" aria-label="Close menu">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -108,7 +108,7 @@
                         <i class="fas fa-shopping-cart"></i>
                     </div>
                     <div class="stat-content">
-                        <h3>125</h3>
+                        <h3>295</h3>
                         <p>Total Orders</p>
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="stat-content">
-                        <h3>89</h3>
+                        <h3>82</h3>
                         <p>Customers</p>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                         <i class="fas fa-dollar-sign"></i>
                     </div>
                     <div class="stat-content">
-                        <h3>$12,450</h3>
+                        <h3>$20,256</h3>
                         <p>Revenue</p>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="stat-content">
-                        <h3>+15%</h3>
+                        <h3>2010</h3>
                         <p>Growth</p>
                     </div>
                 </div>
@@ -148,17 +148,17 @@
                         <div class="order-item">
                             <span class="order-id">#001</span>
                             <span class="order-customer">John Doe</span>
-                            <span class="order-status pending">Pending</span>
+                            <span class="order-status completed">Completed</span>
                         </div>
                         <div class="order-item">
                             <span class="order-id">#002</span>
                             <span class="order-customer">Jane Smith</span>
-                            <span class="order-status completed">Completed</span>
+                            <span class="order-status processing">Processing</span>
                         </div>
                         <div class="order-item">
                             <span class="order-id">#003</span>
                             <span class="order-customer">Bob Wilson</span>
-                            <span class="order-status processing">Processing</span>
+                            <span class="order-status completed">Completed</span>
                         </div>
                     </div>
                 </div>
@@ -168,26 +168,30 @@
         <!-- Menu Page -->
         <div class="page" id="menu-page">
             <div class="page-header">
-                <h2>Menu Management</h2>
+                <div class="page-title">
+                    <h2>Menu Management</h2>
+                </div>
                 <div class="menu-header-actions">
                     <button class="btn-secondary" id="add-category-btn">
                         <i class="fas fa-folder-plus"></i>
-                        Add Category
+                        <span class="btn-text">Add Category</span>
                     </button>
                     <button class="btn-primary" id="add-product-btn">
                         <i class="fas fa-plus"></i>
-                        Add Product
+                        <span class="btn-text">Add Product</span>
                     </button>
                 </div>
             </div>
 
             <!-- Category Filter -->
-            <div class="category-filter">
-                <button class="category-filter-btn active" data-category="all">All Categories</button>
-                <button class="category-filter-btn" data-category="antibiotik">Antibiotik</button>
-                <button class="category-filter-btn" data-category="vitamin">Vitamin & Mineral</button>
-                <button class="category-filter-btn" data-category="anti-coccidia">Anti Coccidia</button>
-                <button class="category-filter-btn" data-category="antiparasi">Antiparasi</button>
+            <div class="category-filter-wrapper">
+                <div class="category-filter">
+                    <button class="category-filter-btn active" data-category="all">All Categories</button>
+                    <button class="category-filter-btn" data-category="antibiotik">Antibiotik</button>
+                    <button class="category-filter-btn" data-category="vitamin">Vitamin & Mineral</button>
+                    <button class="category-filter-btn" data-category="anti-coccidia">Anti Coccidia</button>
+                    <button class="category-filter-btn" data-category="antiparasi">Antiparasi</button>
+                </div>
             </div>
 
             <!-- Search Bar -->
@@ -208,17 +212,19 @@
                             Antibiotik
                         </h3>
                         <div class="category-actions">
-                            <button class="btn-edit-category" data-category="antibiotik">
+                            <button class="btn-edit-category" data-category="antibiotik" aria-label="Edit category">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn-delete-category" data-category="antibiotik">
+                            <button class="btn-delete-category" data-category="antibiotik" aria-label="Delete category">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </div>
                     <div class="products-grid">
                         <div class="product-card" data-category="antibiotik" data-product-id="1">
-                            <img src="https://via.placeholder.com/150x120/FF6B6B/ffffff?text=CYPROTIL" alt="CYPROTIL 250 g">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/FF6B6B/ffffff?text=CYPROTIL" alt="CYPROTIL 250 g">
+                            </div>
                             <div class="product-info">
                                 <h4>CYPROTIL 250 g</h4>
                                 <p class="product-desc">Obat CRD Kompleks</p>
@@ -228,16 +234,18 @@
                                 </div>
                             </div>
                             <div class="product-actions">
-                                <button class="btn-edit-product" data-product-id="1">
+                                <button class="btn-edit-product" data-product-id="1" aria-label="Edit product">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-delete-product" data-product-id="1">
+                                <button class="btn-delete-product" data-product-id="1" aria-label="Delete product">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="product-card" data-category="antibiotik" data-product-id="2">
-                            <img src="https://via.placeholder.com/150x120/FF6B6B/ffffff?text=DITA+FLOXA" alt="DITA FLOXA LIQ 1 L">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/FF6B6B/ffffff?text=DITA+FLOXA" alt="DITA FLOXA LIQ 1 L">
+                            </div>
                             <div class="product-info">
                                 <h4>DITA FLOXA LIQ 1 L</h4>
                                 <p class="product-desc">Obat CRD Kompleks</p>
@@ -247,16 +255,18 @@
                                 </div>
                             </div>
                             <div class="product-actions">
-                                <button class="btn-edit-product" data-product-id="2">
+                                <button class="btn-edit-product" data-product-id="2" aria-label="Edit product">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-delete-product" data-product-id="2">
+                                <button class="btn-delete-product" data-product-id="2" aria-label="Delete product">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="product-card" data-category="antibiotik" data-product-id="3">
-                            <img src="https://via.placeholder.com/150x120/FF6B6B/ffffff?text=DITA+POWDER" alt="DITA FLOXA POWDER 500 g">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/FF6B6B/ffffff?text=DITA+POWDER" alt="DITA FLOXA POWDER 500 g">
+                            </div>
                             <div class="product-info">
                                 <h4>DITA FLOXA POWDER 500 g</h4>
                                 <p class="product-desc">Obat CRD Kompleks</p>
@@ -266,10 +276,10 @@
                                 </div>
                             </div>
                             <div class="product-actions">
-                                <button class="btn-edit-product" data-product-id="3">
+                                <button class="btn-edit-product" data-product-id="3" aria-label="Edit product">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-delete-product" data-product-id="3">
+                                <button class="btn-delete-product" data-product-id="3" aria-label="Delete product">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -285,17 +295,19 @@
                             Anti Coccidia
                         </h3>
                         <div class="category-actions">
-                            <button class="btn-edit-category" data-category="anti-coccidia">
+                            <button class="btn-edit-category" data-category="anti-coccidia" aria-label="Edit category">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn-delete-category" data-category="anti-coccidia">
+                            <button class="btn-delete-category" data-category="anti-coccidia" aria-label="Delete category">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </div>
                     <div class="products-grid">
                         <div class="product-card" data-category="anti-coccidia" data-product-id="4">
-                            <img src="https://via.placeholder.com/150x120/4ECDC4/ffffff?text=THERAPIX" alt="DITA THERAPIX 250 g">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/4ECDC4/ffffff?text=THERAPIX" alt="DITA THERAPIX 250 g">
+                            </div>
                             <div class="product-info">
                                 <h4>DITA THERAPIX 250 g</h4>
                                 <p class="product-desc">Obat Kolera dan Coccidiosis</p>
@@ -305,10 +317,10 @@
                                 </div>
                             </div>
                             <div class="product-actions">
-                                <button class="btn-edit-product" data-product-id="4">
+                                <button class="btn-edit-product" data-product-id="4" aria-label="Edit product">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-delete-product" data-product-id="4">
+                                <button class="btn-delete-product" data-product-id="4" aria-label="Delete product">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -324,17 +336,19 @@
                             Vitamin & Mineral
                         </h3>
                         <div class="category-actions">
-                            <button class="btn-edit-category" data-category="vitamin">
+                            <button class="btn-edit-category" data-category="vitamin" aria-label="Edit category">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn-delete-category" data-category="vitamin">
+                            <button class="btn-delete-category" data-category="vitamin" aria-label="Delete category">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </div>
                     <div class="products-grid">
                         <div class="product-card" data-category="vitamin" data-product-id="5">
-                            <img src="https://via.placeholder.com/150x120/45B7D1/ffffff?text=PRIMAVIT" alt="PRIMAVIT PLUS 1 L">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/45B7D1/ffffff?text=PRIMAVIT" alt="PRIMAVIT PLUS 1 L">
+                            </div>
                             <div class="product-info">
                                 <h4>PRIMAVIT PLUS 1 L</h4>
                                 <p class="product-desc">Energizer & Stimulan Metabolisme</p>
@@ -344,10 +358,10 @@
                                 </div>
                             </div>
                             <div class="product-actions">
-                                <button class="btn-edit-product" data-product-id="5">
+                                <button class="btn-edit-product" data-product-id="5" aria-label="Edit product">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-delete-product" data-product-id="5">
+                                <button class="btn-delete-product" data-product-id="5" aria-label="Delete product">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -363,17 +377,19 @@
                             Antiparasi
                         </h3>
                         <div class="category-actions">
-                            <button class="btn-edit-category" data-category="antiparasi">
+                            <button class="btn-edit-category" data-category="antiparasi" aria-label="Edit category">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn-delete-category" data-category="antiparasi">
+                            <button class="btn-delete-category" data-category="antiparasi" aria-label="Delete category">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </div>
                     <div class="products-grid">
                         <div class="product-card" data-category="antiparasi" data-product-id="6">
-                            <img src="https://via.placeholder.com/150x120/96CEB4/ffffff?text=WORMECTIN" alt="WORMECTIN 100 ml">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/96CEB4/ffffff?text=WORMECTIN" alt="WORMECTIN 100 ml">
+                            </div>
                             <div class="product-info">
                                 <h4>WORMECTIN 100 ml</h4>
                                 <p class="product-desc">Obat Cacing Ternak</p>
@@ -383,10 +399,10 @@
                                 </div>
                             </div>
                             <div class="product-actions">
-                                <button class="btn-edit-product" data-product-id="6">
+                                <button class="btn-edit-product" data-product-id="6" aria-label="Edit product">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn-delete-product" data-product-id="6">
+                                <button class="btn-delete-product" data-product-id="6" aria-label="Delete product">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -399,7 +415,9 @@
         <!-- Orders Page -->
         <div class="page" id="orders-page">
             <div class="page-header">
-                <h2>Orders</h2>
+                <div class="page-title">
+                    <h2>Orders</h2>
+                </div>
                 <div class="filter-tabs">
                     <button class="tab active">All</button>
                     <button class="tab">Pending</button>
@@ -436,7 +454,9 @@
         <!-- Customers Page -->
         <div class="page" id="customers-page">
             <div class="page-header">
-                <h2>Customers</h2>
+                <div class="page-title">
+                    <h2>Customers</h2>
+                </div>
                 <div class="search-box">
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search customers...">
@@ -469,7 +489,9 @@
         <!-- Reports Page -->
         <div class="page" id="reports-page">
             <div class="page-header">
-                <h2>Reports</h2>
+                <div class="page-title">
+                    <h2>Reports</h2>
+                </div>
                 <select class="period-select">
                     <option>Last 7 days</option>
                     <option>Last 30 days</option>
@@ -501,7 +523,9 @@
         <!-- Sales Page -->
         <div class="page" id="sales-page">
             <div class="page-header">
-                <h2>Sales</h2>
+                <div class="page-title">
+                    <h2>Sales</h2>
+                </div>
                 <button class="btn-primary">New Sale</button>
             </div>
             <div class="sales-summary">
@@ -523,7 +547,9 @@
         <!-- Analytics Page -->
         <div class="page" id="analytics-page">
             <div class="page-header">
-                <h2>Analytics</h2>
+                <div class="page-title">
+                    <h2>Analytics</h2>
+                </div>
                 <div class="date-range">
                     <input type="date" value="2024-01-01">
                     <span>to</span>
@@ -552,7 +578,9 @@
         <!-- Settings Page -->
         <div class="page" id="settings-page">
             <div class="page-header">
-                <h2>Settings</h2>
+                <div class="page-title">
+                    <h2>Settings</h2>
+                </div>
             </div>
             <div class="settings-sections">
                 <!-- Store Appearance Section -->
@@ -676,7 +704,9 @@
         <!-- Profile Page -->
         <div class="page" id="profile-page">
             <div class="page-header">
-                <h2>Profile</h2>
+                <div class="page-title">
+                    <h2>Profile</h2>
+                </div>
             </div>
             <div class="profile-content">
                 <div class="profile-avatar-section">

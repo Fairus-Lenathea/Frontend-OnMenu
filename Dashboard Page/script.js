@@ -1,8 +1,11 @@
-// Dashboard Mobile-First JavaScript
+// Dashboard Mobile-First JavaScript - Enhanced Responsiveness
 
 class Dashboard {
     constructor() {
         this.currentPage = 'dashboard';
+        this.isMobile = window.innerWidth < 1024;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
         this.init();
     }
 
@@ -10,6 +13,10 @@ class Dashboard {
         this.bindEvents();
         this.initializeTooltips();
         this.loadInitialData();
+        this.handleResize();
+        this.initTouchGestures();
+        this.initKeyboardShortcuts();
+        this.initAccessibility();
     }
 
     bindEvents() {
@@ -20,11 +27,17 @@ class Dashboard {
         const closeSidebar = document.getElementById('closeSidebar');
 
         if (menuToggle) {
-            menuToggle.addEventListener('click', () => this.toggleSidebar());
+            menuToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleSidebar();
+            });
         }
 
         if (closeSidebar) {
-            closeSidebar.addEventListener('click', () => this.closeSidebar());
+            closeSidebar.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.closeSidebar();
+            });
         }
 
         if (overlay) {
@@ -38,7 +51,9 @@ class Dashboard {
                 e.preventDefault();
                 const page = link.getAttribute('data-page');
                 this.navigateToPage(page);
-                this.closeSidebar();
+                if (this.isMobile) {
+                    this.closeSidebar();
+                }
             });
         });
 
@@ -57,25 +72,42 @@ class Dashboard {
         // Form submissions
         this.bindFormEvents();
 
-        // Touch gestures for mobile
-        this.initTouchGestures();
-
-        // Keyboard shortcuts
-        this.initKeyboardShortcuts();
-
         // Window resize handler
         window.addEventListener('resize', () => this.handleResize());
+        
+        // Orientation change handler
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => this.handleResize(), 100);
+        });
+
+        // Prevent zoom on double tap for iOS
+        document.addEventListener('touchend', (e) => {
+            const now = new Date().getTime();
+            const timeSince = now - this.lastTouchEnd;
+            if (timeSince < 300 && timeSince > 0) {
+                e.preventDefault();
+            }
+            this.lastTouchEnd = now;
+        });
     }
 
     toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         
-        sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
-        
-        // Prevent body scroll when sidebar is open
-        document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        if (sidebar.classList.contains('active')) {
+            this.closeSidebar();
+        } else {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Focus management for accessibility
+            const firstNavLink = sidebar.querySelector('.nav-link');
+            if (firstNavLink) {
+                firstNavLink.focus();
+            }
+        }
     }
 
     closeSidebar() {
@@ -85,6 +117,12 @@ class Dashboard {
         sidebar.classList.remove('active');
         overlay.classList.remove('active');
         document.body.style.overflow = '';
+        
+        // Return focus to menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        if (menuToggle && this.isMobile) {
+            menuToggle.focus();
+        }
     }
 
     navigateToPage(pageName) {
@@ -115,7 +153,10 @@ class Dashboard {
         this.loadPageData(pageName);
 
         // Scroll to top
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Announce page change for screen readers
+        this.announcePageChange(pageName);
     }
 
     updatePageTitle(pageName) {
@@ -132,6 +173,12 @@ class Dashboard {
         };
 
         document.title = `${titles[pageName]} - Dashboard Mobile`;
+        
+        // Update header title on mobile
+        const logo = document.querySelector('.logo');
+        if (logo && this.isMobile) {
+            logo.textContent = titles[pageName];
+        }
     }
 
     handleFilterTab(clickedTab) {
@@ -236,7 +283,9 @@ class Dashboard {
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
             isScrolling = false;
-        });
+            this.touchStartX = startX;
+            this.touchStartY = startY;
+        }, { passive: true });
 
         document.addEventListener('touchmove', (e) => {
             if (!startX || !startY) return;
@@ -249,23 +298,28 @@ class Dashboard {
             if (Math.abs(diffX) > Math.abs(diffY)) {
                 isScrolling = false;
                 // Horizontal swipe
-                if (diffX > 50 && window.innerWidth < 1024) {
-                    // Swipe left - close sidebar
-                    this.closeSidebar();
-                } else if (diffX < -50 && window.innerWidth < 1024) {
-                    // Swipe right - open sidebar
-                    this.toggleSidebar();
+                if (Math.abs(diffX) > 50 && this.isMobile) {
+                    if (diffX > 0) {
+                        // Swipe left - close sidebar
+                        this.closeSidebar();
+                    } else {
+                        // Swipe right - open sidebar (only if not already open)
+                        const sidebar = document.getElementById('sidebar');
+                        if (!sidebar.classList.contains('active') && startX < 50) {
+                            this.toggleSidebar();
+                        }
+                    }
                 }
             } else {
                 isScrolling = true;
             }
-        });
+        }, { passive: true });
 
         document.addEventListener('touchend', () => {
             startX = 0;
             startY = 0;
             isScrolling = false;
-        });
+        }, { passive: true });
     }
 
     initKeyboardShortcuts() {
@@ -303,17 +357,130 @@ class Dashboard {
                     searchInput.focus();
                 }
             }
+
+            // Tab navigation in sidebar
+            if (e.key === 'Tab') {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar.classList.contains('active')) {
+                    const focusableElements = sidebar.querySelectorAll('a, button');
+                    const firstElement = focusableElements[0];
+                    const lastElement = focusableElements[focusableElements.length - 1];
+
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstElement) {
+                            e.preventDefault();
+                            lastElement.focus();
+                        }
+                    } else {
+                        if (document.activeElement === lastElement) {
+                            e.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                }
+            }
         });
     }
 
+    initAccessibility() {
+        // Add ARIA labels and roles
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+            sidebar.setAttribute('role', 'navigation');
+            sidebar.setAttribute('aria-label', 'Main navigation');
+        }
+
+        const menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-controls', 'sidebar');
+        }
+
+        // Add skip link
+        const skipLink = document.createElement('a');
+        skipLink.href = '#main-content';
+        skipLink.textContent = 'Skip to main content';
+        skipLink.className = 'skip-link';
+        skipLink.style.cssText = `
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 1000;
+            border-radius: 4px;
+        `;
+        skipLink.addEventListener('focus', () => {
+            skipLink.style.top = '6px';
+        });
+        skipLink.addEventListener('blur', () => {
+            skipLink.style.top = '-40px';
+        });
+        document.body.insertBefore(skipLink, document.body.firstChild);
+
+        // Add main content ID
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+            mainContent.id = 'main-content';
+            mainContent.setAttribute('role', 'main');
+        }
+    }
+
     handleResize() {
+        const wasMobile = this.isMobile;
+        this.isMobile = window.innerWidth < 1024;
+
         // Close sidebar on desktop
-        if (window.innerWidth >= 1024) {
+        if (!this.isMobile && wasMobile !== this.isMobile) {
             this.closeSidebar();
+        }
+
+        // Update menu toggle aria-expanded
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        if (menuToggle && sidebar) {
+            menuToggle.setAttribute('aria-expanded', sidebar.classList.contains('active').toString());
         }
 
         // Update chart sizes if needed
         this.updateChartSizes();
+
+        // Adjust grid layouts based on screen size
+        this.adjustGridLayouts();
+    }
+
+    adjustGridLayouts() {
+        const width = window.innerWidth;
+        const statsGrid = document.querySelector('.stats-grid');
+        const productsGrids = document.querySelectorAll('.products-grid');
+
+        if (statsGrid) {
+            if (width < 375) {
+                statsGrid.style.gridTemplateColumns = '1fr 1fr';
+            } else if (width < 768) {
+                statsGrid.style.gridTemplateColumns = '1fr 1fr';
+            } else if (width < 1024) {
+                statsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+            } else {
+                statsGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+            }
+        }
+
+        productsGrids.forEach(grid => {
+            if (width < 425) {
+                grid.style.gridTemplateColumns = '1fr';
+            } else if (width < 768) {
+                grid.style.gridTemplateColumns = '1fr';
+            } else if (width < 1024) {
+                grid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+            } else if (width < 1280) {
+                grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            } else {
+                grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+            }
+        });
     }
 
     loadInitialData() {
@@ -416,7 +583,6 @@ class Dashboard {
         
         setTimeout(() => {
             this.hideLoadingState('#orders-page .orders-list');
-            // Orders are already in HTML, just show them
         }, 1000);
     }
 
@@ -481,10 +647,10 @@ class Dashboard {
 
     hideLoadingState(selector) {
         // This would normally restore the original content
-        // For demo purposes, we'll just hide the loading state
         const container = document.querySelector(selector);
         if (container && container.innerHTML.includes('Loading...')) {
-            location.reload(); // Simple way to restore content
+            // Restore original content here
+            location.reload(); // Simple way for demo
         }
     }
 
@@ -570,37 +736,34 @@ class Dashboard {
     }
 
     showToast(message, type = 'info') {
+        // Remove existing toast
+        const existingToast = document.querySelector('.toast');
+        if (existingToast) {
+            existingToast.remove();
+        }
+
         // Create toast notification
         const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
+        toast.className = `toast ${type}`;
         toast.innerHTML = `
-            <div style="
-                position: fixed;
-                top: 80px;
-                right: 16px;
-                background: ${type === 'success' ? '#10b981' : '#3b82f6'};
-                color: white;
-                padding: 12px 20px;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                z-index: 2000;
-                animation: slideInRight 0.3s ease;
-                max-width: 300px;
-                font-size: 14px;
-                font-weight: 500;
-            ">
-                <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle" style="margin-right: 8px;"></i>
-                ${message}
-            </div>
+            <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle" style="margin-right: 8px;"></i>
+            ${message}
         `;
         
         document.body.appendChild(toast);
         
+        // Show toast
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 100);
+        
         // Auto remove after 3 seconds
         setTimeout(() => {
-            toast.style.animation = 'slideOutRight 0.3s ease';
+            toast.classList.remove('show');
             setTimeout(() => {
-                document.body.removeChild(toast);
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
             }, 300);
         }, 3000);
     }
@@ -609,28 +772,29 @@ class Dashboard {
         // Update chart containers for responsive design
         const chartPlaceholders = document.querySelectorAll('.chart-placeholder');
         chartPlaceholders.forEach(chart => {
-            // Recalculate chart dimensions
-            chart.style.height = window.innerWidth < 768 ? '150px' : '200px';
+            chart.style.height = this.isMobile ? '150px' : '200px';
         });
     }
 
     initializeTooltips() {
-        // Add tooltips for better UX
+        // Add tooltips for better UX on desktop
         const tooltipElements = document.querySelectorAll('[title]');
         tooltipElements.forEach(element => {
-            element.addEventListener('mouseenter', (e) => {
-                if (window.innerWidth >= 1024) { // Only on desktop
+            if (!this.isMobile) {
+                element.addEventListener('mouseenter', (e) => {
                     this.showTooltip(e.target, e.target.getAttribute('title'));
-                }
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                this.hideTooltip();
-            });
+                });
+                
+                element.addEventListener('mouseleave', () => {
+                    this.hideTooltip();
+                });
+            }
         });
     }
 
     showTooltip(element, text) {
+        if (this.isMobile) return;
+        
         const tooltip = document.createElement('div');
         tooltip.className = 'tooltip';
         tooltip.textContent = text;
@@ -644,13 +808,29 @@ class Dashboard {
             z-index: 2000;
             pointer-events: none;
             white-space: nowrap;
+            max-width: 200px;
+            word-wrap: break-word;
         `;
         
         document.body.appendChild(tooltip);
         
         const rect = element.getBoundingClientRect();
-        tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
-        tooltip.style.top = rect.top - tooltip.offsetHeight - 8 + 'px';
+        const tooltipRect = tooltip.getBoundingClientRect();
+        
+        let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+        let top = rect.top - tooltipRect.height - 8;
+        
+        // Adjust if tooltip goes off screen
+        if (left < 0) left = 8;
+        if (left + tooltipRect.width > window.innerWidth) {
+            left = window.innerWidth - tooltipRect.width - 8;
+        }
+        if (top < 0) {
+            top = rect.bottom + 8;
+        }
+        
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
     }
 
     hideTooltip() {
@@ -659,73 +839,30 @@ class Dashboard {
             document.body.removeChild(tooltip);
         }
     }
+
+    announcePageChange(pageName) {
+        // Create announcement for screen readers
+        const announcement = document.createElement('div');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.setAttribute('aria-atomic', 'true');
+        announcement.style.cssText = `
+            position: absolute;
+            left: -10000px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        `;
+        announcement.textContent = `Navigated to ${pageName} page`;
+        
+        document.body.appendChild(announcement);
+        
+        setTimeout(() => {
+            document.body.removeChild(announcement);
+        }, 1000);
+    }
 }
 
-// CSS animations for toasts
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-    
-    @keyframes fadeOut {
-        from {
-            opacity: 1;
-            transform: scale(1);
-        }
-        to {
-            opacity: 0;
-            transform: scale(0.9);
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Initialize dashboard when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    window.dashboard = new Dashboard();
-    
-    // Add some demo interactivity
-    console.log('Dashboard initialized successfully!');
-    console.log('Keyboard shortcuts:');
-    console.log('- Alt + 1-9: Quick navigation');
-    console.log('- Escape: Close sidebar');
-    console.log('- Ctrl + K: Focus search (on customers page)');
-});
-
-// Service Worker for offline functionality (optional)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    });
-}
-
-
-// Menu Management System
+// Menu Management System - Enhanced for Mobile
 class MenuManager {
     constructor() {
         this.categories = [
@@ -751,6 +888,40 @@ class MenuManager {
     init() {
         this.bindMenuEvents();
         this.createModals();
+        this.initMobileOptimizations();
+    }
+
+    initMobileOptimizations() {
+        // Optimize touch interactions
+        const productCards = document.querySelectorAll('.product-card');
+        productCards.forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+            }, { passive: true });
+            
+            card.addEventListener('touchend', () => {
+                card.style.transform = '';
+            }, { passive: true });
+        });
+
+        // Optimize category filter scrolling
+        const categoryFilter = document.querySelector('.category-filter');
+        if (categoryFilter) {
+            let isScrolling = false;
+            categoryFilter.addEventListener('touchstart', () => {
+                isScrolling = false;
+            }, { passive: true });
+            
+            categoryFilter.addEventListener('touchmove', () => {
+                isScrolling = true;
+            }, { passive: true });
+            
+            categoryFilter.addEventListener('touchend', (e) => {
+                if (!isScrolling && e.target.classList.contains('category-filter-btn')) {
+                    e.target.click();
+                }
+            }, { passive: true });
+        }
     }
     
     bindMenuEvents() {
@@ -764,11 +935,15 @@ class MenuManager {
             });
         });
         
-        // Search functionality
+        // Search functionality with debounce
         const searchInput = document.getElementById('menu-search-input');
         if (searchInput) {
+            let searchTimeout;
             searchInput.addEventListener('input', (e) => {
-                this.searchProducts(e.target.value);
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    this.searchProducts(e.target.value);
+                }, 300);
             });
         }
         
@@ -840,6 +1015,7 @@ class MenuManager {
         categorySections.forEach(section => {
             if (category === 'all' || section.dataset.category === category) {
                 section.classList.remove('hidden');
+                section.style.animation = 'fadeIn 0.3s ease';
             } else {
                 section.classList.add('hidden');
             }
@@ -856,6 +1032,7 @@ class MenuManager {
             
             if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
                 card.classList.remove('hidden');
+                card.style.animation = 'fadeIn 0.3s ease';
             } else {
                 card.classList.add('hidden');
             }
@@ -874,7 +1051,7 @@ class MenuManager {
     }
     
     createModals() {
-        // Create category modal
+        // Create category modal with mobile optimizations
         const categoryModal = document.createElement('div');
         categoryModal.id = 'category-modal';
         categoryModal.className = 'modal';
@@ -882,16 +1059,16 @@ class MenuManager {
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Add/Edit Category</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" aria-label="Close modal">&times;</button>
                 </div>
                 <form class="modal-form" id="category-form">
                     <div class="form-row">
                         <label for="category-name">Category Name</label>
-                        <input type="text" id="category-name" required>
+                        <input type="text" id="category-name" required autocomplete="off">
                     </div>
                     <div class="form-row">
                         <label for="category-icon">Icon Class</label>
-                        <input type="text" id="category-icon" placeholder="fas fa-pills">
+                        <input type="text" id="category-icon" placeholder="fas fa-pills" autocomplete="off">
                     </div>
                     <div class="modal-actions">
                         <button type="button" class="btn-cancel">Cancel</button>
@@ -902,7 +1079,7 @@ class MenuManager {
         `;
         document.body.appendChild(categoryModal);
         
-        // Create product modal
+        // Create product modal with mobile optimizations
         const productModal = document.createElement('div');
         productModal.id = 'product-modal';
         productModal.className = 'modal';
@@ -910,24 +1087,24 @@ class MenuManager {
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Add/Edit Product</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" aria-label="Close modal">&times;</button>
                 </div>
                 <form class="modal-form" id="product-form">
                     <div class="form-row">
                         <label for="product-name">Product Name</label>
-                        <input type="text" id="product-name" required>
+                        <input type="text" id="product-name" required autocomplete="off">
                     </div>
                     <div class="form-row">
                         <label for="product-description">Description</label>
-                        <textarea id="product-description" required></textarea>
+                        <textarea id="product-description" required rows="3"></textarea>
                     </div>
                     <div class="form-row">
                         <label for="product-price">Price (Rp)</label>
-                        <input type="number" id="product-price" required>
+                        <input type="number" id="product-price" required min="0" step="100">
                     </div>
                     <div class="form-row">
                         <label for="product-stock">Stock</label>
-                        <input type="number" id="product-stock" required>
+                        <input type="number" id="product-stock" required min="0">
                     </div>
                     <div class="form-row">
                         <label for="product-category">Category</label>
@@ -951,6 +1128,176 @@ class MenuManager {
             </div>
         `;
         document.body.appendChild(productModal);
+        
+        // Add modal styles
+        const modalStyles = document.createElement('style');
+        modalStyles.textContent = `
+            .modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 2000;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                padding: 16px;
+            }
+            
+            .modal.active {
+                display: flex;
+            }
+            
+            .modal-content {
+                background: white;
+                border-radius: 12px;
+                width: 100%;
+                max-width: 500px;
+                max-height: 90vh;
+                overflow-y: auto;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            }
+            
+            .modal-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            
+            .modal-header h3 {
+                margin: 0;
+                font-size: 18px;
+                font-weight: 600;
+                color: #1e293b;
+            }
+            
+            .modal-close {
+                background: none;
+                border: none;
+                font-size: 24px;
+                cursor: pointer;
+                color: #64748b;
+                padding: 4px;
+                border-radius: 4px;
+                min-width: 32px;
+                min-height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .modal-close:hover {
+                background: #f1f5f9;
+                color: #1e293b;
+            }
+            
+            .modal-form {
+                padding: 20px;
+            }
+            
+            .form-row {
+                margin-bottom: 16px;
+            }
+            
+            .form-row label {
+                display: block;
+                font-size: 14px;
+                font-weight: 500;
+                color: #374151;
+                margin-bottom: 6px;
+            }
+            
+            .form-row input,
+            .form-row select,
+            .form-row textarea {
+                width: 100%;
+                padding: 10px 12px;
+                border: 1px solid #e2e8f0;
+                border-radius: 6px;
+                font-size: 14px;
+                background: white;
+                min-height: 40px;
+                font-family: inherit;
+            }
+            
+            .form-row textarea {
+                resize: vertical;
+                min-height: 80px;
+            }
+            
+            .form-row input:focus,
+            .form-row select:focus,
+            .form-row textarea:focus {
+                outline: none;
+                border-color: #4f46e5;
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            }
+            
+            .modal-actions {
+                display: flex;
+                gap: 8px;
+                justify-content: flex-end;
+                margin-top: 24px;
+                padding-top: 16px;
+                border-top: 1px solid #e2e8f0;
+            }
+            
+            .btn-cancel {
+                background: #f1f5f9;
+                color: #475569;
+                border: 1px solid #e2e8f0;
+                padding: 10px 16px;
+                border-radius: 6px;
+                font-weight: 500;
+                cursor: pointer;
+                font-size: 14px;
+                min-height: 40px;
+            }
+            
+            .btn-save {
+                background: #4f46e5;
+                color: white;
+                border: none;
+                padding: 10px 16px;
+                border-radius: 6px;
+                font-weight: 500;
+                cursor: pointer;
+                font-size: 14px;
+                min-height: 40px;
+            }
+            
+            .btn-cancel:hover {
+                background: #e2e8f0;
+            }
+            
+            .btn-save:hover {
+                background: #3730a3;
+            }
+            
+            @media (max-width: 480px) {
+                .modal {
+                    padding: 8px;
+                }
+                
+                .modal-content {
+                    max-height: 95vh;
+                }
+                
+                .modal-actions {
+                    flex-direction: column;
+                }
+                
+                .btn-cancel,
+                .btn-save {
+                    width: 100%;
+                }
+            }
+        `;
+        document.head.appendChild(modalStyles);
         
         // Bind modal events
         this.bindModalEvents();
@@ -977,15 +1324,19 @@ class MenuManager {
         const categoryForm = document.getElementById('category-form');
         const productForm = document.getElementById('product-form');
         
-        categoryForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.saveCategoryForm();
-        });
+        if (categoryForm) {
+            categoryForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.saveCategoryForm();
+            });
+        }
         
-        productForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.saveProductForm();
-        });
+        if (productForm) {
+            productForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.saveProductForm();
+            });
+        }
     }
     
     showCategoryModal(categoryId = null) {
@@ -1036,6 +1387,12 @@ class MenuManager {
         const modal = document.getElementById(modalId);
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        // Focus first input
+        const firstInput = modal.querySelector('input, select, textarea');
+        if (firstInput) {
+            setTimeout(() => firstInput.focus(), 100);
+        }
     }
     
     hideModal(modalId) {
@@ -1046,8 +1403,13 @@ class MenuManager {
     
     saveCategoryForm() {
         const form = document.getElementById('category-form');
-        const name = document.getElementById('category-name').value;
-        const icon = document.getElementById('category-icon').value || 'fas fa-folder';
+        const name = document.getElementById('category-name').value.trim();
+        const icon = document.getElementById('category-icon').value.trim() || 'fas fa-folder';
+        
+        if (!name) {
+            this.showToast('Please enter a category name', 'warning');
+            return;
+        }
         
         if (form.dataset.editId) {
             // Edit existing category
@@ -1060,7 +1422,7 @@ class MenuManager {
             }
         } else {
             // Add new category
-            const newId = name.toLowerCase().replace(/\s+/g, '-');
+            const newId = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
             const newCategory = { id: newId, name, icon };
             this.categories.push(newCategory);
             this.addCategoryToDOM(newCategory);
@@ -1072,12 +1434,17 @@ class MenuManager {
     
     saveProductForm() {
         const form = document.getElementById('product-form');
-        const name = document.getElementById('product-name').value;
-        const description = document.getElementById('product-description').value;
+        const name = document.getElementById('product-name').value.trim();
+        const description = document.getElementById('product-description').value.trim();
         const price = parseInt(document.getElementById('product-price').value);
         const stock = parseInt(document.getElementById('product-stock').value);
         const category = document.getElementById('product-category').value;
-        const image = document.getElementById('product-image').value;
+        const image = document.getElementById('product-image').value.trim();
+        
+        if (!name || !description || !price || !stock || !category) {
+            this.showToast('Please fill in all required fields', 'warning');
+            return;
+        }
         
         if (form.dataset.editId) {
             // Edit existing product
@@ -1089,7 +1456,7 @@ class MenuManager {
             }
         } else {
             // Add new product
-            const newId = Math.max(...this.products.map(p => p.id)) + 1;
+            const newId = Math.max(...this.products.map(p => p.id), 0) + 1;
             const newProduct = { id: newId, name, description, price, stock, category, image };
             this.products.push(newProduct);
             this.addProductToDOM(newProduct);
@@ -1139,7 +1506,10 @@ class MenuManager {
             // Remove from DOM
             const productCard = document.querySelector(`[data-product-id="${productId}"]`);
             if (productCard) {
-                productCard.remove();
+                productCard.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    productCard.remove();
+                }, 300);
             }
             
             this.showToast('Product deleted successfully!', 'success');
@@ -1201,10 +1571,10 @@ class MenuManager {
                     ${category.name}
                 </h3>
                 <div class="category-actions">
-                    <button class="btn-edit-category" data-category="${category.id}">
+                    <button class="btn-edit-category" data-category="${category.id}" aria-label="Edit category">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-delete-category" data-category="${category.id}">
+                    <button class="btn-delete-category" data-category="${category.id}" aria-label="Delete category">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -1229,7 +1599,9 @@ class MenuManager {
             const imageUrl = product.image || this.generatePlaceholderImage(product.name);
             
             productCard.innerHTML = `
-                <img src="${imageUrl}" alt="${product.name}">
+                <div class="product-image">
+                    <img src="${imageUrl}" alt="${product.name}">
+                </div>
                 <div class="product-info">
                     <h4>${product.name}</h4>
                     <p class="product-desc">${product.description}</p>
@@ -1239,16 +1611,19 @@ class MenuManager {
                     </div>
                 </div>
                 <div class="product-actions">
-                    <button class="btn-edit-product" data-product-id="${product.id}">
+                    <button class="btn-edit-product" data-product-id="${product.id}" aria-label="Edit product">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-delete-product" data-product-id="${product.id}">
+                    <button class="btn-delete-product" data-product-id="${product.id}" aria-label="Delete product">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
             `;
             
             categorySection.appendChild(productCard);
+            
+            // Add animation
+            productCard.style.animation = 'fadeIn 0.3s ease';
             
             // Rebind events
             this.bindProductActions();
@@ -1276,19 +1651,7 @@ class MenuManager {
     }
 }
 
-// Initialize menu manager when dashboard is ready
-document.addEventListener('DOMContentLoaded', () => {
-    // Wait for dashboard to be initialized
-    setTimeout(() => {
-        if (window.dashboard) {
-            window.menuManager = new MenuManager();
-        }
-    }, 100);
-});
-
-
-
-// Store Appearance Settings Manager
+// Store Appearance Settings Manager - Enhanced for Mobile
 class AppearanceManager {
     constructor() {
         this.settings = this.loadSettings();
@@ -1333,7 +1696,7 @@ class AppearanceManager {
 
         // Update store name in header
         const logoElement = document.querySelector('.logo');
-        if (logoElement) {
+        if (logoElement && !window.dashboard?.isMobile) {
             logoElement.textContent = this.settings.storeName;
         }
 
@@ -1356,17 +1719,18 @@ class AppearanceManager {
     }
 
     bindEvents() {
-        // Background option selection
+        // Background option selection with touch optimization
         const backgroundOptions = document.querySelectorAll('.background-option');
         backgroundOptions.forEach(option => {
+            // Mouse events
             option.addEventListener('click', () => {
-                // Remove active class from all options
-                backgroundOptions.forEach(opt => opt.classList.remove('active'));
-                // Add active class to clicked option
-                option.classList.add('active');
-                // Update setting
-                this.settings.headerBackground = option.dataset.bg;
-                this.applySettings();
+                this.selectBackgroundOption(option, backgroundOptions);
+            });
+            
+            // Touch events for better mobile experience
+            option.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.selectBackgroundOption(option, backgroundOptions);
             });
         });
 
@@ -1374,31 +1738,38 @@ class AppearanceManager {
         const welcomeBgOptions = document.querySelectorAll('.welcome-bg-option');
         welcomeBgOptions.forEach(option => {
             option.addEventListener('click', () => {
-                // Remove active class from all options
-                welcomeBgOptions.forEach(opt => opt.classList.remove('active'));
-                // Add active class to clicked option
-                option.classList.add('active');
-                // Update setting
-                this.settings.welcomeBackground = option.dataset.welcomeBg;
-                this.updateExternalPages();
+                this.selectWelcomeOption(option, welcomeBgOptions);
+            });
+            
+            option.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.selectWelcomeOption(option, welcomeBgOptions);
             });
         });
 
-        // Store name input
+        // Store name input with debounce
         const storeNameInput = document.getElementById('storeName');
         if (storeNameInput) {
+            let nameTimeout;
             storeNameInput.addEventListener('input', (e) => {
-                this.settings.storeName = e.target.value;
-                this.applySettings();
+                clearTimeout(nameTimeout);
+                nameTimeout = setTimeout(() => {
+                    this.settings.storeName = e.target.value;
+                    this.applySettings();
+                }, 500);
             });
         }
 
-        // Store tagline input
+        // Store tagline input with debounce
         const storeTaglineInput = document.getElementById('storeTagline');
         if (storeTaglineInput) {
+            let taglineTimeout;
             storeTaglineInput.addEventListener('input', (e) => {
-                this.settings.storeTagline = e.target.value;
-                this.updateExternalPages();
+                clearTimeout(taglineTimeout);
+                taglineTimeout = setTimeout(() => {
+                    this.settings.storeTagline = e.target.value;
+                    this.updateExternalPages();
+                }, 500);
             });
         }
 
@@ -1416,6 +1787,36 @@ class AppearanceManager {
             languageSelect.addEventListener('change', (e) => {
                 this.settings.language = e.target.value;
             });
+        }
+    }
+
+    selectBackgroundOption(selectedOption, allOptions) {
+        // Remove active class from all options
+        allOptions.forEach(opt => opt.classList.remove('active'));
+        // Add active class to selected option
+        selectedOption.classList.add('active');
+        // Update setting
+        this.settings.headerBackground = selectedOption.dataset.bg;
+        this.applySettings();
+        
+        // Haptic feedback for mobile
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+    }
+
+    selectWelcomeOption(selectedOption, allOptions) {
+        // Remove active class from all options
+        allOptions.forEach(opt => opt.classList.remove('active'));
+        // Add active class to selected option
+        selectedOption.classList.add('active');
+        // Update setting
+        this.settings.welcomeBackground = selectedOption.dataset.welcomeBg;
+        this.updateExternalPages();
+        
+        // Haptic feedback for mobile
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
         }
     }
 
@@ -1470,21 +1871,33 @@ class AppearanceManager {
     }
 
     showToast(message, type = 'success') {
-        // Create toast element if it doesn't exist
-        let toast = document.getElementById('toast');
-        if (!toast) {
-            toast = document.createElement('div');
-            toast.id = 'toast';
-            toast.className = 'toast';
+        if (window.dashboard && window.dashboard.showToast) {
+            window.dashboard.showToast(message, type);
+        } else {
+            // Fallback toast
+            const toast = document.createElement('div');
+            toast.className = `toast ${type} show`;
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 16px;
+                background: ${type === 'success' ? '#059669' : '#0ea5e9'};
+                color: white;
+                padding: 12px 16px;
+                border-radius: 8px;
+                font-size: 14px;
+                z-index: 2000;
+                max-width: calc(100vw - 32px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            `;
+            
             document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
         }
-
-        toast.textContent = message;
-        toast.className = `toast ${type} show`;
-
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
     }
 }
 
@@ -1501,63 +1914,48 @@ function resetAppearanceSettings() {
     }
 }
 
-// Initialize appearance manager when DOM is loaded
+// Initialize dashboard when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize existing dashboard
     window.dashboard = new Dashboard();
     
+    // Initialize menu manager
+    setTimeout(() => {
+        window.menuManager = new MenuManager();
+    }, 100);
+    
     // Initialize appearance manager
     window.appearanceManager = new AppearanceManager();
+    
+    // Add loading complete indicator
+    console.log('Dashboard Mobile-First initialized successfully!');
+    console.log('Features: Responsive design, Touch gestures, Keyboard shortcuts, Accessibility');
+    console.log('Keyboard shortcuts:');
+    console.log('- Alt + 1-9: Quick navigation');
+    console.log('- Escape: Close sidebar');
+    console.log('- Ctrl + K: Focus search (on customers page)');
 });
 
-// Update menu-integrated.html to use settings
-function updateMenuPageWithSettings() {
-    const settings = JSON.parse(localStorage.getItem('menuPageSettings') || '{}');
-    
-    if (settings.storeName) {
-        const logoElements = document.querySelectorAll('.logo');
-        logoElements.forEach(el => el.textContent = settings.storeName + ' Menu');
-    }
-    
-    if (settings.storeTagline) {
-        const taglineElements = document.querySelectorAll('.welcome-card p');
-        taglineElements.forEach(el => el.textContent = settings.storeTagline);
-    }
-    
-    if (settings.headerBackground) {
-        const headers = document.querySelectorAll('.mobile-header');
-        headers.forEach(header => {
-            header.classList.remove('header-gradient1', 'header-gradient2', 'header-gradient3', 
-                                   'header-gradient4', 'header-gradient5', 'header-solid1');
-            header.classList.add(`header-${settings.headerBackground}`);
-        });
-    }
-    
-    if (settings.welcomeBackground) {
-        const welcomeCards = document.querySelectorAll('.welcome-card');
-        welcomeCards.forEach(card => {
-            card.classList.remove('welcome-green', 'welcome-blue', 'welcome-purple', 'welcome-orange');
-            card.classList.add(`welcome-${settings.welcomeBackground}`);
-        });
-    }
+// Service Worker for offline functionality (optional)
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('SW registered: ', registration);
+            })
+            .catch(registrationError => {
+                console.log('SW registration failed: ', registrationError);
+            });
+    });
 }
 
-// Update order-integrated.html to use settings
-function updateOrderPageWithSettings() {
-    const settings = JSON.parse(localStorage.getItem('orderPageSettings') || '{}');
-    
-    if (settings.storeName) {
-        const logoElements = document.querySelectorAll('.logo');
-        logoElements.forEach(el => el.textContent = 'Order Details');
-    }
-    
-    if (settings.headerBackground) {
-        const headers = document.querySelectorAll('.mobile-header');
-        headers.forEach(header => {
-            header.classList.remove('header-gradient1', 'header-gradient2', 'header-gradient3', 
-                                   'header-gradient4', 'header-gradient5', 'header-solid1');
-            header.classList.add(`header-${settings.headerBackground}`);
-        });
-    }
+// Performance monitoring
+if ('performance' in window) {
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            console.log('Page load time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
+        }, 0);
+    });
 }
 
