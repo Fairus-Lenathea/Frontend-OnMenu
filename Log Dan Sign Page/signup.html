@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodMarket - Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-card">
+            <div class="header">
+                <button class="back-btn" onclick="goBack()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <h1>Sign Up</h1>
+                <p class="subtitle">Register and eat</p>
+            </div>
+            
+            <div class="photo-upload">
+                <div class="photo-placeholder" id="photoPlaceholder">
+                    <span>Add Photo</span>
+                </div>
+                <input type="file" id="photoInput" accept="image/*" style="display: none;">
+            </div>
+            
+            <form id="signUpForm" class="form">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Type your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="emailSignUp">Email Address</label>
+                    <input type="email" id="emailSignUp" name="email" placeholder="Type your email address" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="passwordSignUp">Password</label>
+                    <input type="password" id="passwordSignUp" name="password" placeholder="Type your password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Continue</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
