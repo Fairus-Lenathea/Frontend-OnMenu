@@ -111,7 +111,7 @@ body {
 /* ===== HERO SECTION ===== */
 .hero {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, rgb(95, 157, 247) 0%, rgb(23, 70, 162) 100%);
     display: flex;
     align-items: center;
     position: relative;
@@ -150,7 +150,7 @@ body {
 }
 
 .highlight {
-    color: #ff6b35;
+    color: rgb(255, 115, 29);
 }
 
 .hero-subtitle {
@@ -276,7 +276,7 @@ body {
 .feature-icon {
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    background: linear-gradient(135deg,  rgb(220, 90, 20), #ff6b35);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -326,7 +326,7 @@ body {
 .category-image {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    background: linear-gradient(135deg, rgb(220, 90, 20), #ff6b35);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -398,7 +398,7 @@ body {
 .author-avatar {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, rgb(95, 157, 247), rgb(23, 70, 162));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -522,7 +522,7 @@ body {
 .phone-screen {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    background: linear-gradient(135deg, rgb(220, 90, 20), #ff6b35);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -600,7 +600,7 @@ body {
 .image-placeholder {
     width: 300px;
     height: 300px;
-    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    background: linear-gradient(135deg, #DC5A14, #ff6b35);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -671,11 +671,11 @@ body {
 }
 
 .vision-card::before {
-    background: linear-gradient(45deg, #667eea, #764ba2);
+    background: linear-gradient(45deg, rgb(95, 157, 247), rgb(23, 70, 162));
 }
 
 .mission-card::before {
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    background: linear-gradient(45deg, #DC5A14, #ff6b35);
 }
 
 .vm-icon {
@@ -691,11 +691,11 @@ body {
 }
 
 .vision-card .vm-icon {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, rgb(95, 157, 247), rgb(23, 70, 162));
 }
 
 .mission-card .vm-icon {
-    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    background: linear-gradient(135deg, #DC5A14, #ff6b35);
 }
 
 .vm-card h3 {
@@ -814,7 +814,7 @@ body {
 .avatar {
     width: 100px;
     height: 100px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg,  rgb(95, 157, 247), rgb(23, 70, 162));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -869,7 +869,7 @@ body {
 /* ===== CTA SECTION ===== */
 .cta {
     padding: 100px 0;
-    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    background: linear-gradient(135deg,  #DC5A14, #ff6b35);
     text-align: center;
 }
 
@@ -930,7 +930,7 @@ body {
 .footer {
     background: #333;
     color: white;
-    padding: 50px 0 20px;
+    padding: 30px 0 20px;
 }
 
 .footer-content {
@@ -1003,7 +1003,7 @@ body {
 /* Services Hero Section */
 .services-hero {
     min-height: 100vh;
-    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    background: linear-gradient(135deg,  #DC5A14, #ff6b35 100%);
     display: flex;
     align-items: center;
     position: relative;
@@ -1133,7 +1133,7 @@ body {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    background: linear-gradient(45deg,  #DC5A14, #ff6b35);
 }
 
 .service-item.featured {
@@ -1150,7 +1150,7 @@ body {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    background: linear-gradient(45deg,  #DC5A14, #ff6b35);
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 15px;
@@ -1161,7 +1161,7 @@ body {
 .service-item .service-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    background: linear-gradient(135deg,  #DC5A14, #ff6b35);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1204,7 +1204,7 @@ body {
 
 .service-btn {
     display: inline-block;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    background: linear-gradient(45deg,  #DC5A14, #ff6b35);
     color: white;
     padding: 1rem 2rem;
     border-radius: 25px;
@@ -1239,7 +1239,7 @@ body {
 .step-number {
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg,  rgb(95, 157, 247), rgb(23, 70, 162));
     color: white;
     border-radius: 50%;
     display: flex;
@@ -1321,7 +1321,7 @@ body {
     top: -15px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    background: linear-gradient(45deg,  #DC5A14, #ff6b35);
     color: white;
     padding: 0.5rem 2rem;
     border-radius: 25px;
@@ -1387,7 +1387,7 @@ body {
 
 .pricing-btn {
     display: inline-block;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    background: linear-gradient(45deg,  #DC5A14, #ff6b35);
     color: white;
     padding: 1rem 2rem;
     border-radius: 25px;
@@ -1407,7 +1407,7 @@ body {
 /* Contact Hero Section */
 .contact-hero {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg,  rgb(95, 157, 247), rgb(23, 70, 162) 100%);
     display: flex;
     align-items: center;
     position: relative;
@@ -1547,7 +1547,7 @@ body {
 .method-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #ff6b35, #f7931e);
+    background: linear-gradient(135deg,  #DC5A14, #ff6b35);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1662,7 +1662,7 @@ body {
 }
 
 .submit-btn {
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    background: linear-gradient(45deg,  #DC5A14, #ff6b35);
     color: white;
     padding: 1rem 2rem;
     border: none;
@@ -1849,7 +1849,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    background: linear-gradient(45deg,  #DC5A14, #ff6b35);
     color: white;
     padding: 1rem 2rem;
     border-radius: 25px;
@@ -1870,7 +1870,7 @@ body {
     right: 30px;
     width: 50px;
     height: 50px;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    background: linear-gradient(45deg,  #DC5A14, #ff6b35);
     color: white;
     border: none;
     border-radius: 50%;
@@ -1898,7 +1898,7 @@ body {
     left: 0;
     width: 0%;
     height: 3px;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    background: linear-gradient(45deg,  #DC5A14, #ff6b35);
     z-index: 1001;
     transition: width 0.3s ease;
 }
