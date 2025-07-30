@@ -2,7 +2,6 @@
 
 class Dashboard {
     constructor() {
-        this.currentPage = 'dashboard';
         this.isMobile = window.innerWidth < 1024;
         this.touchStartX = 0;
         this.touchStartY = 0;
@@ -12,7 +11,7 @@ class Dashboard {
     init() {
         this.bindEvents();
         this.initializeTooltips();
-        this.loadInitialData();
+        // this.loadInitialData(); // Removed to prevent automatic redirection to dashboard
         this.handleResize();
         this.initTouchGestures();
         this.initKeyboardShortcuts();
@@ -57,16 +56,16 @@ class Dashboard {
             });
         });
 
-        // Filter tabs
-        const filterTabs = document.querySelectorAll('.tab');
-        filterTabs.forEach(tab => {
-            tab.addEventListener('click', () => this.handleFilterTab(tab));
+        // Filter tabs for Orders page
+        const orderFilterTabs = document.querySelectorAll('#orders-page .tab');
+        orderFilterTabs.forEach(tab => {
+            tab.addEventListener('click', () => this.handleOrderFilterTab(tab));
         });
 
-        // Search functionality
-        const searchInput = document.querySelector('.search-box input');
-        if (searchInput) {
-            searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
+        // Search functionality for Orders page
+        const orderSearchInput = document.querySelector('#order-search-input');
+        if (orderSearchInput) {
+            orderSearchInput.addEventListener('input', (e) => this.handleOrderSearch(e.target.value));
         }
 
         // Form submissions
@@ -126,6 +125,8 @@ class Dashboard {
     }
 
     navigateToPage(pageName) {
+        console.log('Navigating to page:', pageName);
+        
         // Hide all pages
         const pages = document.querySelectorAll('.page');
         pages.forEach(page => page.classList.remove('active'));
@@ -135,6 +136,9 @@ class Dashboard {
         if (targetPage) {
             targetPage.classList.add('active');
             this.currentPage = pageName;
+            console.log('Page activated:', pageName);
+        } else {
+            console.error('Target page not found:', `${pageName}-page`);
         }
 
         // Update navigation active state
@@ -145,6 +149,9 @@ class Dashboard {
         if (activeNavItem) {
             activeNavItem.classList.add('active');
         }
+
+        // Update URL hash
+        window.location.hash = pageName;
 
         // Update page title
         this.updatePageTitle(pageName);
@@ -163,7 +170,7 @@ class Dashboard {
         const titles = {
             dashboard: 'Dashboard',
             menu: 'Menu Management',
-            orders: 'Orders',
+            orders: 'Order Status',
             reports: 'Reports',
             settings: 'Settings',
             profile: 'Profile'
@@ -178,36 +185,159 @@ class Dashboard {
         }
     }
 
-    handleFilterTab(clickedTab) {
-        // Remove active class from all tabs
-        const tabs = document.querySelectorAll('.tab');
+    // Orders functionality
+    async loadOrders() {
+        try {
+            const response = await fetch('data.json');
+            const data = await response.json();
+            this.ordersData = data.orders;
+            this.displayOrders(this.ordersData);
+        } catch (error) {
+            console.error('Error loading orders:', error);
+            // Fallback to sample data if data.json is not available
+            this.loadSampleOrders();
+        }
+    }
+
+    loadSampleOrders() {
+        this.ordersData = [
+            { id: '#001', customerName: 'Budi Santoso', orderDate: '2025-07-28', totalPrice: 252150, status: 'completed' },
+            { id: '#002', customerName: 'Siti Aminah', orderDate: '2025-07-29', totalPrice: 89500, status: 'pending' },
+            { id: '#003', customerName: 'Joko Susilo', orderDate: '2025-07-27', totalPrice: 145200, status: 'processing' },
+            { id: '#004', customerName: 'Dewi Lestari', orderDate: '2025-07-26', totalPrice: 75000, status: 'cancelled' },
+            { id: '#005', customerName: 'Agus Salim', orderDate: '2025-07-29', totalPrice: 52500, status: 'pending' }
+        ];
+        this.displayOrders(this.ordersData);
+    }
+
+    displayOrders(orders) {
+        const ordersList = document.getElementById('order-status-list');
+        if (!ordersList) return;
+
+        if (orders.length === 0) {
+            ordersList.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Tidak ada pesanan ditemukan</p>
+                </div>
+            `;
+            return;
+        }
+
+        const ordersHTML = orders.map(order => `
+            <div class="order-card" data-status="${order.status}">
+                <div class="order-header">
+                    <span class="order-id">${order.id}</span>
+                    <span class="order-status ${order.status}">${this.getStatusText(order.status)}</span>
+                </div>
+                <div class="order-details">
+                    <div class="order-customer">
+                        <i class="fas fa-user"></i>
+                        ${order.customerName}
+                    </div>
+                    <div class="order-meta">
+                        <div class="order-date">
+                            <i class="fas fa-calendar"></i>
+                            ${this.formatDate(order.orderDate)}
+                        </div>
+                        <div class="order-amount">
+                            <i class="fas fa-money-bill"></i>
+                            ${this.formatCurrency(order.totalPrice)}
+                        </div>
+                    </div>
+                </div>
+                ${(order.status === 'pending' || order.status === 'processing') ? `
+                    <div class="order-actions">
+                        <button class="btn-complete" onclick="dashboard.completeOrder('${order.id}')">
+                            <i class="fas fa-check"></i>
+                            Selesai
+                        </button>
+                    </div>
+                ` : ''}
+            </div>
+        `).join('');
+
+        ordersList.innerHTML = ordersHTML;
+    }
+
+    handleOrderFilterTab(clickedTab) {
+        // Remove active class from all tabs in Orders page
+        const tabs = document.querySelectorAll('#orders-page .tab');
         tabs.forEach(tab => tab.classList.remove('active'));
 
         // Add active class to clicked tab
         clickedTab.classList.add('active');
 
         // Filter content based on tab
-        const filterValue = clickedTab.textContent.toLowerCase();
-        this.filterOrders(filterValue);
+        const filterValue = clickedTab.getAttribute('data-status');
+        this.filterOrdersByStatus(filterValue);
     }
 
-    filterOrders(status) {
-        const orderCards = document.querySelectorAll('.order-card');
-        
-        orderCards.forEach(card => {
-            const orderStatus = card.querySelector('.order-status');
-            if (status === 'all' || orderStatus.textContent.toLowerCase().includes(status)) {
-                card.style.display = 'block';
-                card.style.animation = 'fadeIn 0.3s ease';
+    filterOrdersByStatus(status) {
+        if (!this.ordersData) return;
+
+        let filteredOrders = this.ordersData;
+        if (status !== 'all') {
+            filteredOrders = this.ordersData.filter(order => order.status === status);
+        }
+
+        this.displayOrders(filteredOrders);
+    }
+
+    handleOrderSearch(query) {
+        if (!this.ordersData) return;
+
+        const searchTerm = query.toLowerCase();
+        const filteredOrders = this.ordersData.filter(order => 
+            order.id.toLowerCase().includes(searchTerm) ||
+            order.customerName.toLowerCase().includes(searchTerm)
+        );
+
+        this.displayOrders(filteredOrders);
+    }
+
+    completeOrder(orderId) {
+        if (!this.ordersData) return;
+
+        const orderIndex = this.ordersData.findIndex(order => order.id === orderId);
+        if (orderIndex !== -1) {
+            this.ordersData[orderIndex].status = 'completed';
+            
+            // Show success message
+            this.showToast(`Pesanan ${orderId} telah diselesaikan!`, 'success');
+            
+            // Refresh display
+            const activeTab = document.querySelector('#orders-page .tab.active');
+            if (activeTab) {
+                const filterValue = activeTab.getAttribute('data-status');
+                this.filterOrdersByStatus(filterValue);
             } else {
-                card.style.display = 'none';
+                this.displayOrders(this.ordersData);
             }
-        });
+        }
     }
 
-    handleSearch(query) {
-        // Search functionality dapat digunakan untuk halaman lain jika diperlukan
-        console.log('Search query:', query);
+    getStatusText(status) {
+        const statusMap = {
+            'pending': 'Pending',
+            'processing': 'Diproses',
+            'completed': 'Selesai',
+            'cancelled': 'Dibatalkan'
+        };
+        return statusMap[status] || status;
+    }
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('id-ID');
+    }
+
+    formatCurrency(amount) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(amount);
     }
 
     bindFormEvents() {
@@ -545,17 +675,24 @@ class Dashboard {
         }
     }
 
-    loadOrders() {
-        // Simulate loading orders with loading state
-        this.showLoadingState('#orders-page .orders-list');
-        
-        setTimeout(() => {
-            this.hideLoadingState('#orders-page .orders-list');
-        }, 1000);
+    updateDashboardStats() {
+        // Simulate real-time stats update
+        const stats = [
+            { value: Math.floor(Math.random() * 200) + 100, suffix: '' },
+            { value: Math.floor(Math.random() * 150) + 50, suffix: '' },
+            { value: '$' + (Math.floor(Math.random() * 20000) + 10000).toLocaleString(), suffix: '' },
+            { value: '+' + Math.floor(Math.random() * 30) + 10, suffix: '%' }
+        ];
+
+        const statCards = document.querySelectorAll('.stat-card h3');
+        statCards.forEach((card, index) => {
+            if (stats[index]) {
+                card.textContent = stats[index].value + stats[index].suffix;
+            }
+        });
     }
 
     generateReports() {
-        // Simulate report generation
         const chartPlaceholders = document.querySelectorAll('.chart-placeholder');
         chartPlaceholders.forEach(placeholder => {
             placeholder.innerHTML = '<i class="fas fa-spinner fa-spin"></i><p>Generating...</p>';
@@ -2404,10 +2541,15 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize dashboard when DOM is loaded
+document.addEventListener("DOMContentLoaded", function() {
+    window.dashboard = new Dashboard();
     loadWelcomeCardSettings();
     initializeWelcomeCardCustomization();
     initializeReports();
+
+    // Navigate to the page specified in the URL hash, or default to 'dashboard'
+    const initialPage = window.location.hash.substring(1) || 'dashboard';
+    window.dashboard.navigateToPage(initialPage);
 });
 
