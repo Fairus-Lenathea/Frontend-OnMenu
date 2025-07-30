@@ -294,9 +294,7 @@ function setOrderDate() {
 function processOrder() {
     const namaLengkap = document.getElementById('nama-lengkap').value;
     const whatsapp = document.getElementById('whatsapp').value;
-    const alamat = document.getElementById('shipping-address').value;
-    const sales = document.getElementById('sales-select').value;
-    const catatan = document.getElementById('order-notes').value;
+    const alamat = document.getElementById('shipping-address').value;    const catatan = document.getElementById('order-notes').value;
     
     // Validation
     if (!namaLengkap.trim()) {
@@ -314,10 +312,7 @@ function processOrder() {
         return;
     }
     
-    if (!sales) {
-        alert('Silakan pilih sales.');
-        return;
-    }
+
     
     // Create order summary
     const orderId = document.getElementById('order-id').textContent;
@@ -338,7 +333,7 @@ function processOrder() {
     orderSummary += `Nama: ${namaLengkap}\\n`;
     orderSummary += `WhatsApp: ${whatsapp}\\n`;
     orderSummary += `Alamat: ${alamat}\\n`;
-    orderSummary += `Sales: ${sales}\\n`;
+
     
     if (catatan.trim()) {
         orderSummary += `Catatan: ${catatan}\\n`;
@@ -365,9 +360,7 @@ function processOrder() {
 function resetOrderForm() {
     document.getElementById('nama-lengkap').value = '';
     document.getElementById('whatsapp').value = '';
-    document.getElementById('shipping-address').value = '';
-    document.getElementById('sales-select').value = '';
-    document.getElementById('order-notes').value = '';
+    document.getElementById('shipping-address').value = '    document.getElementById('order-notes').value = '';
     generateOrderId();
     setOrderDate();
 }

@@ -164,10 +164,7 @@ class Dashboard {
             dashboard: 'Dashboard',
             menu: 'Menu Management',
             orders: 'Orders',
-            customers: 'Customers',
             reports: 'Reports',
-            sales: 'Sales',
-            analytics: 'Analytics',
             settings: 'Settings',
             profile: 'Profile'
         };
@@ -209,19 +206,8 @@ class Dashboard {
     }
 
     handleSearch(query) {
-        const customerCards = document.querySelectorAll('.customer-card');
-        
-        customerCards.forEach(card => {
-            const customerName = card.querySelector('h4').textContent.toLowerCase();
-            const customerEmail = card.querySelector('p').textContent.toLowerCase();
-            
-            if (customerName.includes(query.toLowerCase()) || customerEmail.includes(query.toLowerCase())) {
-                card.style.display = 'flex';
-                card.style.animation = 'fadeIn 0.3s ease';
-            } else {
-                card.style.display = 'none';
-            }
-        });
+        // Search functionality dapat digunakan untuk halaman lain jika diperlukan
+        console.log('Search query:', query);
     }
 
     bindFormEvents() {
@@ -265,12 +251,6 @@ class Dashboard {
         const addItemButton = document.querySelector('#menu-page .btn-primary');
         if (addItemButton) {
             addItemButton.addEventListener('click', () => this.addMenuItem());
-        }
-
-        // New sale button
-        const newSaleButton = document.querySelector('#sales-page .btn-primary');
-        if (newSaleButton) {
-            newSaleButton.addEventListener('click', () => this.createNewSale());
         }
     }
 
@@ -330,12 +310,9 @@ class Dashboard {
                     '1': 'dashboard',
                     '2': 'menu',
                     '3': 'orders',
-                    '4': 'customers',
-                    '5': 'reports',
-                    '6': 'sales',
-                    '7': 'analytics',
-                    '8': 'settings',
-                    '9': 'profile'
+                    '4': 'reports',
+                    '5': 'settings',
+                    '6': 'profile'
                 };
 
                 if (keyMap[e.key]) {
@@ -349,11 +326,11 @@ class Dashboard {
                 this.closeSidebar();
             }
 
-            // Ctrl + K for search
+            // Ctrl + K for search (dapat digunakan untuk halaman lain)
             if (e.ctrlKey && e.key === 'k') {
                 e.preventDefault();
-                const searchInput = document.querySelector('.search-box input');
-                if (searchInput && this.currentPage === 'customers') {
+                const searchInput = document.querySelector('.search-box input, .search-input-wrapper input');
+                if (searchInput) {
                     searchInput.focus();
                 }
             }
@@ -498,17 +475,8 @@ class Dashboard {
             case 'orders':
                 this.loadOrders();
                 break;
-            case 'customers':
-                this.loadCustomers();
-                break;
             case 'reports':
                 this.generateReports();
-                break;
-            case 'sales':
-                this.loadSalesData();
-                break;
-            case 'analytics':
-                this.loadAnalytics();
                 break;
         }
     }
@@ -586,15 +554,6 @@ class Dashboard {
         }, 1000);
     }
 
-    loadCustomers() {
-        // Simulate loading customers
-        this.showLoadingState('#customers-page .customers-list');
-        
-        setTimeout(() => {
-            this.hideLoadingState('#customers-page .customers-list');
-        }, 800);
-    }
-
     generateReports() {
         // Simulate report generation
         const chartPlaceholders = document.querySelectorAll('.chart-placeholder');
@@ -607,30 +566,6 @@ class Dashboard {
                 placeholder.innerHTML = '<i class="fas fa-chart-bar"></i><p>Chart Generated</p>';
             });
         }, 2000);
-    }
-
-    loadSalesData() {
-        // Animate sales amounts
-        const amounts = document.querySelectorAll('.amount');
-        amounts.forEach(amount => {
-            const value = amount.textContent.replace(/[^0-9]/g, '');
-            this.animateNumber(amount, '$' + value);
-        });
-    }
-
-    loadAnalytics() {
-        // Simulate analytics loading
-        const itemRanks = document.querySelectorAll('.item-rank');
-        itemRanks.forEach((rank, index) => {
-            rank.style.opacity = '0';
-            rank.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                rank.style.transition = 'all 0.3s ease';
-                rank.style.opacity = '1';
-                rank.style.transform = 'translateY(0)';
-            }, index * 200);
-        });
     }
 
     showLoadingState(selector) {
@@ -723,16 +658,6 @@ class Dashboard {
             
             this.showToast('New menu item added!', 'success');
         }
-    }
-
-    createNewSale() {
-        // Simulate creating a new sale
-        this.showToast('New sale created!', 'success');
-        
-        // Update today's sales
-        setTimeout(() => {
-            this.loadSalesData();
-        }, 500);
     }
 
     showToast(message, type = 'info') {
@@ -1931,9 +1856,9 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Dashboard Mobile-First initialized successfully!');
     console.log('Features: Responsive design, Touch gestures, Keyboard shortcuts, Accessibility');
     console.log('Keyboard shortcuts:');
-    console.log('- Alt + 1-9: Quick navigation');
+    console.log('- Alt + 1-6: Quick navigation');
     console.log('- Escape: Close sidebar');
-    console.log('- Ctrl + K: Focus search (on customers page)');
+    console.log('- Ctrl + K: Focus search');
 });
 
 // Service Worker for offline functionality (optional)
@@ -1958,4 +1883,531 @@ if ('performance' in window) {
         }, 0);
     });
 }
+
+
+
+// Welcome Card Customization Functions
+function loadWelcomeCardSettings() {
+    const settings = localStorage.getItem('welcomeCardSettings');
+    if (settings) {
+        const parsedSettings = JSON.parse(settings);
+        applyWelcomeCardSettings(parsedSettings);
+    }
+}
+
+function applyWelcomeCardSettings(settings) {
+    const welcomeCard = document.getElementById('welcomeCard');
+    const welcomeLogo = document.getElementById('welcomeLogo');
+    
+    if (settings.backgroundImage) {
+        welcomeCard.style.backgroundImage = `url(${settings.backgroundImage})`;
+        welcomeCard.classList.add('with-background');
+    }
+    
+    if (settings.logoImage) {
+        welcomeLogo.src = settings.logoImage;
+        welcomeLogo.style.display = 'block';
+    }
+}
+
+function initializeWelcomeCardCustomization() {
+    const backgroundUpload = document.getElementById('backgroundUpload');
+    const logoUpload = document.getElementById('logoUpload');
+    const saveButton = document.getElementById('saveSettings');
+    const resetButton = document.getElementById('resetSettings');
+    const preview = document.getElementById('welcomeCardPreview');
+    const previewLogo = document.getElementById('welcomeLogoPreview');
+
+    let currentSettings = {
+        backgroundImage: null,
+        logoImage: null
+    };
+
+    // Background upload handler
+    if (backgroundUpload) {
+        backgroundUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast('Ukuran file background terlalu besar (max 2MB)', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentSettings.backgroundImage = e.target.result;
+                    preview.style.backgroundImage = `url(${e.target.result})`;
+                    preview.classList.add('with-background');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Logo upload handler
+    if (logoUpload) {
+        logoUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 1 * 1024 * 1024) {
+                    showToast('Ukuran file logo terlalu besar (max 1MB)', 'error');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentSettings.logoImage = e.target.result;
+                    previewLogo.src = e.target.result;
+                    previewLogo.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Save settings
+    if (saveButton) {
+        saveButton.addEventListener('click', function() {
+            localStorage.setItem('welcomeCardSettings', JSON.stringify(currentSettings));
+            applyWelcomeCardSettings(currentSettings);
+            showToast('Pengaturan berhasil disimpan!', 'success');
+        });
+    }
+
+    // Reset settings
+    if (resetButton) {
+        resetButton.addEventListener('click', function() {
+            localStorage.removeItem('welcomeCardSettings');
+            currentSettings = { backgroundImage: null, logoImage: null };
+            
+            // Reset preview
+            preview.style.backgroundImage = '';
+            preview.classList.remove('with-background');
+            previewLogo.style.display = 'none';
+            
+            // Reset actual welcome card
+            const welcomeCard = document.getElementById('welcomeCard');
+            const welcomeLogo = document.getElementById('welcomeLogo');
+            if (welcomeCard) {
+                welcomeCard.style.backgroundImage = '';
+                welcomeCard.classList.remove('with-background');
+            }
+            if (welcomeLogo) {
+                welcomeLogo.style.display = 'none';
+            }
+            
+            // Reset file inputs
+            backgroundUpload.value = '';
+            logoUpload.value = '';
+            
+            showToast('Pengaturan berhasil direset!', 'success');
+        });
+    }
+}
+
+// Reports Functions
+function initializeReports() {
+    loadOrderData();
+    initializeReportTabs();
+    initializeCharts();
+    loadReportData();
+}
+
+function initializeReportTabs() {
+    // Main tab navigation
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            switchReportTab(tabId);
+        });
+    });
+
+    // Sub-tab navigation
+    const subTabButtons = document.querySelectorAll('.sub-tab-button');
+    subTabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const subTabId = this.getAttribute('data-sub-tab');
+            switchSubTab(subTabId);
+        });
+    });
+
+    // Filter buttons
+    const filterButtons = document.querySelectorAll('.filter-button-report');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const status = this.getAttribute('data-status');
+            filterOrdersByStatus(status);
+            
+            // Update active state
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Search functionality
+    const searchInput = document.getElementById('order-search-report');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            searchOrders(this.value);
+        });
+    }
+
+    // Export buttons
+    const exportPdfBtn = document.getElementById('exportPdf');
+    const exportCsvBtn = document.getElementById('exportCsv');
+    
+    if (exportPdfBtn) {
+        exportPdfBtn.addEventListener('click', exportToPdf);
+    }
+    
+    if (exportCsvBtn) {
+        exportCsvBtn.addEventListener('click', exportToCsv);
+    }
+}
+
+function switchReportTab(tabId) {
+    // Update tab buttons
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+
+    // Update tab content
+    const tabSections = document.querySelectorAll('.tab-content-section');
+    tabSections.forEach(section => section.classList.remove('active'));
+    document.getElementById(`${tabId}-tab`).classList.add('active');
+}
+
+function switchSubTab(subTabId) {
+    // Update sub-tab buttons
+    const subTabButtons = document.querySelectorAll('.sub-tab-button');
+    subTabButtons.forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`[data-sub-tab="${subTabId}"]`).classList.add('active');
+
+    // Update sub-tab content
+    const subTabSections = document.querySelectorAll('#other-reports-tab .tab-content-section');
+    subTabSections.forEach(section => section.classList.remove('active'));
+    document.getElementById(`${subTabId}-report-section`).classList.add('active');
+}
+
+async function loadOrderData() {
+    try {
+        const response = await fetch('data.json');
+        const data = await response.json();
+        window.ordersData = data.orders;
+        displayOrders(data.orders);
+    } catch (error) {
+        console.error('Error loading order data:', error);
+        window.ordersData = [];
+    }
+}
+
+function displayOrders(orders) {
+    const orderList = document.getElementById('order-list-report');
+    if (!orderList) return;
+
+    if (orders.length === 0) {
+        orderList.innerHTML = `
+            <div class="empty-state-report">
+                <i class="fas fa-inbox"></i>
+                <p>Tidak ada pesanan ditemukan</p>
+            </div>
+        `;
+        return;
+    }
+
+    orderList.innerHTML = orders.map(order => `
+        <div class="order-item-report" data-status="${order.status}">
+            <div class="order-header-report">
+                <span class="order-id-report">${order.id}</span>
+                <span class="order-status-report status-${order.status}-report">${getStatusText(order.status)}</span>
+            </div>
+            <div class="order-info-report">
+                <span>Pelanggan:</span>
+                <span>${order.customerName}</span>
+                <span>Tanggal:</span>
+                <span>${formatDate(order.orderDate)}</span>
+            </div>
+            <div class="order-total-report">Total: ${formatCurrency(order.totalPrice)}</div>
+            <div class="order-actions-report">
+                <button class="btn-report" onclick="viewOrderDetail('${order.id}')">Detail</button>
+                <button class="btn-report btn-secondary-report" onclick="printOrder('${order.id}')">Print</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterOrdersByStatus(status) {
+    if (!window.ordersData) return;
+    
+    let filteredOrders = window.ordersData;
+    if (status !== 'all') {
+        filteredOrders = window.ordersData.filter(order => order.status === status);
+    }
+    
+    displayOrders(filteredOrders);
+}
+
+function searchOrders(query) {
+    if (!window.ordersData) return;
+    
+    const filteredOrders = window.ordersData.filter(order => 
+        order.id.toLowerCase().includes(query.toLowerCase()) ||
+        order.customerName.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    displayOrders(filteredOrders);
+}
+
+function initializeCharts() {
+    // Sales Chart
+    const salesCtx = document.getElementById('salesChart');
+    if (salesCtx) {
+        new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['25 Jul', '26 Jul', '27 Jul', '28 Jul', '29 Jul'],
+                datasets: [{
+                    label: 'Penjualan Harian',
+                    data: [1200000, 850000, 1500000, 1100000, 1300000],
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp' + (value / 1000000).toFixed(1) + 'M';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // New Customers Chart
+    const newCustomersCtx = document.getElementById('newCustomersChart');
+    if (newCustomersCtx) {
+        new Chart(newCustomersCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'Pelanggan Baru',
+                    data: [50, 60, 75, 65, 80, 85, 90],
+                    backgroundColor: '#667eea'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+
+    // Inventory Turnover Chart
+    const inventoryCtx = document.getElementById('inventoryTurnoverChart');
+    if (inventoryCtx) {
+        new Chart(inventoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Antibiotik', 'Vitamin', 'Anti Coccidia', 'Antiparasi'],
+                datasets: [{
+                    data: [40, 30, 20, 10],
+                    backgroundColor: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+
+    // Payment Method Chart
+    const paymentCtx = document.getElementById('paymentMethodChart');
+    if (paymentCtx) {
+        new Chart(paymentCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Transfer Bank', 'Cash', 'E-Wallet', 'Kredit'],
+                datasets: [{
+                    data: [45, 30, 20, 5],
+                    backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#f5576c']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    }
+}
+
+async function loadReportData() {
+    try {
+        const response = await fetch('data.json');
+        const data = await response.json();
+        
+        // Load top products
+        loadTopProducts(data.topProducts);
+        
+        // Load top customers
+        loadTopCustomers(data.topCustomers);
+        
+        // Load low stock products
+        loadLowStockProducts(data.lowStockProducts);
+        
+        // Load payment status
+        loadPaymentStatus(data.paymentStatus);
+        
+        // Update revenue stats
+        updateRevenueStats(data.revenueStats);
+        
+    } catch (error) {
+        console.error('Error loading report data:', error);
+    }
+}
+
+function loadTopProducts(products) {
+    const list = document.getElementById('topProductsList');
+    if (!list || !products) return;
+    
+    list.innerHTML = products.map((product, index) => `
+        <div class="order-item">
+            <span class="order-id">#${index + 1}</span>
+            <span class="order-customer">${product.name}</span>
+            <span class="order-status completed">${product.sold} terjual</span>
+        </div>
+    `).join('');
+}
+
+function loadTopCustomers(customers) {
+    const list = document.getElementById('topCustomersList');
+    if (!list || !customers) return;
+    
+    list.innerHTML = customers.map((customer, index) => `
+        <div class="order-item">
+            <span class="order-id">#${index + 1}</span>
+            <span class="order-customer">${customer.name}</span>
+            <span class="order-status completed">${formatCurrency(customer.totalSpent)}</span>
+        </div>
+    `).join('');
+}
+
+function loadLowStockProducts(products) {
+    const list = document.getElementById('lowStockList');
+    if (!list || !products) return;
+    
+    list.innerHTML = products.map(product => `
+        <div class="order-item">
+            <span class="order-id">${product.name}</span>
+            <span class="order-customer">Stok: ${product.stock}</span>
+            <span class="order-status pending">Perlu Restock</span>
+        </div>
+    `).join('');
+}
+
+function loadPaymentStatus(payments) {
+    const list = document.getElementById('paymentStatusList');
+    if (!list || !payments) return;
+    
+    list.innerHTML = payments.map(payment => `
+        <div class="order-item">
+            <span class="order-id">${payment.method}</span>
+            <span class="order-customer">${payment.count} transaksi</span>
+            <span class="order-status ${payment.status === 'Lunas' ? 'completed' : 'pending'}">${payment.status}</span>
+        </div>
+    `).join('');
+}
+
+function updateRevenueStats(stats) {
+    if (!stats) return;
+    
+    const todayElement = document.getElementById('todayRevenue');
+    const weekElement = document.getElementById('weekRevenue');
+    const monthElement = document.getElementById('monthRevenue');
+    
+    if (todayElement) todayElement.textContent = formatCurrency(stats.today);
+    if (weekElement) weekElement.textContent = formatCurrency(stats.week);
+    if (monthElement) monthElement.textContent = formatCurrency(stats.month);
+}
+
+// Utility Functions
+function getStatusText(status) {
+    const statusMap = {
+        'pending': 'Pending',
+        'processing': 'Diproses',
+        'completed': 'Selesai',
+        'cancelled': 'Dibatalkan'
+    };
+    return statusMap[status] || status;
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('id-ID');
+}
+
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+    }).format(amount);
+}
+
+function viewOrderDetail(orderId) {
+    showToast(`Melihat detail pesanan ${orderId}`, 'success');
+}
+
+function printOrder(orderId) {
+    showToast(`Mencetak pesanan ${orderId}`, 'success');
+}
+
+function exportToPdf() {
+    showToast('Export PDF sedang diproses...', 'success');
+}
+
+function exportToCsv() {
+    showToast('Export CSV sedang diproses...', 'success');
+}
+
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toastNotification');
+    if (!toast) return;
+    
+    toast.textContent = message;
+    toast.className = `toast ${type}`;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    loadWelcomeCardSettings();
+    initializeWelcomeCardCustomization();
+    initializeReports();
+});
 
