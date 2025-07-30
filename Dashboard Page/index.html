@@ -151,6 +151,32 @@
             </div>
         </div>
 
+        <!-- Orders Page -->
+        <div class="page" id="orders-page">
+            <div class="page-header">
+                <h2>Order Status</h2>
+                <p>Kelola status pesanan Anda</p>
+            </div>
+            
+            <div class="filter-controls">
+                <div class="tab-navigation">
+                    <button class="tab active" data-status="all">All</button>
+                    <button class="tab" data-status="pending">Pending</button>
+                    <button class="tab" data-status="processing">Processing</button>
+                    <button class="tab" data-status="completed">Completed</button>
+                    <button class="tab" data-status="cancelled">Cancelled</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="order-search-input" placeholder="Search orders...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+
+            <div class="order-list" id="order-status-list">
+                <!-- Order cards will be loaded here by JavaScript -->
+            </div>
+        </div>
+
         <!-- Menu Page -->
         <div class="page" id="menu-page">
             <div class="page-header">
@@ -366,28 +392,6 @@
             </div>
         </div>
 
-        <!-- Orders Page -->
-        <div class="page" id="orders-page">
-            <div class="page-header">
-                <h2>Orders</h2>
-                <p>Kelola pesanan pelanggan</p>
-            </div>
-            <div class="filter-tabs">
-                <button class="tab active" data-status="all">All</button>
-                <button class="tab" data-status="pending">Pending</button>
-                <button class="tab" data-status="processing">Processing</button>
-                <button class="tab" data-status="completed">Completed</button>
-                <button class="tab" data-status="cancelled">Cancelled</button>
-            </div>
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="order-search-input" placeholder="Search by Order ID or Customer Name...">
-            </div>
-            <div class="orders-list" id="orders-list">
-                <!-- Order items will be loaded here by JavaScript -->
-            </div>
-        </div>
-
         <!-- Reports Page -->
         <div class="page" id="reports-page">
             <div class="page-header">
@@ -396,124 +400,101 @@
             </div>
 
             <div class="tab-navigation">
-                <button class="tab-button active" data-tab="order-status">Status Pesanan</button>
-                <button class="tab-button" data-tab="other-reports">Laporan Lainnya</button>
+                <button class="tab-button active" data-tab="sales">Penjualan</button>
+                <button class="tab-button" data-tab="customers">Pelanggan</button>
+                <button class="tab-button" data-tab="inventory">Inventori</button>
+                <button class="tab-button" data-tab="payments">Pembayaran</button>
             </div>
 
-            <div class="tab-content-section active" id="order-status-tab">
-                <div class="search-filter-container">
-                    <input type="text" id="order-search-report" class="search-input-report" placeholder="Cari ID Pesanan atau Nama Pelanggan...">
-                    <div class="filter-row-report">
-                        <button class="filter-button-report active" data-status="all">Semua</button>
-                        <button class="filter-button-report" data-status="pending">Pending</button>
-                        <button class="filter-button-report" data-status="processing">Processing</button>
-                        <button class="filter-button-report" data-status="completed">Selesai</button>
-                        <button class="filter-button-report" data-status="cancelled">Dibatalkan</button>
+            <div class="report-card">
+                <h3>Filter Tanggal</h3>
+                <input type="date" id="startDate" class="search-input-report">
+                <input type="date" id="endDate" class="search-input-report" style="margin-top: 10px;">
+                <button class="btn-primary" id="applyDateFilter" style="margin-top: 15px; width: 100%;">Terapkan Filter</button>
+            </div>
+
+            <div class="tab-content-section active" id="sales-report-section">
+                <div class="report-card">
+                    <h3>Grafik Penjualan</h3>
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
                     </div>
                 </div>
-                <div id="order-list-report">
-                    <!-- Order status reports will be loaded here -->
+                <div class="report-card">
+                    <h3>Produk Terlaris</h3>
+                    <ul id="topProductsList" class="order-list">
+                        <!-- Top products will be loaded here -->
+                    </ul>
+                </div>
+                <div class="report-card">
+                    <h3>Ringkasan Pendapatan</h3>
+                    <div class="stats-grid-report">
+                        <div class="stat-card-report">
+                            <div class="stat-value-report" id="todayRevenue">Rp0</div>
+                            <div class="stat-label-report">Hari Ini</div>
+                        </div>
+                        <div class="stat-card-report">
+                            <div class="stat-value-report" id="weekRevenue">Rp0</div>
+                            <div class="stat-label-report">Minggu Ini</div>
+                        </div>
+                        <div class="stat-card-report">
+                            <div class="stat-value-report" id="monthRevenue">Rp0</div>
+                            <div class="stat-label-report">Bulan Ini</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="tab-content-section" id="other-reports-tab">
-                <div class="sub-tab-navigation">
-                    <button class="sub-tab-button active" data-sub-tab="sales">Penjualan</button>
-                    <button class="sub-tab-button" data-sub-tab="customers">Pelanggan</button>
-                    <button class="sub-tab-button" data-sub-tab="inventory">Inventori</button>
-                    <button class="sub-tab-button" data-sub-tab="payments">Pembayaran</button>
-                </div>
-
+            <div class="tab-content-section" id="customers-report-section">
                 <div class="report-card">
-                    <h3>Filter Tanggal</h3>
-                    <input type="date" id="startDate" class="search-input-report">
-                    <input type="date" id="endDate" class="search-input-report" style="margin-top: 10px;">
-                    <button class="btn-primary" id="applyDateFilter" style="margin-top: 15px; width: 100%;">Terapkan Filter</button>
+                    <h3>Pelanggan Terbaik</h3>
+                    <ul id="topCustomersList" class="order-list">
+                        <!-- Top customers will be loaded here -->
+                    </ul>
                 </div>
-
-                <div class="tab-content-section active" id="sales-report-section">
-                    <div class="report-card">
-                        <h3>Grafik Penjualan</h3>
-                        <div class="chart-container">
-                            <canvas id="salesChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="report-card">
-                        <h3>Produk Terlaris</h3>
-                        <ul id="topProductsList" class="order-list">
-                            <!-- Top products will be loaded here -->
-                        </ul>
-                    </div>
-                    <div class="report-card">
-                        <h3>Ringkasan Pendapatan</h3>
-                        <div class="stats-grid-report">
-                            <div class="stat-card-report">
-                                <div class="stat-value-report" id="todayRevenue">Rp0</div>
-                                <div class="stat-label-report">Hari Ini</div>
-                            </div>
-                            <div class="stat-card-report">
-                                <div class="stat-value-report" id="weekRevenue">Rp0</div>
-                                <div class="stat-label-report">Minggu Ini</div>
-                            </div>
-                            <div class="stat-card-report">
-                                <div class="stat-value-report" id="monthRevenue">Rp0</div>
-                                <div class="stat-label-report">Bulan Ini</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-content-section" id="customers-report-section">
-                    <div class="report-card">
-                        <h3>Pelanggan Terbaik</h3>
-                        <ul id="topCustomersList" class="order-list">
-                            <!-- Top customers will be loaded here -->
-                        </ul>
-                    </div>
-                    <div class="report-card">
-                        <h3>Grafik Pertumbuhan Pelanggan Baru</h3>
-                        <div class="chart-container">
-                            <canvas id="newCustomersChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-content-section" id="inventory-report-section">
-                    <div class="report-card">
-                        <h3>Stok Produk Hampir Habis</h3>
-                        <ul id="lowStockList" class="order-list">
-                            <!-- Low stock products will be loaded here -->
-                        </ul>
-                    </div>
-                    <div class="report-card">
-                        <h3>Grafik Perputaran Inventori</h3>
-                        <div class="chart-container">
-                            <canvas id="inventoryTurnoverChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-content-section" id="payments-report-section">
-                    <div class="report-card">
-                        <h3>Metode Pembayaran Terpopuler</h3>
-                        <div class="chart-container">
-                            <canvas id="paymentMethodChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="report-card">
-                        <h3>Status Pembayaran</h3>
-                        <ul id="paymentStatusList" class="order-list">
-                            <!-- Payment status will be loaded here -->
-                        </ul>
-                    </div>
-                </div>
-
                 <div class="report-card">
-                    <h3>Export Laporan</h3>
-                    <div class="btn-group">
-                        <button class="btn-secondary" id="exportPdf"><i class="fas fa-file-pdf"></i> Export PDF</button>
-                        <button class="btn-secondary" id="exportCsv"><i class="fas fa-file-csv"></i> Export CSV</button>
+                    <h3>Grafik Pertumbuhan Pelanggan Baru</h3>
+                    <div class="chart-container">
+                        <canvas id="newCustomersChart"></canvas>
                     </div>
+                </div>
+            </div>
+
+            <div class="tab-content-section" id="inventory-report-section">
+                <div class="report-card">
+                    <h3>Stok Produk Hampir Habis</h3>
+                    <ul id="lowStockList" class="order-list">
+                        <!-- Low stock products will be loaded here -->
+                    </ul>
+                </div>
+                <div class="report-card">
+                    <h3>Grafik Perputaran Inventori</h3>
+                    <div class="chart-container">
+                        <canvas id="inventoryTurnoverChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content-section" id="payments-report-section">
+                <div class="report-card">
+                    <h3>Metode Pembayaran Terpopuler</h3>
+                    <div class="chart-container">
+                        <canvas id="paymentMethodChart"></canvas>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <h3>Status Pembayaran</h3>
+                    <ul id="paymentStatusList" class="order-list">
+                        <!-- Payment status will be loaded here -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="report-card">
+                <h3>Export Laporan</h3>
+                <div class="btn-group">
+                    <button class="btn-secondary" id="exportPdf"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                    <button class="btn-secondary" id="exportCsv"><i class="fas fa-file-csv"></i> Export CSV</button>
                 </div>
             </div>
         </div>
@@ -575,21 +556,125 @@
                 <h2>Profile</h2>
                 <p>Kelola informasi profil Anda</p>
             </div>
-            <div class="profile-form settings-section">
-                <h3><i class="fas fa-user"></i> Informasi Profil</h3>
-                <div class="settings-form-group">
-                    <label for="profileName">Nama Lengkap</label>
-                    <input type="text" id="profileName" value="John Doe">
+            
+            <div class="profile-container">
+                <!-- Profile Header Card -->
+                <div class="profile-header-card">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar-large">
+                            <img src="https://via.placeholder.com/120x120/667eea/ffffff?text=JD" alt="Profile Avatar">
+                            <div class="avatar-status-badge">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                        <div class="profile-header-info">
+                            <h3 class="profile-name">John Doe</h3>
+                            <p class="profile-role">Administrator</p>
+                            <div class="profile-status">
+                                <span class="status-badge active">Active</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="settings-form-group">
-                    <label for="profileEmail">Email</label>
-                    <input type="email" id="profileEmail" value="john.doe@example.com">
+
+                <!-- Profile Information Cards -->
+                <div class="profile-info-grid">
+                    <!-- Personal Information Card -->
+                    <div class="profile-info-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-user"></i> Informasi Personal</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="info-item">
+                                <label>Nama Lengkap</label>
+                                <div class="info-value">
+                                    <input type="text" id="profileName" value="John Doe" class="profile-input">
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <label>Email</label>
+                                <div class="info-value">
+                                    <input type="email" id="profileEmail" value="john.doe@example.com" class="profile-input">
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <label>Nomor Telepon</label>
+                                <div class="info-value">
+                                    <input type="tel" id="profilePhone" value="+62 812 3456 7890" class="profile-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Statistics Card -->
+                    <div class="profile-info-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-chart-line"></i> Statistik Akun</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-number">127</div>
+                                    <div class="stat-label">Total Orders</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">45</div>
+                                    <div class="stat-label">Completed</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">8</div>
+                                    <div class="stat-label">Pending</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">2.5M</div>
+                                    <div class="stat-label">Revenue</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Settings Card -->
+                    <div class="profile-info-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-cog"></i> Pengaturan Akun</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="info-item">
+                                <label>Bergabung Sejak</label>
+                                <div class="info-value">
+                                    <span class="info-text">15 Januari 2024</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <label>Terakhir Login</label>
+                                <div class="info-value">
+                                    <span class="info-text">30 Juli 2025, 14:30</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <label>Status Verifikasi</label>
+                                <div class="info-value">
+                                    <span class="verification-badge verified">
+                                        <i class="fas fa-shield-check"></i>
+                                        Terverifikasi
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="settings-form-group">
-                    <label for="profilePhone">Nomor Telepon</label>
-                    <input type="tel" id="profilePhone" value="+62 812 3456 7890">
+
+                <!-- Action Buttons -->
+                <div class="profile-actions">
+                    <button class="btn-primary profile-save-btn">
+                        <i class="fas fa-save"></i>
+                        Simpan Perubahan
+                    </button>
+                    <button class="btn-secondary profile-cancel-btn">
+                        <i class="fas fa-times"></i>
+                        Batal
+                    </button>
                 </div>
-                <button class="btn-primary">Simpan Perubahan</button>
             </div>
         </div>
     </main>
