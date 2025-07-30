@@ -63,8 +63,9 @@ function validatePassword(password) {
 }
 
 function validatePhone(phone) {
-    const re = /^[\+]?[1-9][\d]{0,15}$/;
-    return re.test(phone.replace(/\s/g, ''));
+    // Validasi nomor telepon yang lebih fleksibel, bisa dimulai dengan 0, +62, atau langsung 8.
+    const re = /^(^\+62|62|^08)(\d{3,4}-?){2}\d{3,4}$/;
+    return re.test(phone);
 }
 
 // Show loading state
@@ -81,12 +82,10 @@ function hideLoading(button) {
 
 // Show notification
 function showNotification(message, type = 'info') {
-    // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.textContent = message;
     
-    // Style the notification
     notification.style.cssText = `
         position: fixed;
         top: 20px;
@@ -98,9 +97,9 @@ function showNotification(message, type = 'info') {
         z-index: 1000;
         animation: slideIn 0.3s ease-out;
         max-width: 300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     `;
     
-    // Set background color based on type
     switch(type) {
         case 'success':
             notification.style.backgroundColor = '#2ed573';
@@ -115,14 +114,14 @@ function showNotification(message, type = 'info') {
             notification.style.backgroundColor = '#3742fa';
     }
     
-    // Add to document
     document.body.appendChild(notification);
     
-    // Remove after 3 seconds
     setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease-out';
+        notification.style.animation = 'slideOut 0.3s ease-out forwards';
         setTimeout(() => {
-            document.body.removeChild(notification);
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
         }, 300);
     }, 3000);
 }
@@ -135,7 +134,6 @@ function handleSignIn(e) {
     const password = document.getElementById('password').value;
     const submitBtn = e.target.querySelector('button[type="submit"]');
     
-    // Validation
     if (!validateEmail(email)) {
         showNotification('Please enter a valid email address', 'error');
         return;
@@ -146,27 +144,16 @@ function handleSignIn(e) {
         return;
     }
     
-    // Show loading
     showLoading(submitBtn);
     
-    // Simulate API call
     setTimeout(() => {
         hideLoading(submitBtn);
-        
-        // Store user data (in real app, this would be handled by backend)
-        const userData = {
-            email: email,
-            loginTime: new Date().toISOString()
-        };
+        const userData = { email: email, loginTime: new Date().toISOString() };
         localStorage.setItem('currentUser', JSON.stringify(userData));
-        
         showNotification('Sign in successful!', 'success');
-        
-        // Redirect to dashboard (for demo, just show success)
         setTimeout(() => {
             showNotification('Welcome to FoodMarket! (Demo completed)', 'info');
         }, 1500);
-        
     }, 2000);
 }
 
@@ -179,7 +166,6 @@ function handleSignUp(e) {
     const password = document.getElementById('passwordSignUp').value;
     const submitBtn = e.target.querySelector('button[type="submit"]');
     
-    // Validation
     if (fullName.trim().length < 2) {
         showNotification('Please enter your full name', 'error');
         return;
@@ -195,80 +181,67 @@ function handleSignUp(e) {
         return;
     }
     
-    // Show loading
     showLoading(submitBtn);
     
-    // Simulate API call
     setTimeout(() => {
         hideLoading(submitBtn);
-        
-        // Store signup data
         const signupData = {
             fullName: fullName,
             email: email,
-            password: password, // In real app, never store plain password
+            password: password,
             step: 1
         };
         localStorage.setItem('signupData', JSON.stringify(signupData));
-        
         showNotification('Basic information saved!', 'success');
-        
-        // Redirect to address page
         setTimeout(() => {
             goToAddress();
         }, 1000);
-        
     }, 1500);
 }
 
-// Handle Address
+// =================================================================
+// KODE YANG DIPERBAIKI ADA DI FUNGSI DI BAWAH INI
+// =================================================================
 function handleAddress(e) {
     e.preventDefault();
     
     const phoneNo = document.getElementById('phoneNo').value;
-    const address = document.getElementById('address').value;
-    const houseNo = document.getElementById('houseNo').value;
-    const city = document.getElementById('city').value;
+    // Di HTML, ID untuk "Nama Toko" adalah "houseNo". Kita ambil nilainya.
+    const shopName = document.getElementById('houseNo').value; 
     const submitBtn = e.target.querySelector('button[type="submit"]');
     
-    // Validation
+    // --- PERBAIKAN VALIDASI ---
+    // Validasi nomor telepon
     if (!validatePhone(phoneNo)) {
-        showNotification('Please enter a valid phone number', 'error');
+        showNotification('Please enter a valid phone number (e.g., 08123456789)', 'error');
         return;
     }
     
-    if (address.trim().length < 5) {
-        showNotification('Please enter a valid address', 'error');
+    // Validasi nama toko (sebelumnya 'houseNo')
+    if (shopName.trim().length < 3) {
+        showNotification('Please enter a valid shop name (min. 3 characters)', 'error');
         return;
     }
     
-    if (houseNo.trim().length < 1) {
-        showNotification('Please enter your house number', 'error');
+    // Validasi checkbox
+    if (!document.getElementById('terms').checked || !document.getElementById('privacy').checked) {
+        showNotification('You must agree to the Terms and Privacy Policy', 'error');
         return;
     }
     
-    if (!city) {
-        showNotification('Please select your city', 'error');
-        return;
-    }
-    
-    // Show loading
     showLoading(submitBtn);
     
-    // Simulate API call
     setTimeout(() => {
         hideLoading(submitBtn);
         
-        // Get existing signup data
         const signupData = JSON.parse(localStorage.getItem('signupData') || '{}');
         
-        // Add address data
+        // --- PERBAIKAN PENYIMPANAN DATA ---
+        // Simpan data yang benar (shopName, bukan address atau city)
         const completeData = {
             ...signupData,
             phoneNo: phoneNo,
-            address: address,
-            houseNo: houseNo,
-            city: city,
+            shopName: shopName, // Menggunakan variabel yang benar
             step: 2,
             registrationComplete: true,
             registrationTime: new Date().toISOString()
@@ -283,48 +256,37 @@ function handleAddress(e) {
         
         showNotification('Registration completed successfully!', 'success');
         
-        // Redirect to sign in or dashboard
         setTimeout(() => {
             showNotification('Welcome to FoodMarket! Please sign in to continue.', 'info');
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = 'index.html'; // Arahkan ke halaman login
             }, 2000);
         }, 1500);
         
     }, 2000);
 }
 
-// Add CSS for notifications
+// Add CSS for notifications and other UI enhancements
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
+        from { transform: translateX(110%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
     }
     
     @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(110%); opacity: 0; }
+    }
+
+    .notification {
+        animation-fill-mode: forwards;
     }
 `;
 document.head.appendChild(style);
 
-// Add smooth scrolling for better UX
 document.documentElement.style.scrollBehavior = 'smooth';
 
-// Add keyboard navigation
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
         const form = e.target.closest('form');
@@ -337,11 +299,9 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Add focus management for better accessibility
 document.addEventListener('DOMContentLoaded', function() {
-    const firstInput = document.querySelector('input');
+    const firstInput = document.querySelector('form:not(#signInForm) input:not([type="hidden"])');
     if (firstInput) {
         firstInput.focus();
     }
 });
-

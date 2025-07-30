@@ -88,9 +88,9 @@ body {
 }
 
 .photo-placeholder:hover {
-    border-color: #FFC700;
+    border-color: rgb(255, 115, 29);
     background-color: #fff9e6;
-    color: #FFC700;
+    color: rgb(255, 115, 29);
 }
 
 .photo-placeholder.has-image {
@@ -136,7 +136,7 @@ body {
 
 .form-group input:focus,
 .form-group select:focus {
-    border-color: #FFC700;
+    border-color: rgb(145, 20, 20);
     box-shadow: 0 0 0 3px rgba(255, 199, 0, 0.1);
 }
 
@@ -168,24 +168,24 @@ body {
 }
 
 .btn-primary {
-    background-color: #FFC700;
-    color: #020202;
+    background-color: rgb(255, 115, 29);
+    color: white;
     margin-bottom: 16px;
 }
 
 .btn-primary:hover {
-    background-color: #e6b300;
+    background-color: rgb(255, 115, 29);
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(255, 199, 0, 0.3);
 }
 
 .btn-secondary {
-    background-color: #8D92A3;
+    background-color: #1746A2;
     color: white;
 }
 
 .btn-secondary:hover {
-    background-color: #7a7f8f;
+    background-color: #1746A2;
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(141, 146, 163, 0.3);
 }
@@ -272,3 +272,23 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.checkbox-group label {
+    margin-bottom: 0;
+    font-size: 13px;
+}
+
+.checkbox-group a {
+    color: #007bff;
+    text-decoration: none;
+}

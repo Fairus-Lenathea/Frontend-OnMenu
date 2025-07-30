@@ -21,35 +21,23 @@
             
             <form id="addressForm" class="form">
                 <div class="form-group">
-                    <label for="phoneNo">Phone No.</label>
+                    <label for="phoneNo">No Telfon</label>
                     <input type="tel" id="phoneNo" name="phoneNo" placeholder="Type your phone number" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" id="address" name="address" placeholder="Type your address" required>
+                    <label for="houseNo">Nama Toko</label>
+                    <input type="text" id="houseNo" name="houseNo" placeholder="Type your Shop Name" required>
                 </div>
                 
-                <div class="form-group">
-                    <label for="houseNo">House No.</label>
-                    <input type="text" id="houseNo" name="houseNo" placeholder="Type your house number" required>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the <a href="#">Terms and Conditions</a></label>
                 </div>
-                
-                <div class="form-group">
-                    <label for="city">City</label>
-                    <select id="city" name="city" required>
-                        <option value="">Select your city</option>
-                        <option value="jakarta">Jakarta</option>
-                        <option value="bandung">Bandung</option>
-                        <option value="surabaya">Surabaya</option>
-                        <option value="medan">Medan</option>
-                        <option value="semarang">Semarang</option>
-                        <option value="makassar">Makassar</option>
-                        <option value="palembang">Palembang</option>
-                        <option value="tangerang">Tangerang</option>
-                        <option value="depok">Depok</option>
-                        <option value="bekasi">Bekasi</option>
-                    </select>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="privacy" name="privacy" required>
+                    <label for="privacy">I agree to the <a href="#">Privacy Policy</a></label>
                 </div>
                 
                 <button type="submit" class="btn btn-primary">Sign Up Now</button>
@@ -60,4 +48,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
