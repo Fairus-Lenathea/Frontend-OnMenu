@@ -1237,8 +1237,8 @@ body {
 }
 
 .step-number {
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     background: linear-gradient(135deg,  rgb(95, 157, 247), rgb(23, 70, 162));
     color: white;
     border-radius: 50%;
@@ -2432,4 +2432,5 @@ body {
         border: 1px solid #333;
     }
 }
+
 
