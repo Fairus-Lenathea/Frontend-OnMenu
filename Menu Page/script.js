@@ -16,15 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCartDisplay();
     generateOrderId();
     setOrderDate();
-
-    // Navigation logic for SPA
-    function showPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-    }
-    document.getElementById('nav-dashboard').onclick = () => showPage('dashboard-page');
-    document.getElementById('nav-signup').onclick = () => showPage('signup-page');
-    document.getElementById('nav-menu').onclick = () => showPage('menu-wrapper');
 });
 
 // ===== CATALOG PAGE FUNCTIONS =====
@@ -294,7 +285,9 @@ function setOrderDate() {
 function processOrder() {
     const namaLengkap = document.getElementById('nama-lengkap').value;
     const whatsapp = document.getElementById('whatsapp').value;
-    const alamat = document.getElementById('shipping-address').value;    const catatan = document.getElementById('order-notes').value;
+    const alamat = document.getElementById('shipping-address').value;
+    const sales = document.getElementById('sales-select').value;
+    const catatan = document.getElementById('order-notes').value;
     
     // Validation
     if (!namaLengkap.trim()) {
@@ -312,7 +305,10 @@ function processOrder() {
         return;
     }
     
-
+    if (!sales) {
+        alert('Silakan pilih sales.');
+        return;
+    }
     
     // Create order summary
     const orderId = document.getElementById('order-id').textContent;
@@ -333,7 +329,7 @@ function processOrder() {
     orderSummary += `Nama: ${namaLengkap}\\n`;
     orderSummary += `WhatsApp: ${whatsapp}\\n`;
     orderSummary += `Alamat: ${alamat}\\n`;
-
+    orderSummary += `Sales: ${sales}\\n`;
     
     if (catatan.trim()) {
         orderSummary += `Catatan: ${catatan}\\n`;
@@ -360,7 +356,9 @@ function processOrder() {
 function resetOrderForm() {
     document.getElementById('nama-lengkap').value = '';
     document.getElementById('whatsapp').value = '';
-    document.getElementById('shipping-address').value = '    document.getElementById('order-notes').value = '';
+    document.getElementById('shipping-address').value = '';
+    document.getElementById('sales-select').value = '';
+    document.getElementById('order-notes').value = '';
     generateOrderId();
     setOrderDate();
 }
