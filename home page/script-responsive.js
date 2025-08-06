@@ -136,7 +136,7 @@ function initMobileOptimizations() {
             card.style.animation = 'none';
             card.style.position = 'relative';
             card.style.display = 'inline-block';
-            card.style.margin = '1rem';
+            card.style.margin = '1px';
         });
     }
 }
