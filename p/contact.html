@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hubungi Kami - On Menu</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-utensils"></i>
+                <span>On Menu</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="about.html">Tentang</a></li>
+                <li><a href="services.html">Layanan</a></li>
+                <li><a href="contact.html" class="active">Kontak</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Hubungi <span class="highlight">Kami</span></h1>
+                <p class="hero-subtitle">Kami siap membantu Anda 24/7. Jangan ragu untuk menghubungi tim customer service kami yang berpengalaman</p>
+                <div class="contact-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <span class="stat-title">Response Time</span>
+                            <span class="stat-value">< 5 Menit</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-headset"></i>
+                        <div>
+                            <span class="stat-title">Customer Satisfaction</span>
+                            <span class="stat-value">98%</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <span class="stat-title">Support Agents</span>
+                            <span class="stat-value">50+ Tim</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Telepon</h3>
+                    <p>+62 21 1234 5678</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>support@onmenu.id</p>
+                </div>
+                <div class="contact-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Live Chat</h3>
+                    <p>24/7 Available</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>Mari Berbicara</h2>
+                    <p>Kami senang mendengar dari Anda. Kirimkan pesan dan kami akan merespons secepat mungkin.</p>
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="method-info">
+                                <h4>Alamat Kantor</h4>
+                                <p>Jl. Sudirman No. 123<br>Jakarta Pusat 10220<br>Indonesia</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="method-info">
+                                <h4>Telepon</h4>
+                                <p>Customer Service: +62 21 1234 5678<br>Partnership: +62 21 8765 4321</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="method-info">
+                                <h4>Email</h4>
+                                <p>General: info@onmenu.id<br>Support: support@onmenu.id<br>Partnership: partner@onmenu.id</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="method-info">
+                                <h4>Jam Operasional</h4>
+                                <p>Senin - Jumat: 08:00 - 22:00<br>Sabtu - Minggu: 09:00 - 21:00<br>Customer Service: 24/7</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form">
+                    <form id="contactForm" class="form">
+                        <div class="form-group">
+                            <label for="name">Nama Lengkap *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Nomor Telepon</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subjek *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Pilih Subjek</option>
+                                <option value="general">Pertanyaan Umum</option>
+                                <option value="support">Bantuan Teknis</option>
+                                <option value="partnership">Kemitraan</option>
+                                <option value="complaint">Keluhan</option>
+                                <option value="suggestion">Saran</option>
+                                <option value="other">Lainnya</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Pesan *</label>
+                            <textarea id="message" name="message" rows="6" placeholder="Tuliskan pesan Anda di sini..." required></textarea>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                <span class="checkmark"></span>
+                                Saya ingin menerima newsletter dan update terbaru dari On Menu
+                            </label>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="privacy" name="privacy" required>
+                                <span class="checkmark"></span>
+                                Saya setuju dengan <a href="#">Kebijakan Privasi</a> dan <a href="#">Syarat & Ketentuan</a> *
+                            </label>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
+            <p class="section-subtitle">Temukan jawaban untuk pertanyaan yang paling sering ditanyakan</p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Bagaimana cara memesan makanan di On Menu?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sangat mudah! Download aplikasi On Menu, daftar akun, pilih restoran favorit Anda, tambahkan menu ke keranjang, lakukan pembayaran, dan tunggu pesanan diantar ke lokasi Anda. Proses pemesanan hanya membutuhkan beberapa menit saja.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Berapa lama waktu pengiriman?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Waktu pengiriman rata-rata adalah 30-45 menit tergantung jarak dan kondisi lalu lintas. Untuk area tertentu, kami bahkan bisa mengantar dalam waktu kurang dari 30 menit. Anda dapat memantau status pengiriman secara real-time melalui aplikasi.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Apa saja metode pembayaran yang tersedia?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Kami menerima berbagai metode pembayaran: GoPay, OVO, DANA, LinkAja, ShopeePay, transfer bank (BCA, Mandiri, BNI, BRI), kartu kredit/debit (Visa, Mastercard), dan cash on delivery (COD) untuk area tertentu.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Apakah ada biaya pengiriman?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Biaya pengiriman bervariasi mulai dari Rp 3.000 - Rp 8.000 tergantung jarak dan restoran. Member Premium mendapat free delivery unlimited, sedangkan pengguna reguler bisa mendapat free delivery untuk pembelian minimum tertentu atau promo khusus.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Bagaimana jika pesanan saya bermasalah?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Jika ada masalah dengan pesanan Anda, segera hubungi customer service kami melalui live chat di aplikasi, telepon, atau email. Tim kami akan segera membantu menyelesaikan masalah dan memberikan solusi terbaik, termasuk refund atau pengiriman ulang jika diperlukan.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Bisakah saya membatalkan pesanan?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ya, Anda bisa membatalkan pesanan selama restoran belum mulai memproses makanan (biasanya dalam 2-5 menit setelah konfirmasi). Pembatalan dapat dilakukan melalui aplikasi dan dana akan dikembalikan sesuai metode pembayaran yang digunakan.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Apakah On Menu tersedia di kota saya?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Saat ini On Menu melayani di Jakarta, Bogor, Depok, Tangerang, Bekasi, Bandung, Surabaya, Yogyakarta, Semarang, dan Medan. Kami terus melakukan ekspansi ke kota-kota lain. Cek aplikasi untuk melihat ketersediaan di area Anda.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Bagaimana cara menjadi mitra restoran?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Untuk bergabung sebagai mitra restoran, Anda bisa mendaftar melalui website partner kami atau hubungi tim partnership di partner@onmenu.id. Tim kami akan membantu proses onboarding dan memberikan training lengkap untuk memaksimalkan penjualan online Anda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <h2 class="section-title">Lokasi Kantor Kami</h2>
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>Peta Lokasi</h3>
+                    <p>Jl. Sudirman No. 123, Jakarta Pusat</p>
+                    <a href="https://maps.google.com" target="_blank" class="map-btn">
+                        <i class="fas fa-external-link-alt"></i>
+                        Buka di Google Maps
+                    </a>
+                </div>
+                <div class="location-info">
+                    <h3>Kunjungi Kantor Kami</h3>
+                    <p>Kami dengan senang hati menerima kunjungan Anda di kantor pusat kami. Silakan buat janji terlebih dahulu untuk memastikan tim yang tepat tersedia untuk bertemu dengan Anda.</p>
+                    
+                    <div class="location-details">
+                        <div class="detail-item">
+                            <i class="fas fa-building"></i>
+                            <span>Gedung On Menu Tower, Lantai 15-17</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-car"></i>
+                            <span>Parkir tersedia (2 jam pertama gratis)</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-subway"></i>
+                            <span>5 menit jalan kaki dari Stasiun MRT Sudirman</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-bus"></i>
+                            <span>Halte TransJakarta Sudirman (200m)</span>
+                        </div>
+                    </div>
+
+                    <a href="#" class="appointment-btn">
+                        <i class="fas fa-calendar-plus"></i>
+                        Buat Janji Temu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Masih Ada Pertanyaan?</h2>
+                <p>Tim customer service kami siap membantu Anda 24/7 melalui berbagai channel komunikasi</p>
+                <div class="cta-buttons">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-comments"></i>
+                        Live Chat
+                    </a>
+                    <a href="tel:+622112345678" class="btn btn-secondary">
+                        <i class="fas fa-phone"></i>
+                        Telepon Sekarang
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-utensils"></i>
+                        <span>On Menu</span>
+                    </div>
+                    <p>Platform pemesanan makanan online terdepan yang menghubungkan Anda dengan cita rasa terbaik di kota.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Perusahaan</h3>
+                    <ul>
+                        <li><a href="about.html">Tentang Kami</a></li>
+                        <li><a href="#">Karir</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Layanan</h3>
+                    <ul>
+                        <li><a href="services.html">Untuk Pelanggan</a></li>
+                        <li><a href="#">Untuk Restoran</a></li>
+                        <li><a href="#">Untuk Driver</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Bantuan</h3>
+                    <ul>
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="contact.html">Kontak</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 On Menu. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

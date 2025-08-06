@@ -2,405 +2,704 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hubungi Kami - On Menu</title>
-    <link rel="stylesheet" href="styles-responsive.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dashboard Mobile-First</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img class="logo-img" src="Gambar WhatsApp 2025-07-31 pukul 14.54.50_b5b7834e.jpg" alt="">
-                <span>On Menu</span>
+    <!-- Mobile Header -->
+    <header class="mobile-header" id="mobileHeader">
+        <div class="header-content">
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo-container">
+                <img src="https://via.placeholder.com/32x32/ffffff/4F46E5?text=D" alt="Logo" class="header-logo" id="headerLogo">
+                <h1 class="logo" id="headerTitle">Dashboard</h1>
             </div>
-            <ul class="nav-menu">
-                <li><a href="index-responsive.html">Beranda</a></li>
-                <li><a href="about-responsive.html">Tentang</a></li>
-                <li><a href="services-responsive.html">Layanan</a></li>
-                <li><a href="contact-mobile-responsive.html" class="active">Kontak</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="header-actions">
+                <button class="notification-btn" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="profile-avatar">
+                    <img src="https://via.placeholder.com/32x32/4F46E5/ffffff?text=U" alt="Profile">
+                </div>
             </div>
         </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Menu</h2>
+            <button class="close-sidebar" id="closeSidebar" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active">
+                <a href="#dashboard" class="nav-link" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#menu" class="nav-link" data-page="menu">
+                    <i class="fas fa-utensils"></i>
+                    <span>Menu</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#orders" class="nav-link" data-page="orders">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#reports" class="nav-link" data-page="reports">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+
+
+            <li class="nav-item">
+                <a href="#settings" class="nav-link" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#profile" class="nav-link" data-page="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+        </ul>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="contact-hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1 class="hero-title">Hubungi <span class="highlight">Kami</span></h1>
-                <p class="hero-subtitle">Kami siap membantu Anda . Jangan ragu untuk menghubungi tim customer service kami yang berpengalaman</p>
-                <div class="contact-stats">
-                    <!-- <div class="stat-item">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <span class="stat-title">Response Time</span>
-                            <span class="stat-value">< 5 Menit</span>
-                        </div>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-headset"></i>
-                        <div>
-                            <span class="stat-title">Customer Satisfaction</span>
-                            <span class="stat-value">98%</span>
-                        </div>
-                    </div>
-                    <div class="stat-item">
-                        <i class="fas fa-users"></i>
-                        <div>
-                            <span class="stat-title">Support Agents</span>
-                            <span class="stat-value">50+ Tim</span>
-                        </div>
-                    </div> -->
-                </div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <div class="page active" id="dashboard-page">
+            <div class="page-header">
+                <h2>Dashboard</h2>
+                <p>Selamat datang di dashboard Anda</p>
             </div>
-            <div class="hero-image">
-                <div class="contact-card">
-                    <i class="fas fa-phone"></i>
-                    <h3>Telepon</h3>
-                    <p>+62 22 8888 1150</p>
-                </div>
-                <div class="contact-card">
-                    <i class="fas fa-envelope"></i>
-                    <h3>Email</h3>
-                    <p>onmenuid@gmail.com</p>
-                </div>
-                <!-- <div class="contact-card">
-                    <i class="fas fa-comments"></i>
-                    <h3>Live Chat</h3>
-                    <p>24/7 Available</p>
-                </div> -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Form Section -->
-    <section  id="contact-form-section" class="contact-form-section">
-        <div class="container">
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h2>Mari Berbicara</h2>
-                    <p>Kami senang mendengar dari Anda. Kirimkan pesan dan kami akan merespons secepat mungkin.</p>
-                    
-                    <div class="contact-methods">
-                        <!-- <div class="contact-method">
-                            <div class="method-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="method-info">
-                                <h4>Alamat Kantor</h4>
-                                <p>Jl. Sudirman No. 123<br>Jakarta Pusat 10220<br>Indonesia</p>
-                            </div>
-                        </div> -->
-
-                        <div class="contact-method">
-                            <div class="method-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="method-info">
-                                <h4>Telepon</h4>
-                                <p>Customer Service: +62 22 8888 1150<br>admin: +62 822-9111-0548 <br> admin: +62 831-3976-4952</p>
-                            </div>
-                        </div>
-
-                        <div class="contact-method">
-                            <div class="method-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="method-info">
-                                <h4>Email</h4>
-                                <p>General: onmenuid@gmail.com</p>
-                            </div>
-                        </div>
-
-                        <div class="contact-method">
-                            <div class="method-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="method-info">
-                                <h4>social media</h4>
-                              <div class="social-links">
-                  
-                        <a href="https://www.instagram.com/onmenu.id/?utm_source=ig_web_button_share_sheet"><i class="fab fa-instagram"></i></a>
-                              <!-- <a href="#"><i class="fab fa-facebook"></i></a> -->
-                        <!-- <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a> -->
-                    </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="contact-form">
-                    <form id="contactForm" class="form">
-                        <div class="form-group">
-                            <label for="name">Nama Lengkap *</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Nomor Telepon</label>
-                                <input type="tel" id="phone" name="phone">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="subject">Subjek *</label>
-                            <select id="subject" name="subject" required>
-                                <option value="">Pilih Subjek</option>
-                                <option value="general">Pertanyaan Umum</option>
-                                <option value="support">Bantuan Teknis</option>
-                                <option value="partnership">Kemitraan</option>
-                                <option value="complaint">Keluhan</option>
-                                <option value="suggestion">Saran</option>
-                                <option value="other">Lainnya</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="message">Pesan *</label>
-                            <textarea id="message" name="message" rows="6" placeholder="Tuliskan pesan Anda di sini..." required></textarea>
-                        </div>
-
-                        <div class="form-group checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="newsletter" name="newsletter">
-                                <span class="checkmark"></span>
-                                Saya ingin menerima newsletter dan update terbaru dari On Menu
-                            </label>
-                        </div>
-
-                        <div class="form-group checkbox-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="privacy" name="privacy" required>
-                                <span class="checkmark"></span>
-                                Saya setuju dengan <a href="kebijakan.html">Kebijakan Privasi</a> dan <a href="kebijakan.html">Syarat & Ketentuan</a> *
-                            </label>
-                        </div>
-
-                        <button type="submit" class="submit-btn">
-                            <i class="fas fa-paper-plane"></i>
-                            Kirim Pesan
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <!-- <section class="faq-section">
-        <div class="container">
-            <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
-            <p class="section-subtitle">Temukan jawaban untuk pertanyaan yang paling sering ditanyakan</p>
             
-            <div class="faq-container">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Bagaimana cara memesan makanan di On Menu?</h3>
-                        <i class="fas fa-chevron-down"></i>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-shopping-cart"></i>
                     </div>
-                    <div class="faq-answer">
-                        <p>Sangat mudah! Download aplikasi On Menu, daftar akun, pilih restoran favorit Anda, tambahkan menu ke keranjang, lakukan pembayaran, dan tunggu pesanan diantar ke lokasi Anda. Proses pemesanan hanya membutuhkan beberapa menit saja.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Berapa lama waktu pengiriman?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Waktu pengiriman rata-rata adalah 30-45 menit tergantung jarak dan kondisi lalu lintas. Untuk area tertentu, kami bahkan bisa mengantar dalam waktu kurang dari 30 menit. Anda dapat memantau status pengiriman secara real-time melalui aplikasi.</p>
+                    <div class="stat-content">
+                        <h3>295</h3>
+                        <p>Total Orders</p>
                     </div>
                 </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Apa saja metode pembayaran yang tersedia?</h3>
-                        <i class="fas fa-chevron-down"></i>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <div class="faq-answer">
-                        <p>Kami menerima berbagai metode pembayaran: GoPay, OVO, DANA, LinkAja, ShopeePay, transfer bank (BCA, Mandiri, BNI, BRI), kartu kredit/debit (Visa, Mastercard), dan cash on delivery (COD) untuk area tertentu.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Apakah ada biaya pengiriman?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Biaya pengiriman bervariasi mulai dari Rp 3.000 - Rp 8.000 tergantung jarak dan restoran. Member Premium mendapat free delivery unlimited, sedangkan pengguna reguler bisa mendapat free delivery untuk pembelian minimum tertentu atau promo khusus.</p>
+                    <div class="stat-content">
+                        <h3>82</h3>
+                        <p>Customers</p>
                     </div>
                 </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Bagaimana jika pesanan saya bermasalah?</h3>
-                        <i class="fas fa-chevron-down"></i>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-dollar-sign"></i>
                     </div>
-                    <div class="faq-answer">
-                        <p>Jika ada masalah dengan pesanan Anda, segera hubungi customer service kami melalui live chat di aplikasi, telepon, atau email. Tim kami akan segera membantu menyelesaikan masalah dan memberikan solusi terbaik, termasuk refund atau pengiriman ulang jika diperlukan.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Bisakah saya membatalkan pesanan?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Ya, Anda bisa membatalkan pesanan selama restoran belum mulai memproses makanan (biasanya dalam 2-5 menit setelah konfirmasi). Pembatalan dapat dilakukan melalui aplikasi dan dana akan dikembalikan sesuai metode pembayaran yang digunakan.</p>
+                    <div class="stat-content">
+                        <h3>$20,256</h3>
+                        <p>Revenue</p>
                     </div>
                 </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Apakah On Menu tersedia di kota saya?</h3>
-                        <i class="fas fa-chevron-down"></i>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
                     </div>
-                    <div class="faq-answer">
-                        <p>Saat ini On Menu melayani di Jakarta, Bogor, Depok, Tangerang, Bekasi, Bandung, Surabaya, Yogyakarta, Semarang, dan Medan. Kami terus melakukan ekspansi ke kota-kota lain. Cek aplikasi untuk melihat ketersediaan di area Anda.</p>
+                    <div class="stat-content">
+                        <h3>2010</h3>
+                        <p>Growth</p>
                     </div>
                 </div>
+            </div>
 
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Bagaimana cara menjadi mitra restoran?</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Untuk bergabung sebagai mitra restoran, Anda bisa mendaftar melalui website partner kami atau hubungi tim partnership di partner@onmenu.id. Tim kami akan membantu proses onboarding dan memberikan training lengkap untuk memaksimalkan penjualan online Anda.</p>
+            <div class="dashboard-widgets">
+                <div class="widget">
+                    <h3>Recent Orders</h3>
+                    <div class="order-list">
+                        <div class="order-item">
+                            <span class="order-id">#001</span>
+                            <span class="order-customer">Ananda Fairus Ramadhan</span>
+                            <span class="order-status completed">Completed</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="order-id">#002</span>
+                            <span class="order-customer">Rafif Dzaki</span>
+                            <span class="order-status processing">Processing</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="order-id">#003</span>
+                            <span class="order-customer">Fahri Wijaya</span>
+                            <span class="order-status completed">Completed</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section> -->
 
-    <!-- Map Section
-    <section class="map-section">
-        <div class="container">
-            <h2 class="section-title">Lokasi Kantor Kami</h2>
-            <div class="map-container">
-                <div class="map-placeholder">
-                    <i class="fas fa-map-marked-alt"></i>
-                    <h3>Peta Lokasi</h3>
-                    <p>Jl. Sudirman No. 123, Jakarta Pusat</p>
-                    <a href="https://maps.google.com" target="_blank" class="map-btn">
-                        <i class="fas fa-external-link-alt"></i>
-                        Buka di Google Maps
-                    </a>
+        <!-- Orders Page -->
+        <div class="page" id="orders-page">
+            <div class="page-header">
+                <h2>Order Status</h2>
+                <p>Kelola status pesanan Anda</p>
+            </div>
+            
+            <div class="filter-controls">
+                <div class="tab-navigation">
+                    <button class="tab active" data-status="all">All</button>
+                    <button class="tab" data-status="pending">Pending</button>
+                    <button class="tab" data-status="processing">Processing</button>
+                    <button class="tab" data-status="completed">Completed</button>
+                    <button class="tab" data-status="cancelled">Cancelled</button>
                 </div>
-                <div class="location-info">
-                    <h3>Kunjungi Kantor Kami</h3>
-                    <p>Kami dengan senang hati menerima kunjungan Anda di kantor pusat kami. Silakan buat janji terlebih dahulu untuk memastikan tim yang tepat tersedia untuk bertemu dengan Anda.</p>
-                    
-                    <div class="location-details">
-                        <div class="detail-item">
-                            <i class="fas fa-building"></i>
-                            <span>Gedung On Menu Tower, Lantai 15-17</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-car"></i>
-                            <span>Parkir tersedia (2 jam pertama gratis)</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-subway"></i>
-                            <span>5 menit jalan kaki dari Stasiun MRT Sudirman</span>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-bus"></i>
-                            <span>Halte TransJakarta Sudirman (200m)</span>
+                <div class="search-box">
+                    <input type="text" id="order-search-input" placeholder="Search orders...">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+
+            <div class="order-list" id="order-status-list">
+                <!-- Order cards will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Menu Page -->
+        <div class="page" id="menu-page">
+            <div class="page-header">
+                <div class="page-title">
+                    <h2>Menu Management</h2>
+                </div>
+                <div class="menu-header-actions">
+                    <button class="btn-secondary" id="add-category-btn">
+                        <i class="fas fa-folder-plus"></i>
+                        <span class="btn-text">Add Category</span>
+                    </button>
+                    <button class="btn-primary" id="add-product-btn">
+                        <i class="fas fa-plus"></i>
+                        <span class="btn-text">Add Product</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Welcome Card -->
+            <div class="welcome-card-container" id="welcomeCard">
+                <div class="content">
+                    <img src="" alt="Logo Toko/Restaurant" class="logo-img" id="welcomeLogo" style="display: none;">
+                    <h2 id="welcomeTitle">Selamat Datang di Sadita</h2>
+                    <p id="welcomeSubtitle">Kelola bisnis ternak Anda dengan mudah</p>
+                </div>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="category-filter-wrapper">
+                <div class="category-filter">
+                    <button class="category-filter-btn active" data-category="all">All Categories</button>
+                    <button class="category-filter-btn" data-category="antibiotik">Antibiotik</button>
+                    <button class="category-filter-btn" data-category="vitamin">Vitamin & Mineral</button>
+                    <button class="category-filter-btn" data-category="anti-coccidia">Anti Coccidia</button>
+                    <button class="category-filter-btn" data-category="antiparasi">Antiparasi</button>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="menu-search">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="menu-search-input" placeholder="Search products...">
+                </div>
+            </div>
+
+            <!-- Categories Section -->
+            <div class="categories-section">
+                <!-- Antibiotik Category -->
+                <div class="category-section" data-category="antibiotik">
+                    <div class="category-header">
+                        <h3>
+                            <i class="fas fa-pills"></i>
+                            Antibiotik
+                        </h3>
+                        <div class="category-actions">
+                            <button class="btn-edit-category" data-category="antibiotik" aria-label="Edit category">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-delete-category" data-category="antibiotik" aria-label="Delete category">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
                     </div>
+                    <div class="products-grid">
+                        <div class="product-card" data-category="antibiotik" data-product-id="1">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/FF6B6B/ffffff?text=CYPROTIL" alt="CYPROTIL 250 g">
+                            </div>
+                            <div class="product-info">
+                                <h4>CYPROTIL 250 g</h4>
+                                <p class="product-desc">Obat CRD Kompleks</p>
+                                <div class="product-price-stock">
+                                    <span class="price">Rp52.500</span>
+                                    <span class="stock">Stock: 35</span>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn-edit-product" data-product-id="1" aria-label="Edit product">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-delete-product" data-product-id="1" aria-label="Delete product">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-card" data-category="antibiotik" data-product-id="2">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/FF6B6B/ffffff?text=DITA+FLOXA" alt="DITA FLOXA LIQ 1 L">
+                            </div>
+                            <div class="product-info">
+                                <h4>DITA FLOXA LIQ 1 L</h4>
+                                <p class="product-desc">Obat CRD Kompleks</p>
+                                <div class="product-price-stock">
+                                    <span class="price">Rp199.650</span>
+                                    <span class="stock">Stock: 43</span>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn-edit-product" data-product-id="2" aria-label="Edit product">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-delete-product" data-product-id="2" aria-label="Delete product">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-card" data-category="antibiotik" data-product-id="3">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/FF6B6B/ffffff?text=DITA+POWDER" alt="DITA FLOXA POWDER 500 g">
+                            </div>
+                            <div class="product-info">
+                                <h4>DITA FLOXA POWDER 500 g</h4>
+                                <p class="product-desc">Obat CRD Kompleks</p>
+                                <div class="product-price-stock">
+                                    <span class="price">Rp145.200</span>
+                                    <span class="stock">Stock: 28</span>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn-edit-product" data-product-id="3" aria-label="Edit product">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-delete-product" data-product-id="3" aria-label="Delete product">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    <a href="#" class="appointment-btn">
-                        <i class="fas fa-calendar-plus"></i>
-                        Buat Janji Temu
-                    </a>
+                <!-- Anti Coccidia Category -->
+                <div class="category-section" data-category="anti-coccidia">
+                    <div class="category-header">
+                        <h3>
+                            <i class="fas fa-shield-alt"></i>
+                            Anti Coccidia
+                        </h3>
+                        <div class="category-actions">
+                            <button class="btn-edit-category" data-category="anti-coccidia" aria-label="Edit category">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-delete-category" data-category="anti-coccidia" aria-label="Delete category">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="products-grid">
+                        <div class="product-card" data-category="anti-coccidia" data-product-id="4">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/4ECDC4/ffffff?text=THERAPIX" alt="DITA THERAPIX 250 g">
+                            </div>
+                            <div class="product-info">
+                                <h4>DITA THERAPIX 250 g</h4>
+                                <p class="product-desc">Obat Kolera dan Coccidiosis</p>
+                                <div class="product-price-stock">
+                                    <span class="price">Rp89.500</span>
+                                    <span class="stock">Stock: 67</span>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn-edit-product" data-product-id="4" aria-label="Edit product">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-delete-product" data-product-id="4" aria-label="Delete product">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vitamin & Mineral Category -->
+                <div class="category-section" data-category="vitamin">
+                    <div class="category-header">
+                        <h3>
+                            <i class="fas fa-capsules"></i>
+                            Vitamin & Mineral
+                        </h3>
+                        <div class="category-actions">
+                            <button class="btn-edit-category" data-category="vitamin" aria-label="Edit category">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-delete-category" data-category="vitamin" aria-label="Delete category">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="products-grid">
+                        <div class="product-card" data-category="vitamin" data-product-id="5">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/150x120/45B7D1/ffffff?text=PRIMAVIT" alt="PRIMAVIT PLUS 1 L">
+                            </div>
+                            <div class="product-info">
+                                <h4>PRIMAVIT PLUS 1 L</h4>
+                                <p class="product-desc">Vitamin untuk pertumbuhan</p>
+                                <div class="product-price-stock">
+                                    <span class="price">Rp252.150</span>
+                                    <span class="stock">Stock: 75</span>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn-edit-product" data-product-id="5" aria-label="Edit product">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-delete-product" data-product-id="5" aria-label="Delete product">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section> -->
 
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Siap masukkan toko mu ke kami?</h2>
-                <p>Daftarkan toko mu dan nikmati fitur fitur nya</p>
-                <div class="cta-buttons">
-                    <a href="SIgn Page\signup.html" class="btn btn-primary">signup</a>
-                    <a href="#contact-form-section" class="btn btn-secondary">hubungi kami</a>
-                </div>
+        <!-- Reports Page -->
+        <div class="page" id="reports-page">
+            <div class="page-header">
+                <h2>Reports</h2>
+                <p>Analisis data bisnis Anda</p>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <!-- <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <i class="fas fa-utensils"></i>
-                        <span>On Menu</span>
-                    </div>
-                    <p>Platform pemesanan makanan online terdepan yang menghubungkan Anda dengan cita rasa terbaik di kota.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="sales">Penjualan</button>
+                <button class="tab-button" data-tab="customers">Pelanggan</button>
+                <button class="tab-button" data-tab="inventory">Inventori</button>
+                <button class="tab-button" data-tab="payments">Pembayaran</button>
+            </div>
+
+            <div class="report-card">
+                <h3>Filter Tanggal</h3>
+                <input type="date" id="startDate" class="search-input-report">
+                <input type="date" id="endDate" class="search-input-report" style="margin-top: 10px;">
+                <button class="btn-primary" id="applyDateFilter" style="margin-top: 15px; width: 100%;">Terapkan Filter</button>
+            </div>
+
+            <div class="tab-content-section active" id="sales-report-section">
+                <div class="report-card">
+                    <h3>Grafik Penjualan</h3>
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
                     </div>
                 </div>
-                <div class="footer-section">
-                    <h3>Perusahaan</h3>
-                    <ul>
-                        <li><a href="about.html">Tentang Kami</a></li>
-                        <li><a href="#">Karir</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Blog</a></li>
+                <div class="report-card">
+                    <h3>Produk Terlaris</h3>
+                    <ul id="topProductsList" class="order-list">
+                        <!-- Top products will be loaded here -->
                     </ul>
                 </div>
-                <div class="footer-section">
-                    <h3>Layanan</h3>
-                    <ul>
-                        <li><a href="services.html">Untuk Pelanggan</a></li>
-                        <li><a href="#">Untuk Restoran</a></li>
-                        <li><a href="#">Untuk Driver</a></li>
-                        <li><a href="#">API</a></li>
+                <div class="report-card">
+                    <h3>Ringkasan Pendapatan</h3>
+                    <div class="stats-grid-report">
+                        <div class="stat-card-report">
+                            <div class="stat-value-report" id="todayRevenue">Rp0</div>
+                            <div class="stat-label-report">Hari Ini</div>
+                        </div>
+                        <div class="stat-card-report">
+                            <div class="stat-value-report" id="weekRevenue">Rp0</div>
+                            <div class="stat-label-report">Minggu Ini</div>
+                        </div>
+                        <div class="stat-card-report">
+                            <div class="stat-value-report" id="monthRevenue">Rp0</div>
+                            <div class="stat-label-report">Bulan Ini</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content-section" id="customers-report-section">
+                <div class="report-card">
+                    <h3>Pelanggan Terbaik</h3>
+                    <ul id="topCustomersList" class="order-list">
+                        <!-- Top customers will be loaded here -->
                     </ul>
                 </div>
-                <div class="footer-section">
-                    <h3>Bantuan</h3>
-                    <ul>
-                        <li><a href="#">Pusat Bantuan</a></li>
-                        <li><a href="contact-mobile-responsive.html">Kontak</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Kebijakan Privasi</a></li>
+                <div class="report-card">
+                    <h3>Grafik Pertumbuhan Pelanggan Baru</h3>
+                    <div class="chart-container">
+                        <canvas id="newCustomersChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content-section" id="inventory-report-section">
+                <div class="report-card">
+                    <h3>Stok Produk Hampir Habis</h3>
+                    <ul id="lowStockList" class="order-list">
+                        <!-- Low stock products will be loaded here -->
+                    </ul>
+                </div>
+                <div class="report-card">
+                    <h3>Grafik Perputaran Inventori</h3>
+                    <div class="chart-container">
+                        <canvas id="inventoryTurnoverChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content-section" id="payments-report-section">
+                <div class="report-card">
+                    <h3>Metode Pembayaran Terpopuler</h3>
+                    <div class="chart-container">
+                        <canvas id="paymentMethodChart"></canvas>
+                    </div>
+                </div>
+                <div class="report-card">
+                    <h3>Status Pembayaran</h3>
+                    <ul id="paymentStatusList" class="order-list">
+                        <!-- Payment status will be loaded here -->
                     </ul>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 On Menu. Semua hak dilindungi.</p>
+
+            <div class="report-card">
+                <h3>Export Laporan</h3>
+                <div class="btn-group">
+                    <button class="btn-secondary" id="exportPdf"><i class="fas fa-file-pdf"></i> Export PDF</button>
+                    <button class="btn-secondary" id="exportCsv"><i class="fas fa-file-csv"></i> Export CSV</button>
+                </div>
             </div>
         </div>
-    </footer> -->
 
-    <script src="script-responsive.js"></script>
+        <!-- Settings Page -->
+        <div class="page" id="settings-page">
+            <div class="page-header">
+                <h2>Settings</h2>
+                <p>Kustomisasi tampilan dashboard Anda</p>
+            </div>
+
+            <div class="settings-sections">
+                <div class="settings-section">
+                    <h3><i class="fas fa-palette"></i> Kustomisasi Header</h3>
+                    <div class="settings-form-group">
+                        <label for="headerBackgroundUpload">Upload Background Header (Max 2MB )</label>
+                        <input type="file" id="headerBackgroundUpload" accept="image/*">
+                    </div>
+                    <div class="settings-form-group">
+                        <label for="headerLogoUpload">Upload Logo Header (Max 1MB)</label>
+                        <input type="file" id="headerLogoUpload" accept="image/*">
+                    </div>
+                    <div class="preview-container">
+                        <p class="preview-title">Preview Header:</p>
+                        <div class="mobile-header" id="headerPreview" style="position: relative; height: 60px;">
+                             <div class="header-content">
+                                <button class="menu-toggle" aria-label="Toggle menu" style="visibility: hidden;">
+                                    <i class="fas fa-bars"></i>
+                                </button>
+                                <div class="logo-container">
+                                    <img src="https://via.placeholder.com/32x32/ffffff/4F46E5?text=D" alt="Logo" class="header-logo" id="headerLogoPreview">
+                                    <h1 class="logo">Dashboard</h1>
+                                </div>
+                                <div class="header-actions">
+                                    <button class="notification-btn" aria-label="Notifications">
+                                        <i class="fas fa-bell"></i>
+                                    </button>
+                                    <div class="profile-avatar">
+                                        <img src="https://via.placeholder.com/32x32/4F46E5/ffffff?text=U" alt="Profile">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn-primary" id="saveHeaderSettings">Simpan Pengaturan</button>
+                        <button class="btn-secondary" id="resetHeaderSettings">Reset Pengaturan</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3><i class="fas fa-user-cog"></i> Pengaturan Umum</h3>
+                    <div class="settings-form-group">
+                        <label for="dashboardTitle">Judul Dashboard</label>
+                        <input type="text" id="dashboardTitle" value="Sadita Dashboard">
+                    </div>
+                    <div class="settings-form-group">
+                        <label for="themeSelect">Pilih Tema</label>
+                        <select id="themeSelect">
+                            <option value="default">Default</option>
+                            <option value="dark">Dark Mode</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div class="page" id="profile-page">
+            <div class="page-header">
+                <h2>Profile</h2>
+                <p>Kelola informasi profil Anda</p>
+            </div>
+            
+            <div class="profile-container">
+                <!-- Profile Header Card -->
+                <div class="profile-header-card">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar-large">
+                            <img src="https://via.placeholder.com/120x120/667eea/ffffff?text=JD" alt="Profile Avatar">
+                            <div class="avatar-status-badge">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                        <div class="profile-header-info">
+                            <h3 class="profile-name">John Doe</h3>
+                            <p class="profile-role">Administrator</p>
+                            <div class="profile-status">
+                                <span class="status-badge active">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Information Cards -->
+                <div class="profile-info-grid">
+                    <!-- Personal Information Card -->
+                    <div class="profile-info-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-user"></i> Informasi Personal</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="info-item">
+                                <label>Nama Lengkap</label>
+                                <div class="info-value">
+                                    <input type="text" id="profileName" value="John Doe" class="profile-input">
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <label>Email</label>
+                                <div class="info-value">
+                                    <input type="email" id="profileEmail" value="john.doe@example.com" class="profile-input">
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <label>Nomor Telepon</label>
+                                <div class="info-value">
+                                    <input type="tel" id="profilePhone" value="+62 812 3456 7890" class="profile-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Statistics Card -->
+                    <div class="profile-info-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-chart-line"></i> Statistik Akun</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-number">127</div>
+                                    <div class="stat-label">Total Orders</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">45</div>
+                                    <div class="stat-label">Completed</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">8</div>
+                                    <div class="stat-label">Pending</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">2.5M</div>
+                                    <div class="stat-label">Revenue</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Settings Card -->
+                    <div class="profile-info-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-cog"></i> Pengaturan Akun</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="info-item">
+                                <label>Bergabung Sejak</label>
+                                <div class="info-value">
+                                    <span class="info-text">15 Januari 2024</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <label>Terakhir Login</label>
+                                <div class="info-value">
+                                    <span class="info-text">30 Juli 2025, 14:30</span>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <label>Status Verifikasi</label>
+                                <div class="info-value">
+                                    <span class="verification-badge verified">
+                                        <i class="fas fa-shield-check"></i>
+                                        Terverifikasi
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="profile-actions">
+                    <button class="btn-primary profile-save-btn">
+                        <i class="fas fa-save"></i>
+                        Simpan Perubahan
+                    </button>
+                    <button class="btn-secondary profile-cancel-btn">
+                        <i class="fas fa-times"></i>
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Overlay for sidebar -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toastNotification"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
-
