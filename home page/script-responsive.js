@@ -571,7 +571,7 @@ function initServiceAnimations() {
     serviceCards.forEach(card => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(30px)';
-        card.style.transition = 'all 0.6s ease';
+        card.style.transition = 'all 0.5s ease';
         observer.observe(card);
     });
     

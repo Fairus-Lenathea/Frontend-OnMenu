@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hubungi Kami - On Menu</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-responsive.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -13,13 +13,14 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <i class="fas fa-utensils"></i>
+                <img class="logo-img" src="logo.jpg" alt="">
                 <span>On Menu</span>
             </div>
             <ul class="nav-menu">
-                <li><a href="about.html">Tentang</a></li>
-                <li><a href="services.html">Layanan</a></li>
-                <li><a href="contact.html" class="active">Kontak</a></li>
+                <li><a href="index.html" class="active">Beranda</a></li>
+                <li><a href="about.html" >Tentang</a></li>
+                <li><a href="services-responsive.html">Layanan</a></li>
+                <li><a href="contact.html">Kontak</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -34,9 +35,9 @@
         <div class="hero-content">
             <div class="hero-text">
                 <h1 class="hero-title">Hubungi <span class="highlight">Kami</span></h1>
-                <p class="hero-subtitle">Kami siap membantu Anda 24/7. Jangan ragu untuk menghubungi tim customer service kami yang berpengalaman</p>
+                <p class="hero-subtitle">Kami siap membantu Anda . Jangan ragu untuk menghubungi tim customer service kami yang berpengalaman</p>
                 <div class="contact-stats">
-                    <div class="stat-item">
+                    <!-- <div class="stat-item">
                         <i class="fas fa-clock"></i>
                         <div>
                             <span class="stat-title">Response Time</span>
@@ -56,31 +57,31 @@
                             <span class="stat-title">Support Agents</span>
                             <span class="stat-value">50+ Tim</span>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="hero-image">
                 <div class="contact-card">
                     <i class="fas fa-phone"></i>
                     <h3>Telepon</h3>
-                    <p>+62 21 1234 5678</p>
+                    <p>+62 22 8888 1150</p>
                 </div>
                 <div class="contact-card">
                     <i class="fas fa-envelope"></i>
                     <h3>Email</h3>
-                    <p>support@onmenu.id</p>
+                    <p>onmenuid@gmail.com</p>
                 </div>
-                <div class="contact-card">
+                <!-- <div class="contact-card">
                     <i class="fas fa-comments"></i>
                     <h3>Live Chat</h3>
                     <p>24/7 Available</p>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
 
     <!-- Contact Form Section -->
-    <section class="contact-form-section">
+    <section  id="contact-form-section" class="contact-form-section">
         <div class="container">
             <div class="contact-content">
                 <div class="contact-info">
@@ -88,7 +89,7 @@
                     <p>Kami senang mendengar dari Anda. Kirimkan pesan dan kami akan merespons secepat mungkin.</p>
                     
                     <div class="contact-methods">
-                        <div class="contact-method">
+                        <!-- <div class="contact-method">
                             <div class="method-icon">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
@@ -96,7 +97,7 @@
                                 <h4>Alamat Kantor</h4>
                                 <p>Jl. Sudirman No. 123<br>Jakarta Pusat 10220<br>Indonesia</p>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="contact-method">
                             <div class="method-icon">
@@ -104,7 +105,7 @@
                             </div>
                             <div class="method-info">
                                 <h4>Telepon</h4>
-                                <p>Customer Service: +62 21 1234 5678<br>Partnership: +62 21 8765 4321</p>
+                                <p>Customer Service: +62 22 8888 1150<br>admin: +62 822-9111-0548 <br> admin: +62 831-3976-4952</p>
                             </div>
                         </div>
 
@@ -114,7 +115,7 @@
                             </div>
                             <div class="method-info">
                                 <h4>Email</h4>
-                                <p>General: info@onmenu.id<br>Support: support@onmenu.id<br>Partnership: partner@onmenu.id</p>
+                                <p>General: onmenuid@gmail.com</p>
                             </div>
                         </div>
 
@@ -123,8 +124,14 @@
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div class="method-info">
-                                <h4>Jam Operasional</h4>
-                                <p>Senin - Jumat: 08:00 - 22:00<br>Sabtu - Minggu: 09:00 - 21:00<br>Customer Service: 24/7</p>
+                                <h4>social media</h4>
+                              <div class="social-links">
+                  
+                        <a href="https://www.instagram.com/onmenu.id/?utm_source=ig_web_button_share_sheet"><i class="fab fa-instagram"></i></a>
+                              <!-- <a href="#"><i class="fab fa-facebook"></i></a> -->
+                        <!-- <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a> -->
+                    </div>
                             </div>
                         </div>
                     </div>
@@ -178,7 +185,7 @@
                             <label class="checkbox-label">
                                 <input type="checkbox" id="privacy" name="privacy" required>
                                 <span class="checkmark"></span>
-                                Saya setuju dengan <a href="#">Kebijakan Privasi</a> dan <a href="#">Syarat & Ketentuan</a> *
+                                Saya setuju dengan <a href="kebijakan.html">Kebijakan Privasi</a> dan <a href="kebijakan.html">Syarat & Ketentuan</a> *
                             </label>
                         </div>
 
@@ -193,7 +200,7 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section">
+    <!-- <section class="faq-section">
         <div class="container">
             <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
             <p class="section-subtitle">Temukan jawaban untuk pertanyaan yang paling sering ditanyakan</p>
@@ -280,9 +287,9 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
-    <!-- Map Section -->
+    <!-- Map Section
     <section class="map-section">
         <div class="container">
             <h2 class="section-title">Lokasi Kantor Kami</h2>
@@ -326,30 +333,24 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- CTA Section -->
     <section class="cta">
         <div class="container">
             <div class="cta-content">
-                <h2>Masih Ada Pertanyaan?</h2>
-                <p>Tim customer service kami siap membantu Anda 24/7 melalui berbagai channel komunikasi</p>
+                <h2>Siap masukkan toko mu ke kami?</h2>
+                <p>Daftarkan toko mu dan nikmati fitur fitur nya</p>
                 <div class="cta-buttons">
-                    <a href="#" class="btn btn-primary">
-                        <i class="fas fa-comments"></i>
-                        Live Chat
-                    </a>
-                    <a href="tel:+622112345678" class="btn btn-secondary">
-                        <i class="fas fa-phone"></i>
-                        Telepon Sekarang
-                    </a>
+                    <a href="SIgn Page/signup.html" class="btn btn-primary">signup</a>
+                    <a href="#contact-form-section" class="btn btn-secondary">hubungi kami</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <!-- <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
@@ -387,7 +388,7 @@
                     <h3>Bantuan</h3>
                     <ul>
                         <li><a href="#">Pusat Bantuan</a></li>
-                        <li><a href="contact.html">Kontak</a></li>
+                        <li><a href="contact-mobile-responsive.html">Kontak</a></li>
                         <li><a href="#">FAQ</a></li>
                         <li><a href="#">Kebijakan Privasi</a></li>
                     </ul>
@@ -397,9 +398,9 @@
                 <p>&copy; 2024 On Menu. Semua hak dilindungi.</p>
             </div>
         </div>
-    </footer>
+    </footer> -->
 
-    <script src="script.js"></script>
+    <script src="script-responsive.js"></script>
 </body>
 </html>
 
