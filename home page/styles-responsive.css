@@ -226,8 +226,8 @@ body {
 }
 
 .card-1 {
-    top: 76px;
-    left: 5%;
+    top: 60px;
+    left: 12%;
     animation-delay: 0s;
 }
 
@@ -1075,22 +1075,22 @@ body {
 }
 
 .service-card.floating:nth-child(1) {
-    top: 1%;
-    left: 25%;
+    top: 10%;
+    left: 10%;
     animation-delay: 0s;
 }
 
 .service-card.floating:nth-child(2) {
-    bottom: 78px;
-    right: 90px;
+    top: 40%;
+    right: 5%;
     animation-delay: 1s;
 }
 
-/* .service-card.floating:nth-child(3) {
-    bottom: 1%;
-    right: 600px;
+.service-card.floating:nth-child(3) {
+    bottom: 15%;
+    left: 25%;
     animation-delay: 2s;
-} */
+}
 
 .service-card i {
     font-size: 2rem;
@@ -1479,13 +1479,13 @@ body {
 
 .contact-card:nth-child(1) {
     top: 5%;
-    left: 30%;
+    left: 10%;
     animation-delay: 0s;
 }
 
 .contact-card:nth-child(2) {
-    bottom: 100px;
-    right: 25%;
+    top: 40%;
+    right: 5%;
     animation-delay: 1s;
 }
 
