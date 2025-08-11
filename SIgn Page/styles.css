@@ -292,3 +292,46 @@ body {
     color: #007bff;
     text-decoration: none;
 }
+
+
+/* Password input container styling */
+.password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-container input {
+    padding-right: 50px;
+    width: 100%;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #8D92A3;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    color: #020202;
+    background-color: #f1f1f1;
+}
+
+.password-toggle:focus {
+    outline: none;
+    color: rgb(255, 115, 29);
+}
+
+.password-toggle svg {
+    width: 20px;
+    height: 20px;
+}

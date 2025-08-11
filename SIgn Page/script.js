@@ -305,3 +305,104 @@ document.addEventListener('DOMContentLoaded', function() {
         firstInput.focus();
     }
 });
+
+
+// Function to toggle password visibility
+function togglePassword(inputId) {
+    const passwordInput = document.getElementById(inputId);
+    const toggleButton = passwordInput.parentElement.querySelector(".password-toggle");
+    const eyeIcon = toggleButton.querySelector(".eye-icon");
+    const eyeOffIcon = toggleButton.querySelector(".eye-off-icon");
+    
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.style.display = "none";
+        eyeOffIcon.style.display = "block";
+    } else {
+        passwordInput.type = "password";
+        eyeIcon.style.display = "block";
+        eyeOffIcon.style.display = "none";
+    }
+}
+
+// Form validation for signup form
+document.addEventListener("DOMContentLoaded", function() {
+    const signUpForm = document.getElementById("signUpForm");
+    
+    if (signUpForm) {
+        const passwordInput = document.getElementById("passwordSignUp");
+        const confirmPasswordInput = document.getElementById("confirmPassword");
+        
+        // Real-time password confirmation validation
+        function validatePasswordMatch() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            
+            if (confirmPassword && password !== confirmPassword) {
+                confirmPasswordInput.setCustomValidity("Password tidak cocok");
+                confirmPasswordInput.style.borderColor = "#ff4757";
+            } else {
+                confirmPasswordInput.setCustomValidity("");
+                if (confirmPassword) {
+                    confirmPasswordInput.style.borderColor = "#2ed573";
+                } else {
+                    confirmPasswordInput.style.borderColor = "#f1f1f1";
+                }
+            }
+        }
+        
+        // Add event listeners for real-time validation
+        passwordInput.addEventListener("input", validatePasswordMatch);
+        confirmPasswordInput.addEventListener("input", validatePasswordMatch);
+        
+        // Override handleSignUp for new validation
+        signUpForm.removeEventListener("submit", handleSignUp); // Remove old listener if exists
+        signUpForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById("fullName").value;
+            const email = document.getElementById("emailSignUp").value;
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const submitBtn = e.target.querySelector("button[type=\"submit\"]");
+            
+            if (fullName.trim().length < 2) {
+                showNotification("Please enter your full name", "error");
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                showNotification("Please enter a valid email address", "error");
+                return;
+            }
+            
+            if (!validatePassword(password)) {
+                showNotification("Password must be at least 6 characters long", "error");
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification("Password dan konfirmasi password tidak cocok!", "error");
+                return;
+            }
+            
+            showLoading(submitBtn);
+            
+            setTimeout(() => {
+                hideLoading(submitBtn);
+                const signupData = {
+                    fullName: fullName,
+                    email: email,
+                    password: password,
+                    step: 1
+                };
+                localStorage.setItem("signupData", JSON.stringify(signupData));
+                showNotification("Basic information saved!", "success");
+                setTimeout(() => {
+                    goToAddress();
+                }, 1000);
+            }, 1500);
+        });
+    }
+});
+
