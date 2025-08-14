@@ -7,8 +7,16 @@
       "totalPrice": 252150,
       "status": "completed",
       "items": [
-        { "name": "CYPROTIL 250 g", "price": 52500, "quantity": 2 },
-        { "name": "DITA FLOXA LIQ 1 L", "price": 199650, "quantity": 1 }
+        {
+          "name": "CYPROTIL 250 g",
+          "price": 52500,
+          "quantity": 2
+        },
+        {
+          "name": "DITA FLOXA LIQ 1 L",
+          "price": 199650,
+          "quantity": 1
+        }
       ]
     },
     {
@@ -18,7 +26,11 @@
       "totalPrice": 89500,
       "status": "pending",
       "items": [
-        { "name": "DITA THERAPIX 250 g", "price": 89500, "quantity": 1 }
+        {
+          "name": "DITA THERAPIX 250 g",
+          "price": 89500,
+          "quantity": 1
+        }
       ]
     },
     {
@@ -28,7 +40,11 @@
       "totalPrice": 145200,
       "status": "processing",
       "items": [
-        { "name": "PRIMAVIT PLUS 1 L", "price": 145200, "quantity": 1 }
+        {
+          "name": "PRIMAVIT PLUS 1 L",
+          "price": 145200,
+          "quantity": 1
+        }
       ]
     },
     {
@@ -38,7 +54,11 @@
       "totalPrice": 75000,
       "status": "cancelled",
       "items": [
-        { "name": "WORMECTIN 100 ml", "price": 75000, "quantity": 1 }
+        {
+          "name": "WORMECTIN 100 ml",
+          "price": 75000,
+          "quantity": 1
+        }
       ]
     },
     {
@@ -48,64 +68,162 @@
       "totalPrice": 52500,
       "status": "pending",
       "items": [
-        { "name": "CYPROTIL 250 g", "price": 52500, "quantity": 1 }
+        {
+          "name": "CYPROTIL 250 g",
+          "price": 52500,
+          "quantity": 1
+        }
       ]
     }
   ],
   "salesReport": {
     "daily": [
-      { "date": "2025-07-25", "revenue": 1200000 },
-      { "date": "2025-07-26", "revenue": 850000 },
-      { "date": "2025-07-27", "revenue": 1500000 },
-      { "date": "2025-07-28", "revenue": 900000 },
-      { "date": "2025-07-29", "revenue": 1100000 }
+      {
+        "date": "2025-07-25",
+        "revenue": 1200000
+      },
+      {
+        "date": "2025-07-26",
+        "revenue": 850000
+      },
+      {
+        "date": "2025-07-27",
+        "revenue": 1500000
+      },
+      {
+        "date": "2025-07-28",
+        "revenue": 900000
+      },
+      {
+        "date": "2025-07-29",
+        "revenue": 1100000
+      }
     ],
     "weekly": [
-      { "week": "Week 1", "revenue": 5000000 },
-      { "week": "Week 2", "revenue": 6200000 },
-      { "week": "Week 3", "revenue": 4800000 }
+      {
+        "week": "Week 1",
+        "revenue": 5000000
+      },
+      {
+        "week": "Week 2",
+        "revenue": 6200000
+      },
+      {
+        "week": "Week 3",
+        "revenue": 4800000
+      }
     ],
     "monthly": [
-      { "month": "July", "revenue": 20000000 },
-      { "month": "June", "revenue": 18000000 }
+      {
+        "month": "July",
+        "revenue": 20000000
+      },
+      {
+        "month": "June",
+        "revenue": 18000000
+      }
     ],
     "topProducts": [
-      { "name": "CYPROTIL 250 g", "sales": 120 },
-      { "name": "DITA FLOXA LIQ 1 L", "sales": 90 },
-      { "name": "PRIMAVIT PLUS 1 L", "sales": 75 }
+      {
+        "name": "CYPROTIL 250 g",
+        "sales": 120
+      },
+      {
+        "name": "DITA FLOXA LIQ 1 L",
+        "sales": 90
+      },
+      {
+        "name": "PRIMAVIT PLUS 1 L",
+        "sales": 75
+      }
     ]
   },
   "customerReport": {
     "topCustomers": [
-      { "name": "Budi Santoso", "totalPurchase": 5000000, "frequency": 10 },
-      { "name": "Siti Aminah", "totalPurchase": 3500000, "frequency": 8 }
+      {
+        "name": "Budi Santoso",
+        "totalPurchase": 5000000,
+        "frequency": 10
+      },
+      {
+        "name": "Siti Aminah",
+        "totalPurchase": 3500000,
+        "frequency": 8
+      }
     ],
     "newCustomerGrowth": [
-      { "month": "Jan", "newCustomers": 50 },
-      { "month": "Feb", "newCustomers": 60 },
-      { "month": "Mar", "newCustomers": 75 }
+      {
+        "month": "Jan",
+        "newCustomers": 50
+      },
+      {
+        "month": "Feb",
+        "newCustomers": 60
+      },
+      {
+        "month": "Mar",
+        "newCustomers": 75
+      }
     ]
   },
   "inventoryReport": {
     "lowStock": [
-      { "name": "WORMECTIN 100 ml", "stock": 15 },
-      { "name": "DITA THERAPIX 250 g", "stock": 20 }
+      {
+        "name": "WORMECTIN 100 ml",
+        "stock": 15
+      },
+      {
+        "name": "DITA THERAPIX 250 g",
+        "stock": 20
+      }
     ],
     "stockMovement": [
-      { "date": "2025-07-28", "product": "CYPROTIL 250 g", "type": "in", "quantity": 50 },
-      { "date": "2025-07-27", "product": "DITA FLOXA LIQ 1 L", "type": "out", "quantity": 10 }
+      {
+        "date": "2025-07-28",
+        "product": "CYPROTIL 250 g",
+        "type": "in",
+        "quantity": 50
+      },
+      {
+        "date": "2025-07-27",
+        "product": "DITA FLOXA LIQ 1 L",
+        "type": "out",
+        "quantity": 10
+      }
     ]
   },
   "paymentReport": {
     "paymentMethods": [
-      { "method": "Cash", "count": 150 },
-      { "method": "Bank Transfer", "count": 80 },
-      { "method": "E-wallet", "count": 50 }
+      {
+        "method": "Cash",
+        "count": 150
+      },
+      {
+        "method": "Bank Transfer",
+        "count": 80
+      },
+      {
+        "method": "E-wallet",
+        "count": 50
+      }
     ],
     "paymentStatus": [
-      { "status": "Paid", "count": 200 },
-      { "status": "Pending", "count": 30 }
+      {
+        "status": "Paid",
+        "count": 200
+      },
+      {
+        "status": "Pending",
+        "count": 30
+      }
     ]
+  },
+  "profile": {
+    "name": "Ananda Fairus Ramadhan",
+    "email": "fairus@example.com",
+    "phone": "+62 812-3456-7890",
+    "address": "Jl. Melati No. 123, Jakarta",
+    "about": "Pemilik dan pengelola Sadita, berpengalaman di bidang agribisnis ternak.",
+    "avatar": "https://via.placeholder.com/150x150.png?text=Profile"
   }
 }
-
