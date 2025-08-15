@@ -17,10 +17,10 @@ class Dashboard {
     async loadData() {
         try {
             const response = await fetch('data.json');
-            if (!response.ok) throw new Error('Network response was not ok');
+            if (!response.ok) throw new Error('Gagal memuat data');
             this.appData = await response.json();
         } catch (error) {
-            console.error('Fatal Error: Could not load data.json', error);
+            console.error('Kesalahan: Tidak dapat memuat data.json', error);
             this.showToast('Gagal memuat data aplikasi.', 'error');
         }
     }
@@ -40,13 +40,11 @@ class Dashboard {
             }
         });
 
-        // -- Tambahan: klik ikon profile di header --
         document.getElementById('headerProfileIcon')?.addEventListener('click', () => {
             this.navigateToPage('profile');
             if (this.isMobile) this.toggleSidebar();
         });
 
-        // -- Tambahan: simpan alamat & kontak --
         document.getElementById('saveContactInfo')?.addEventListener('click', () => {
             const data = {
                 shopAddress: document.getElementById('shopAddress').value.trim(),
@@ -100,7 +98,6 @@ class Dashboard {
         }
     }
 
-    /* ===== Dashboard ===== */
     displayRecentOrders() {
         const container = document.getElementById('recent-order-list');
         if (!container) return;
@@ -109,12 +106,21 @@ class Dashboard {
             <div class="order-item">
                 <span class="order-id">${order.id}</span>
                 <span class="order-customer">${order.customerName}</span>
-                <span class="order-status ${order.status}">${order.status}</span>
+                <span class="order-status ${order.status}">${this.translateStatus(order.status)}</span>
             </div>
         `).join('');
     }
 
-    /* ===== Orders ===== */
+    translateStatus(status) {
+        const map = {
+            pending: 'Tertunda',
+            processing: 'Diproses',
+            completed: 'Selesai',
+            cancelled: 'Dibatalkan'
+        };
+        return map[status] || status;
+    }
+
     bindOrderPageEvents() {
         document.querySelectorAll('#orders-page .tab').forEach(tab => {
             tab.addEventListener('click', () => {
@@ -135,7 +141,7 @@ class Dashboard {
                 <div class="order-card" data-status="${order.status}">
                     <div class="order-header">
                         <span class="order-id">${order.id}</span>
-                        <span class="order-status ${order.status}">${order.status}</span>
+                        <span class="order-status ${order.status}">${this.translateStatus(order.status)}</span>
                     </div>
                     <div class="order-details">
                         <div class="order-customer">${order.customerName}</div>
@@ -161,7 +167,6 @@ class Dashboard {
         this.displayOrders(filtered);
     }
 
-    /* ===== Reports ===== */
     bindReportPageEvents() {
         document.getElementById('salesReportPeriod')?.addEventListener('change', e => this.updateSalesReport(e.target.value));
     }
@@ -260,7 +265,6 @@ class Dashboard {
         });
     }
 
-    /* ===== Profile ===== */
     bindProfilePageEvents() {
         const avatarUpload = document.getElementById('profileAvatarUpload');
         const avatarPreview = document.getElementById('profileAvatarPreview');
@@ -324,7 +328,6 @@ class Dashboard {
         this.showToast('Profil telah direset ke data awal.', 'info');
     }
 
-    /* ===== Utilities ===== */
     formatCurrency(amount) {
         return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
     }
