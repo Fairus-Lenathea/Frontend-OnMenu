@@ -74,6 +74,11 @@ class Dashboard {
         sidebar.classList.toggle('active');
         overlay.classList.toggle('active');
         document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+
+        // Toggle class pada body untuk menandakan status sidebar (hanya di desktop)
+        if (!this.isMobile) {
+            document.body.classList.toggle('sidebar-collapsed', !sidebar.classList.contains('active'));
+        }
     }
 
     navigateToPage(pageName) {
