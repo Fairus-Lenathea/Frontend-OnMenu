@@ -297,7 +297,7 @@ body {
   display: block;
 }
 
-/* ===== HALAMAN PESANAN – REFINEMENT ===== */
+/* ===== HALAMAN PESANAN – FIX BUG FLOATING LABEL ===== */
 #order-page {
   background-color: var(--bg-color);
 }
@@ -358,23 +358,30 @@ body {
   color: var(--text-primary);
 }
 
-/* ===== Formulir ===== */
+/* ===== Formulir – FIX BUG FLOATING LABEL ===== */
 #order-page .form-group {
+  position: relative;
   margin-bottom: 1.5rem;
 }
 
 #order-page .form-group label {
-  display: block;
-  font-size: var(--font-size-sm);
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+  pointer-events: none;
+  background-color: transparent;
+  padding: 0 0.25rem;
+  z-index: 1;
 }
 
 #order-page .form-group input,
 #order-page .form-group textarea {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem 0.75rem 0.5rem;
   border: 1px solid var(--border-color-medium);
   border-radius: 0.5rem;
   font-size: var(--font-size-base);
@@ -391,9 +398,29 @@ body {
   background-color: var(--card-bg-color);
 }
 
+/* Sembunyikan placeholder untuk mencegah tumpang tindih */
+#order-page .form-group input::placeholder,
+#order-page .form-group textarea::placeholder {
+  color: transparent;
+}
+
+/* Floating label aktif */
+#order-page .form-group input:focus + label,
+#order-page .form-group input:not(:placeholder-shown) + label,
+#order-page .form-group textarea:focus + label,
+#order-page .form-group textarea:not(:placeholder-shown) + label {
+  top: -0.5rem;
+  left: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--primary-color);
+  background-color: var(--card-bg-color);
+  padding: 0 0.25rem;
+}
+
 #order-page textarea {
   min-height: 100px;
   resize: vertical;
+  padding-top: 1.25rem;
 }
 
 /* ===== Item Detail ===== */
@@ -675,32 +702,6 @@ body {
 
 #order-page .auto-save i {
   animation: pulse 1.5s infinite;
-}
-
-#order-page .form-group {
-  position: relative;
-}
-
-#order-page .form-group label {
-  position: absolute;
-  top: 0.5rem;
-  left: 0.5rem;
-  font-size: var(--font-size-sm);
-  color: var(--text-muted);
-  transition: all 0.2s;
-  pointer-events: none;
-}
-
-#order-page .form-group input:focus + label,
-#order-page .form-group input:not(:placeholder-shown) + label,
-#order-page .form-group textarea:focus + label,
-#order-page .form-group textarea:not(:placeholder-shown) + label {
-  top: -0.5rem;
-  left: 0.25rem;
-  font-size: 0.75rem;
-  color: var(--primary-color);
-  background: var(--card-bg-color);
-  padding: 0 0.25rem;
 }
 
 @media (min-width: 768px) {
