@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sadita - Solusi Sehat Ternak Anda</title>
+    <title>Toko Buah Uwais</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   </head>
@@ -15,12 +15,12 @@
           <div class="back-arrow">
             <i class="fas fa-arrow-left"></i>
           </div>
-          <img src="#" alt="Sadita Logo" class="header-logo" />
+          <img src="#" alt="Toko Buah Uwais Logo" class="header-logo" />
         </header>
 
         <div class="welcome-card">
-          <h2>Selamat Datang di Toko Sadita.id</h2>
-          <p>Solusi Sehat Ternak Anda Cabang - Makassar</p>
+          <h2>Selamat Datang di Toko Buah Uwais</h2>
+          <p>Buah Segar Pilihan di Makassar</p>
         </div>
 
         <div class="search-bar">
@@ -29,61 +29,12 @@
 
         <nav class="product-categories">
           <button class="category-button active" data-category="semua">Semua</button>
-          <button class="category-button" data-category="antibiotik">Antibiotik</button>
-          <button class="category-button" data-category="vitamin">Vitamin & Mineral</button>
-          <button class="category-button" data-category="anti-coccidia">Anti Coccidia</button>
-          <button class="category-button" data-category="antiparasi">Antiparasi</button>
+          <button class="category-button" data-category="buah">Buah</button>
+          <button class="category-button" data-category="sayur">Sayur</button>
         </nav>
 
         <section class="product-grid" id="product-grid">
-          <div class="product-card" data-category="antibiotik">
-            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="CYPROTIL 250 g" />
-            <h3>CYPROTIL 250 g</h3>
-            <p class="product-desc">Obat CRD Kompleks</p>
-            <p class="price" data-price="52500">Rp52.500</p>
-            <p class="stock">Stok: 35</p>
-            <button class="add-to-cart" data-product="CYPROTIL 250 g" data-price="52500">Tambahkan</button>
-          </div>
-          <div class="product-card" data-category="antibiotik">
-            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="DITA FLOXA LIQ 1 L" />
-            <h3>DITA FLOXA LIQ 1 L</h3>
-            <p class="product-desc">Obat CRD Kompleks</p>
-            <p class="price" data-price="199650">Rp199.650</p>
-            <p class="stock">Stok: 43</p>
-            <button class="add-to-cart" data-product="DITA FLOXA LIQ 1 L" data-price="199650">Tambahkan</button>
-          </div>
-          <div class="product-card" data-category="antibiotik">
-            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="DITA FLOXA POWDER 500 g" />
-            <h3>DITA FLOXA POWDER 500 g</h3>
-            <p class="product-desc">Obat CRD Kompleks</p>
-            <p class="price" data-price="145200">Rp145.200</p>
-            <p class="stock">Stok: 28</p>
-            <button class="add-to-cart" data-product="DITA FLOXA POWDER 500 g" data-price="145200">Tambahkan</button>
-          </div>
-          <div class="product-card" data-category="anti-coccidia">
-            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="DITA THERAPIX 250 g" />
-            <h3>DITA THERAPIX 250 g</h3>
-            <p class="product-desc">Obat Kolera dan Coccidiosis</p>
-            <p class="price" data-price="89500">Rp89.500</p>
-            <p class="stock">Stok: 67</p>
-            <button class="add-to-cart" data-product="DITA THERAPIX 250 g" data-price="89500">Tambahkan</button>
-          </div>
-          <div class="product-card" data-category="vitamin">
-            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="PRIMAVIT PLUS 1 L" />
-            <h3>PRIMAVIT PLUS 1 L</h3>
-            <p class="product-desc">Energizer & Stimulan Metabolisme</p>
-            <p class="price" data-price="145200">Rp145.200</p>
-            <p class="stock">Stok: 22</p>
-            <button class="add-to-cart" data-product="PRIMAVIT PLUS 1 L" data-price="145200">Tambahkan</button>
-          </div>
-          <div class="product-card" data-category="antiparasi">
-            <img src="/img/Kieffer Pear Tree - 4-5 ft_.jpeg" alt="WORMECTIN 100 ml" />
-            <h3>WORMECTIN 100 ml</h3>
-            <p class="product-desc">Obat Cacing Ternak</p>
-            <p class="price" data-price="75000">Rp75.000</p>
-            <p class="stock">Stok: 45</p>
-            <button class="add-to-cart" data-product="WORMECTIN 100 ml" data-price="75000">Tambahkan</button>
-          </div>
+          <!-- Produk akan di-render secara dinamis -->
         </section>
 
         <footer class="cart-summary">
@@ -126,18 +77,6 @@
             </div>
             <button class="add-item-btn" id="add-more-items">+ Tambah Item</button>
           </section>
-
-          <!-- <section class="warehouse-purchase card">
-                    <h2>Pembelian di Gudang: Makassar</h2>
-                    <div class="select-wrapper">
-                        <select id="sales-select">
-                            <option>-- Pilih Sales --</option>
-                            <option value="ahmad">Ahmad Rizki</option>
-                            <option value="siti">Siti Nurhaliza</option>
-                            <option value="budi">Budi Santoso</option>
-                        </select>
-                    </div>
-                </section> -->
 
           <section class="notes card">
             <div class="add-note">
