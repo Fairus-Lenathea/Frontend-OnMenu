@@ -12,9 +12,7 @@
       <!-- Halaman Katalog Produk -->
       <div id="catalog-page" class="page active">
         <header class="header">
-          <div class="back-arrow">
-            <i class="fas fa-arrow-left"></i>
-          </div>
+          <div class="back-arrow"><i class="fas fa-arrow-left"></i></div>
           <img src="#" alt="Toko Buah Uwais Logo" class="header-logo" />
         </header>
 
@@ -23,9 +21,7 @@
           <p>Buah Segar Pilihan di Makassar</p>
         </div>
 
-        <div class="search-bar">
-          <input type="text" placeholder="Cari Produk..." id="search-input" />
-        </div>
+        <div class="search-bar"><input type="text" placeholder="Cari Produk..." id="search-input" /></div>
 
         <nav class="product-categories">
           <button class="category-button active" data-category="semua">Semua</button>
@@ -33,19 +29,11 @@
           <button class="category-button" data-category="sayur">Sayur</button>
         </nav>
 
-        <section class="product-grid" id="product-grid">
-          <!-- Produk akan di-render secara dinamis -->
-        </section>
+        <section class="product-grid" id="product-grid"></section>
 
         <footer class="cart-summary">
-          <div class="cart-icon">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="item-count">0</span>
-          </div>
-          <div class="total-price">
-            <p>Total</p>
-            <p class="total-amount">Rp0</p>
-          </div>
+          <div class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="item-count">0</span></div>
+          <div class="total-price"><p>Total</p><p class="total-amount">Rp0</p></div>
           <button class="checkout-button" id="checkout-btn">Bayar</button>
         </footer>
       </div>
@@ -60,21 +48,13 @@
         <main>
           <section class="order-info card">
             <h2>Informasi Pesanan</h2>
-            <div class="info-row">
-              <span>ID Pesanan:</span>
-              <span id="order-id">Menunggu...</span>
-            </div>
-            <div class="info-row">
-              <span>Tanggal Pesanan:</span>
-              <span id="order-date">23 Juli 2025, 21:38 WITA</span>
-            </div>
+            <div class="info-row"><span>ID Pesanan:</span><span id="order-id">Menunggu...</span></div>
+            <div class="info-row"><span>Tanggal Pesanan:</span><span id="order-date"></span></div>
           </section>
 
           <section class="ordered-items card">
             <h2>Item yang dipesan (<span id="total-items">0</span>)</h2>
-            <div id="order-items-list">
-              <!-- Items akan ditambahkan secara dinamis -->
-            </div>
+            <div id="order-items-list"></div>
             <button class="add-item-btn" id="add-more-items">+ Tambah Item</button>
           </section>
 
@@ -106,14 +86,8 @@
 
           <section class="payment-details card">
             <h2>Rincian Pembayaran</h2>
-            <div class="detail-row">
-              <span>Subtotal (<span id="subtotal-items">0</span> item)</span>
-              <span id="subtotal-amount">Rp0</span>
-            </div>
-            <div class="detail-row total">
-              <span>Total Pembayaran</span>
-              <span id="total-payment">Rp0</span>
-            </div>
+            <div class="detail-row"><span>Subtotal (<span id="subtotal-items">0</span> item)</span><span id="subtotal-amount">Rp0</span></div>
+            <div class="detail-row total"><span>Total Pembayaran</span><span id="total-payment">Rp0</span></div>
           </section>
         </main>
 
@@ -124,8 +98,14 @@
           </div>
           <button class="send-btn" id="send-order">Kirim</button>
         </footer>
+
+        <!-- Overlay hanya muncul jika diminta -->
+        <div id="order-page-overlay" class="loading-overlay" style="display: none;">
+          <div class="loading-spinner"></div>
+        </div>
       </div>
     </div>
+
     <script src="script.js"></script>
   </body>
 </html>

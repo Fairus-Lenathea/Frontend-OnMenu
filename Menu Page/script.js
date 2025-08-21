@@ -304,6 +304,7 @@ function setOrderDate() {
   document.getElementById('order-date').textContent = now.toLocaleDateString('id-ID', options).replace('GMT+8', 'WITA');
 }
 
+// ===== FIX OVERLAY BUG – PASTIKAN TIDAK MUNCUL OTOMATIS =====
 function processOrder() {
   const nama = document.getElementById('nama-lengkap').value.trim();
   const wa = document.getElementById('whatsapp').value.trim();
@@ -313,6 +314,13 @@ function processOrder() {
   if (!nama) return alert('Nama lengkap harus diisi.');
   if (!wa) return alert('Nomor WhatsApp harus diisi.');
   if (!alamat) return alert('Alamat pengiriman harus diisi.');
+
+  // Sembunyikan overlay jika ada
+  const overlay = document.getElementById('order-page-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    overlay.classList.remove('active');
+  }
 
   const orderId = document.getElementById('order-id').textContent;
   const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -360,3 +368,12 @@ function resetOrderForm() {
 function formatCurrency(amount) {
   return 'Rp' + amount.toLocaleString('id-ID');
 }
+
+// Tambahan: Pastikan overlay tidak aktif saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+  const overlay = document.getElementById('order-page-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    overlay.classList.remove('active');
+  }
+});

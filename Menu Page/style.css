@@ -297,9 +297,10 @@ body {
   display: block;
 }
 
-/* ===== HALAMAN PESANAN – FIX BUG FLOATING LABEL ===== */
+/* ===== HALAMAN PESANAN – FIX LABEL TERTIMPA ===== */
 #order-page {
   background-color: var(--bg-color);
+  min-height: 100vh;
 }
 
 #order-page .card {
@@ -309,15 +310,6 @@ body {
   border: none;
   border-radius: 0.75rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s ease;
-}
-
-#order-page .card:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.08);
-}
-
-#order-page .card + .card {
-  margin-top: 1.5rem;
 }
 
 #order-page h1 {
@@ -332,7 +324,6 @@ body {
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
   margin-bottom: 1rem;
-  letter-spacing: -0.02em;
 }
 
 #order-page .info-row {
@@ -344,49 +335,28 @@ body {
   padding: 0.5rem 0;
 }
 
-#order-page .info-row:last-child {
-  margin-bottom: 0;
-}
-
-#order-page .info-row span:first-child {
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
-}
-
-#order-page .info-row span:last-child {
-  font-weight: var(--font-weight-medium);
-  color: var(--text-primary);
-}
-
-/* ===== Formulir – FIX BUG FLOATING LABEL ===== */
+/* ===== FORMULIR – FIX LABEL TERTIMPA DENGAN INPUT ===== */
 #order-page .form-group {
-  position: relative;
   margin-bottom: 1.5rem;
 }
 
 #order-page .form-group label {
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  font-size: var(--font-size-base);
+  display: block;
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  color: var(--text-muted);
-  transition: all 0.2s ease;
-  pointer-events: none;
-  background-color: transparent;
-  padding: 0 0.25rem;
-  z-index: 1;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
 }
 
 #order-page .form-group input,
 #order-page .form-group textarea {
   width: 100%;
-  padding: 1rem 0.75rem 0.5rem;
+  padding: 0.75rem;
   border: 1px solid var(--border-color-medium);
   border-radius: 0.5rem;
   font-size: var(--font-size-base);
   font-family: var(--font-family-sans);
-  background-color: var(--bg-color);
+  background-color: var(--card-bg-color);
   transition: all 0.2s ease;
 }
 
@@ -395,32 +365,16 @@ body {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-  background-color: var(--card-bg-color);
 }
 
-/* Sembunyikan placeholder untuk mencegah tumpang tindih */
 #order-page .form-group input::placeholder,
 #order-page .form-group textarea::placeholder {
-  color: transparent;
-}
-
-/* Floating label aktif */
-#order-page .form-group input:focus + label,
-#order-page .form-group input:not(:placeholder-shown) + label,
-#order-page .form-group textarea:focus + label,
-#order-page .form-group textarea:not(:placeholder-shown) + label {
-  top: -0.5rem;
-  left: 0.5rem;
-  font-size: 0.75rem;
-  color: var(--primary-color);
-  background-color: var(--card-bg-color);
-  padding: 0 0.25rem;
+  color: var(--text-muted);
 }
 
 #order-page textarea {
   min-height: 100px;
   resize: vertical;
-  padding-top: 1.25rem;
 }
 
 /* ===== Item Detail ===== */
@@ -542,8 +496,7 @@ body {
 #order-page footer {
   position: sticky;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background-color: var(--card-bg-color);
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--border-color-soft);
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
@@ -615,21 +568,22 @@ body {
   }
 }
 
-/* ===== HALAMAN PESANAN – SUPER-FINALE ===== */
+/* ===== FIX OVERLAY – HILANGKAN FLOATING LABEL ===== */
 #order-page .loading-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease;
 }
 
 #order-page .loading-overlay.active {
+  display: flex;
   opacity: 1;
   visibility: visible;
 }
@@ -643,186 +597,11 @@ body {
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-#order-page .success-message {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  padding: 3rem 1rem;
-}
-
-#order-page .success-message i {
-  font-size: 4rem;
-  color: var(--success-text);
-  margin-bottom: 1rem;
-}
-
-#order-page .success-message h3 {
-  font-size: var(--font-size-xl);
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
-}
-
-#order-page .success-message p {
-  font-size: var(--font-size-sm);
-  color: var(--text-muted);
-  text-align: center;
-  max-width: 300px;
-}
-
-#order-page .form-group.error input,
-#order-page .form-group.error textarea {
-  border-color: var(--danger-text);
-  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
-}
-
-#order-page .form-group.success input,
-#order-page .form-group.success textarea {
-  border-color: var(--success-text);
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
-}
-
-#order-page .error-text {
-  color: var(--danger-text);
-  font-size: var(--font-size-sm);
-  margin-top: 0.25rem;
-}
-
-#order-page .auto-save {
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
-  margin-top: 0.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-#order-page .auto-save i {
-  animation: pulse 1.5s infinite;
-}
-
-@media (min-width: 768px) {
-  #order-page {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 1rem;
-  }
-
-  #order-page main {
-    overflow-y: auto;
-    max-height: calc(100vh - 120px);
-  }
-
-  #order-page footer {
-    grid-column: 1 / -1;
-  }
-}
-
-@media print {
-  #order-page * {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  #order-page footer,
-  #order-page .add-item-btn {
-    display: none;
-  }
-
-  #order-page .card {
-    break-inside: avoid;
-    box-shadow: none;
-    border: 1px solid var(--border-color-medium);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  #order-page {
-    background-color: #0f172a;
-  }
-
-  #order-page .card {
-    background-color: #1e293b;
-    border-color: #374151;
-  }
-
-  #order-page footer {
-    background-color: #1e293b;
-    border-color: #374151;
-  }
-
-  #order-page .send-btn {
-    background-color: var(--primary-color);
-  }
-}
-
-@media (prefers-contrast: more) {
-  #order-page .send-btn {
-    border: 2px solid var(--text-primary);
-  }
-
-  #order-page .card {
-    border: 2px solid var(--text-primary);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #order-page * {
-    transition: none !important;
-    animation: none !important;
-  }
-}
-
-@supports (padding: env(safe-area-inset-bottom)) {
-  #order-page footer {
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
-  }
-}
-
-#order-page ::selection {
-  background-color: var(--primary-light);
-  color: var(--primary-color);
-}
-
-#order-page :focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
-}
-
-#order-page .card {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  transition: box-shadow 0.2s ease;
-}
-
-#order-page .card:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-#order-page * {
-  transition: all 0.2s ease;
-}
-
-#order-page {
-  background-color: var(--bg-color);
-}
-
-#order-page header {
-  padding: 1rem;
-  border-bottom: 1px solid var(--border-color-soft);
-}
-
-#order-page header h1 {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--text-primary);
-}
-
-#order-page .back-button {
-  font-size: var(--font-size-lg);
-  cursor: pointer;
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
+/* ===== HAPUS KODE FLOATING LABEL YANG MENYEBABKAN TERTIMPA ===== */
+#order-page .form-group label {
+  position: static !important;
+  transform: none !important;
+  background-color: transparent !important;
 }
