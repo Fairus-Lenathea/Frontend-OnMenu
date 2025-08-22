@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dasbor Sadita</title>
+    <title>Dasbor Toko Uwais</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -21,7 +21,7 @@
                 <span class="notification-badge">3</span>
             </button>
             <div class="profile-avatar" id="headerProfileIcon" style="cursor:pointer;">
-                <img src="https://via.placeholder.com/32x32/4F46E5/ffffff?text=U" alt="Profil">
+                <img src="user.png" alt="Profil">
             </div>
         </div>
     </header>
@@ -41,7 +41,6 @@
             <li class="nav-item"><a href="#orders" class="nav-link" data-page="orders"><i class="fas fa-shopping-cart"></i><span>Pesanan</span></a></li>
             <li class="nav-item"><a href="#reports" class="nav-link" data-page="reports"><i class="fas fa-chart-bar"></i><span>Laporan</span></a></li>
             <li class="nav-item"><a href="#settings" class="nav-link" data-page="settings"><i class="fas fa-cog"></i><span>Pengaturan</span></a></li>
-            <li class="nav-item"><a href="#profile" class="nav-link" data-page="profile"><i class="fas fa-user"></i><span>Profil</span></a></li>
         </ul>
     </nav>
 
@@ -173,75 +172,48 @@
                 </div>
                 <div class="report-card"><h3>Pelanggan</h3><div class="chart-placeholder"><i class="fas fa-users"></i><p>Analisis Pelanggan</p></div></div>
                 <div class="report-card"><h3>Inventori</h3><div class="chart-placeholder"><i class="fas fa-boxes"></i><p>Status Inventori</p></div></div>
-                <div class="report-card"><h3>Pembayaran</h3><div class="chart-placeholder"><i class="fas fa-credit-card"></i><p>Metode Pembayaran</p></div></div>
             </div>
         </div>
 
-        <!-- Halaman Pengaturan -->
+        <!-- Halaman Pengaturan - Baru -->
         <div class="page" id="settings-page">
             <div class="page-header">
                 <h2>Pengaturan</h2>
-                <p>Kelola pengaturan aplikasi Anda</p>
+                <p>Kustomisasi identitas toko Anda</p>
             </div>
             <div class="settings-sections">
                 <div class="settings-section">
-                    <h3><i class="fas fa-palette"></i> Kustomisasi Tampilan</h3>
+                    <h3><i class="fas fa-store"></i> Kustomisasi Toko</h3>
                     <div class="settings-form-group">
-                        <label for="welcomeTitle">Judul Selamat Datang</label>
-                        <input type="text" id="welcomeTitle" value="Selamat Datang di Sadita">
+                        <label for="setting-shop-name">Nama Toko</label>
+                        <input type="text" id="setting-shop-name" placeholder="Masukkan nama toko Anda">
                     </div>
                     <div class="settings-form-group">
-                        <label for="welcomeSubtitle">Subtitle</label>
-                        <input type="text" id="welcomeSubtitle" value="Kelola bisnis ternak Anda dengan mudah">
+                        <label for="setting-shop-slogan">Deskripsi/Slogan Toko</label>
+                        <textarea id="setting-shop-slogan" rows="3" placeholder="Masukkan deskripsi atau slogan toko Anda"></textarea>
                     </div>
                     <div class="settings-form-group">
-                        <label for="logoUpload">Unggah Logo</label>
-                        <input type="file" id="logoUpload" accept="image/*">
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn-primary" id="saveSettings">Simpan Pengaturan</button>
-                        <button class="btn-secondary" id="resetSettings">Atur Ulang Pengaturan</button>
-                    </div>
-                </div>
-
-                <div class="settings-section">
-                    <h3><i class="fas fa-store"></i> Informasi Toko</h3>
-                    <div class="settings-form-group">
-                        <label for="shopName">Nama Toko</label>
-                        <input type="text" id="shopName" placeholder="Nama Toko Anda">
-                    </div>
-                    <div class="settings-form-group">
-                        <label for="shopAddress">Alamat Toko</label>
-                        <textarea id="shopAddress" rows="3" placeholder="Jl. Contoh No. 123, Kota, Provinsi"></textarea>
-                    </div>
-                    <div class="settings-form-group">
-                        <label for="shopContact">Nomor Telepon</label>
-                        <input type="text" id="shopContact" placeholder="0812-3456-7890">
-                    </div>
-                    <div class="settings-form-group">
-                        <label>Jam Operasional</label>
-                        <div class="operating-hours-container">
-                            <div class="day-schedule" data-day="senin">
-                                <div class="day-header">
-                                    <input type="checkbox" id="senin-enabled" class="day-checkbox" checked>
-                                    <label for="senin-enabled" class="day-label">Senin</label>
-                                </div>
-                                <div class="time-inputs">
-                                    <input type="time" id="senin-open" class="time-input" value="08:00">
-                                    <span class="time-separator">-</span>
-                                    <input type="time" id="senin-close" class="time-input" value="17:00">
-                                </div>
-                            </div>
+                        <label>Logo Toko</label>
+                        <div class="logo-upload-area">
+                            <img id="logo-preview" src="https://via.placeholder.com/150x150/4F46E5/ffffff?text=LOGO" alt="Logo Preview">
+                            <label for="setting-logo-upload" class="upload-btn">
+                                <i class="fas fa-upload"></i>
+                                Pilih Logo
+                                <input type="file" id="setting-logo-upload" accept="image/*" style="display: none;">
+                            </label>
                         </div>
                     </div>
                     <div class="btn-group">
-                        <button class="btn-primary" id="saveContactInfo">Simpan Alamat & Kontak</button>
+                        <button class="btn-primary" id="save-customization-btn">
+                            <i class="fas fa-save"></i>
+                            Simpan Perubahan
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Halaman Profil -->
+        <!-- Halaman Profil
         <div class="page" id="profile-page">
             <div class="page-header">
                 <h2>Profil</h2>
@@ -302,7 +274,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
     </main>
 
     <!-- Notifikasi Toast -->
