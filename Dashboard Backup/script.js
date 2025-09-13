@@ -12,6 +12,7 @@ class Dashboard {
         this.handleResize();
         const initialPage = window.location.hash.substring(1) || 'dashboard';
         this.navigateToPage(initialPage);
+        this.loadSettings(); // Load custom settings on init
     }
 
     async loadData() {
@@ -45,25 +46,34 @@ class Dashboard {
             if (this.isMobile) this.toggleSidebar();
         });
 
-        document.getElementById('saveContactInfo')?.addEventListener('click', () => {
-            const data = {
-                shopAddress: document.getElementById('shopAddress').value.trim(),
-                shopContact: document.getElementById('shopContact').value.trim(),
-                hours: Array.from(document.querySelectorAll('.day-schedule')).map(day => ({
-                    day: day.dataset.day,
-                    enabled: day.querySelector('.day-checkbox').checked,
-                    open: day.querySelector('.time-input:first-of-type').value,
-                    close: day.querySelector('.time-input:last-of-type').value
-                }))
-            };
-            localStorage.setItem('shopContact', JSON.stringify(data));
-            this.showToast('Alamat & kontak berhasil disimpan!', 'success');
-        });
-
+        // Bind new settings events
+        this.bindSettingsEvents();
         this.bindOrderPageEvents();
         this.bindReportPageEvents();
         this.bindProfilePageEvents();
         window.addEventListener('resize', () => this.handleResize());
+    }
+
+    bindSettingsEvents() {
+        // Logo upload preview
+        const logoUpload = document.getElementById('setting-logo-upload');
+        const logoPreview = document.getElementById('logo-preview');
+        
+        logoUpload?.addEventListener('change', () => {
+            const file = logoUpload.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    logoPreview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Save settings button
+        document.getElementById('save-customization-btn')?.addEventListener('click', () => {
+            this.saveSettings();
+        });
     }
 
     toggleSidebar() {
@@ -96,11 +106,76 @@ class Dashboard {
     loadPageData(pageName) {
         if (!this.appData) return;
         switch (pageName) {
-            case 'dashboard': this.displayRecentOrders(); break;
+            case 'dashboard': 
+                this.displayRecentOrders(); 
+                this.loadSettings(); // Apply settings on dashboard
+                break;
             case 'orders': this.displayOrders(this.appData.orders); break;
             case 'reports': this.updateSalesReport('daily'); break;
             case 'profile': this.loadProfileData(); break;
+            case 'settings': this.loadSettingsForm(); break;
         }
+    }
+
+    loadSettings() {
+        const settings = JSON.parse(localStorage.getItem('shopSettings')) || {
+            shopName: 'Sadita',
+            shopSlogan: 'Kelola bisnis ternak Anda dengan mudah',
+            shopLogo: 'https://via.placeholder.com/150x150/4F46E5/ffffff?text=LOGO'
+        };
+
+        // Update title
+        document.title = settings.shopName;
+
+        // Update welcome card
+        const welcomeCard = document.querySelector('.welcome-card');
+        if (welcomeCard) {
+            welcomeCard.querySelector('h2').textContent = `Selamat Datang di ${settings.shopName}`;
+            welcomeCard.querySelector('p').textContent = settings.shopSlogan;
+        }
+
+        // Update header logo if exists
+        const headerLogo = document.querySelector('.header-logo');
+        if (headerLogo) {
+            headerLogo.src = settings.shopLogo;
+            headerLogo.alt = settings.shopName;
+        }
+    }
+
+    loadSettingsForm() {
+        const settings = JSON.parse(localStorage.getItem('shopSettings')) || {
+            shopName: 'Sadita',
+            shopSlogan: 'Kelola bisnis ternak Anda dengan mudah',
+            shopLogo: 'https://via.placeholder.com/150x150/4F46E5/ffffff?text=LOGO'
+        };
+
+        document.getElementById('setting-shop-name').value = settings.shopName;
+        document.getElementById('setting-shop-slogan').value = settings.shopSlogan;
+        document.getElementById('logo-preview').src = settings.shopLogo;
+    }
+
+    saveSettings() {
+        const shopName = document.getElementById('setting-shop-name').value.trim();
+        const shopSlogan = document.getElementById('setting-shop-slogan').value.trim();
+        const logoPreview = document.getElementById('logo-preview');
+        
+        if (!shopName) {
+            this.showToast('Nama toko wajib diisi.', 'error');
+            return;
+        }
+
+        const settings = {
+            shopName: shopName || 'Sadita',
+            shopSlogan: shopSlogan || 'Kelola bisnis ternak Anda dengan mudah',
+            shopLogo: logoPreview.src
+        };
+
+        localStorage.setItem('shopSettings', JSON.stringify(settings));
+        
+        // Apply changes immediately
+        this.loadSettings();
+        
+        this.showToast('Pengaturan berhasil disimpan!', 'success');
     }
 
     displayRecentOrders() {
